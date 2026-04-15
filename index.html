@@ -1197,7 +1197,7 @@
   }
 
   @media (max-width: 600px) {
-    /* ── HERO: fix the large padding & broken-class refs ── */
+    /* ── HERO ── */
     .hero { padding: 5rem 1.5rem 3rem; min-height: auto; }
     .hero-pre { font-size: 0.55rem; gap: 0.5rem; flex-wrap: wrap; }
     .hero-band { flex-direction: column; align-items: flex-start; gap: 0.2rem; padding: 0.65rem 0; }
@@ -1206,15 +1206,15 @@
     .hero-cta { display: flex; flex-direction: column; gap: 0.75rem; }
     .btn-primary, .btn-secondary { text-align: center; justify-content: center; }
 
-    /* ── NAV ── */
-    nav { grid-template-columns: 0 1fr; }
+    /* ── NAV: single column so nav-inner fills full width after gutter is hidden ── */
+    nav { grid-template-columns: 1fr; }
     .nav-margin { display: none; }
     .nav-inner { padding: 0 1.25rem; }
     .nav-links { display: none; }
     .nav-ref { display: none; }
 
-    /* ── SECTIONS ── */
-    .section-outer { grid-template-columns: 0 1fr; }
+    /* ── SECTIONS: single column so section-content fills full width after gutter is hidden ── */
+    .section-outer { grid-template-columns: 1fr; }
     .section-gutter { display: none; }
     .section-content { padding: 3.5rem 1.5rem; }
 
@@ -1223,10 +1223,16 @@
     .crow-levels { grid-template-columns: 1fr; }
     .lens-grid { grid-template-columns: 1fr; }
 
-    /* ── CONTACT ── */
-    .contact-outer { grid-template-columns: 0 1fr; }
+    /* ── ABOUT: let stamps stretch to full width ── */
+    .stamp { align-self: auto; }
+
+    /* ── PROJECTS: min-height fallback for older iOS Safari (aspect-ratio support) ── */
+    .project-cover { min-height: 260px; }
+
+    /* ── CONTACT: single column so contact-content fills full width after gutter is hidden ── */
+    .contact-outer { grid-template-columns: 1fr; }
     .contact-gutter { display: none; }
-    .contact-content { padding: 3.5rem 1.5rem; }
+    .contact-content { padding: 3.5rem 1.5rem; grid-template-columns: 1fr; gap: 2rem; }
 
     /* ── FOOTER ── */
     footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
