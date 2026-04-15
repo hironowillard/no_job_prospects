@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Narrative Analysis System · Nico Orsini</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --paper: #ede9da; --paper-warm: #e2dcc8; --paper-card: #f3f0e4;
+    --ink: #2a2620; --ink-soft: #4a4438; --ink-muted: #8a8072;
+    --navy: #2d2c28; --navy-light: #3e3c38; --navy-faint: #e8e6dc;
+    --gold: #9e8c65; --rule: rgba(42,38,32,0.10); --rule-strong: rgba(42,38,32,0.20);
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+    --mono: 'Courier Prime', 'Courier New', monospace;
+  }
+  body { font-family: var(--sans); background: var(--paper); color: var(--ink); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
+
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: grid; grid-template-columns: 3rem 1fr; background: var(--navy); border-bottom: 1px solid rgba(255,255,255,0.08); height: 3.25rem; }
+  .nav-margin { border-right: 1.5px solid rgba(255,255,255,0.08); }
+  .nav-inner { display: flex; align-items: center; padding: 0 2rem; gap: 2rem; }
+  .nav-back { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.5); transition: color 0.2s; }
+  .nav-back:hover { color: var(--paper); }
+  .nav-spacer { flex: 1; }
+  .nav-ref { font-family: var(--mono); font-size: 0.58rem; color: rgba(255,255,255,0.22); letter-spacing: 0.1em; text-transform: uppercase; }
+
+  .subpage-hero { background: var(--navy); display: grid; grid-template-columns: 3rem 1fr; padding-top: 3.25rem; }
+  .subpage-hero-margin { border-right: 1.5px solid rgba(255,255,255,0.08); }
+  .subpage-hero-body { padding: 5rem 3rem 4rem; display: flex; flex-direction: column; justify-content: flex-end; gap: 1.5rem; }
+  .subpage-breadcrumb { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.32); }
+  .subpage-breadcrumb a { color: rgba(255,255,255,0.32); transition: color 0.2s; }
+  .subpage-breadcrumb a:hover { color: rgba(255,255,255,0.65); }
+  .subpage-subtitle { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); }
+  .subpage-title { font-family: var(--serif); font-size: clamp(2.2rem, 5.5vw, 5rem); font-weight: 300; color: var(--paper); line-height: 1.0; letter-spacing: -0.01em; max-width: 900px; }
+  .subpage-title em { font-style: italic; color: rgba(237,233,218,0.5); }
+  .subpage-meta { display: flex; flex-wrap: wrap; gap: 2.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 0.5rem; }
+  .subpage-meta-item { display: flex; flex-direction: column; gap: 0.3rem; }
+  .subpage-meta-label { font-family: var(--mono); font-size: 0.54rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.28); }
+  .subpage-meta-value { font-size: 0.82rem; color: rgba(255,255,255,0.65); }
+
+  .pixel-sep { height: 8px; background-image: linear-gradient(90deg, var(--rule) 1px, transparent 1px); background-size: 8px 8px; background-color: var(--paper-warm); border-top: 1px solid var(--rule-strong); border-bottom: 1px solid var(--rule-strong); }
+  .section-outer { display: grid; grid-template-columns: 3rem 1fr; }
+  .section-outer.warm { background: var(--paper-warm); }
+  .section-gutter { border-right: 1.5px solid var(--rule-strong); }
+  .section-gutter.warm { background: var(--paper-warm); }
+  .section-content { padding: 5rem 3rem; max-width: 1100px; }
+  .section-head { display: flex; align-items: baseline; gap: 1.5rem; padding-bottom: 2rem; border-bottom: 1.5px solid var(--rule-strong); margin-bottom: 3rem; }
+  .section-ref { font-family: var(--mono); font-size: 0.6rem; color: var(--ink-muted); letter-spacing: 0.12em; text-transform: uppercase; flex-shrink: 0; }
+  .section-title { font-family: var(--serif); font-size: clamp(2rem, 4vw, 3.8rem); font-weight: 300; line-height: 1.0; color: var(--ink); }
+  .section-title em { font-style: italic; color: var(--navy-light); }
+  .subsection-label { font-family: var(--mono); font-size: 0.63rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 1.25rem; margin-top: 3rem; display: flex; align-items: center; gap: 1rem; }
+  .subsection-label::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+
+  .body-text p { color: var(--ink-soft); font-size: 0.92rem; line-height: 1.95; margin-bottom: 1.25rem; max-width: 760px; }
+
+  /* Lens grid - 3 analytical lenses */
+  .lens-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--rule-strong); border: 1px solid var(--rule-strong); margin: 1.5rem 0; }
+  .lens-card { background: var(--paper-card); padding: 1.75rem 1.5rem; }
+  .lens-title { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.75rem; }
+  .lens-body { font-size: 0.82rem; color: var(--ink-soft); line-height: 1.8; }
+
+  /* Image grid rows - natural proportions, no cropping */
+  .nas-img-grid { border: 1px solid var(--rule-strong); margin-bottom: 1px; overflow: hidden; }
+  .nas-img-grid:last-child { margin-bottom: 0; }
+  .nas-row { display: grid; gap: 1px; background: var(--rule-strong); }
+  .nas-row.cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .nas-row.cols-2 { grid-template-columns: repeat(2, 1fr); }
+  .nas-row img { display: block; width: 100%; height: auto; background: var(--paper-card); }
+
+  /* Learning outcomes list */
+  .outcomes-list { list-style: none; display: flex; flex-direction: column; gap: 0; border: 1px solid var(--rule-strong); }
+  .outcomes-list li { padding: 1.25rem 1.5rem; font-size: 0.88rem; color: var(--ink-soft); line-height: 1.8; border-bottom: 1px solid var(--rule); display: flex; gap: 1.5rem; }
+  .outcomes-list li:last-child { border-bottom: none; }
+  .outcomes-list li::before { content: counter(outcome-counter); counter-increment: outcome-counter; font-family: var(--mono); font-size: 0.55rem; color: var(--gold); letter-spacing: 0.08em; padding-top: 0.35rem; flex-shrink: 0; }
+  .outcomes-list { counter-reset: outcome-counter; }
+
+  /* Approach principles grid */
+  .principle-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--rule-strong); border: 1px solid var(--rule-strong); margin: 1.5rem 0; }
+  .principle-card { background: var(--paper-card); padding: 1.75rem 1.5rem; }
+  .principle-label { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.75rem; }
+  .principle-body { font-size: 0.82rem; color: var(--ink-soft); line-height: 1.8; }
+
+  .lens-block { margin-bottom: 3.5rem; }
+  .lens-block:last-child { margin-bottom: 0; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-margin"></div>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-back">← Portfolio</a>
+    <div class="nav-spacer"></div>
+    <span class="nav-ref">Crow's Call Press &bull; 2026</span>
+  </div>
+</nav>
+
+<!-- Hero -->
+<div class="subpage-hero">
+  <div class="subpage-hero-margin"></div>
+  <div class="subpage-hero-body">
+    <div class="subpage-breadcrumb">
+      <a href="index.html">N. Orsini</a> &bull; Frameworks
+    </div>
+    <div class="subpage-subtitle">Analytical Learning Framework</div>
+    <div class="subpage-title">Narrative <em>Analysis System</em></div>
+    <div class="subpage-meta">
+      <div class="subpage-meta-item">
+        <div class="subpage-meta-label">Role</div>
+        <div class="subpage-meta-value">Instructional Designer / Curriculum Author</div>
+      </div>
+      <div class="subpage-meta-item">
+        <div class="subpage-meta-label">Format</div>
+        <div class="subpage-meta-value">Cross-curricular analytical framework</div>
+      </div>
+      <div class="subpage-meta-item">
+        <div class="subpage-meta-label">Audience</div>
+        <div class="subpage-meta-value">A2-C1 (Junior through Opsis)</div>
+      </div>
+      <div class="subpage-meta-item">
+        <div class="subpage-meta-label">Publisher</div>
+        <div class="subpage-meta-value">Crow's Call Press</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="pixel-sep"></div>
+
+<!-- Section 01: Overview -->
+<div class="section-outer">
+  <div class="section-gutter"></div>
+  <div class="section-content">
+    <div class="section-head">
+      <span class="section-ref">$ 01</span>
+      <h2 class="section-title">Overview</h2>
+    </div>
+    <div class="body-text">
+      <p>The Narrative Analysis System is a structured framework for developing literary interpretation skills through three analytical lenses: Archetypes, Allusions and Symbolism, and Theme Analysis. Each lens provides students with conceptual scaffolding and a repeatable process for reading beneath the surface of a text, moving from recognition to reasoning to written response.</p>
+      <p>The system is designed to operate across the CROW curriculum, providing learners with a shared analytical vocabulary that grows in sophistication across levels. Rather than treating literary devices as isolated terms to memorize, the Narrative Analysis System situates each lens within a broader interpretive practice, connecting what students observe in a text to what it means within narrative, cultural, and philosophical contexts.</p>
+    </div>
+
+    <div class="subsection-label">Three Analytical Lenses</div>
+    <div class="lens-grid">
+      <div class="lens-card">
+        <div class="lens-title">Lens 01 - Archetypes</div>
+        <div class="lens-body">Readers identify universal character types and narrative patterns drawn from myth, folklore, and cross-cultural storytelling. Students learn to connect characters to archetypes and analyze how those patterns shape meaning.</div>
+      </div>
+      <div class="lens-card">
+        <div class="lens-title">Lens 02 - Allusions &amp; Symbolism</div>
+        <div class="lens-body">Readers identify references and symbolic objects/images within a text, then interpret what they signify in context. Students practice the distinction between surface detail and interpretive depth.</div>
+      </div>
+      <div class="lens-card">
+        <div class="lens-title">Lens 03 - Theme Analysis</div>
+        <div class="lens-body">Readers construct a thematic claim supported by textual evidence. Students move beyond "the theme is" statements toward fully developed arguments about what a text communicates and how.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="pixel-sep"></div>
+
+<!-- Section 02: Instructional Challenge -->
+<div class="section-outer warm">
+  <div class="section-gutter warm"></div>
+  <div class="section-content">
+    <div class="section-head">
+      <span class="section-ref">$ 02</span>
+      <h2 class="section-title">Instructional <em>Challenge</em></h2>
+    </div>
+    <div class="body-text">
+      <p>Literary analysis instruction often produces a predictable failure mode: students learn the names of literary devices but cannot use them analytically. They can identify that a symbol is present without explaining what it means, or name a theme without constructing a supporting argument. The gap between recognition and interpretation is where most teaching falls short.</p>
+      <p>A second challenge is coherence across a multi-year curriculum. When each text or unit introduces analytical vocabulary independently, students experience literary analysis as a collection of disconnected tools. The Narrative Analysis System addresses this by establishing three durable lenses that apply across texts, genres, and levels, so learners develop analytical fluency rather than rote familiarity.</p>
+      <p>Each lens also needed to scaffold toward written response. Many students can participate in analytical discussion but struggle to transfer that thinking into prose. The workbook design embedded within each lens links observation and interpretation directly to the structure of a written response, reducing the cognitive distance between reading and writing.</p>
+    </div>
+  </div>
+</div>
+
+<div class="pixel-sep"></div>
+
+<!-- Section 03: Design Approach -->
+<div class="section-outer">
+  <div class="section-gutter"></div>
+  <div class="section-content">
+    <div class="section-head">
+      <span class="section-ref">$ 03</span>
+      <h2 class="section-title">Design <em>Approach</em></h2>
+    </div>
+    <div class="body-text">
+      <p>Each lens in the Narrative Analysis System follows a consistent three-part structure: a conceptual diagram that introduces the interpretive model, a guided workbook section that scaffolds application, and a response framework that connects analysis to writing. This consistency allows learners to focus on the interpretive work itself rather than adapting to new formats with each lens.</p>
+    </div>
+
+    <div class="subsection-label">Design Principles</div>
+    <div class="principle-grid">
+      <div class="principle-card">
+        <div class="principle-label">Transferable Structure</div>
+        <div class="principle-body">Each lens uses the same design logic (concept diagram, guided analysis, response scaffolding) so students can apply their understanding of one lens to accelerate work with the next.</div>
+      </div>
+      <div class="principle-card">
+        <div class="principle-label">Conceptual Before Textual</div>
+        <div class="principle-body">Diagrams introduce the interpretive model before any specific text is applied. Students develop a mental schema for the lens prior to encountering evidence in the text.</div>
+      </div>
+      <div class="principle-card">
+        <div class="principle-label">Guided to Independent</div>
+        <div class="principle-body">Workbook pages move from heavily structured guided analysis toward more open-ended independent tasks, building confidence and reducing scaffolding as competence develops.</div>
+      </div>
+      <div class="principle-card">
+        <div class="principle-label">Analysis Linked to Writing</div>
+        <div class="principle-body">Each lens connects directly to a response type. Students are not asked to analyze and then write separately; the workbook architecture treats interpretation as the first stage of written argument.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="pixel-sep"></div>
+
+<!-- Section 04: Framework in Practice -->
+<div class="section-outer warm">
+  <div class="section-gutter warm"></div>
+  <div class="section-content">
+    <div class="section-head">
+      <span class="section-ref">$ 04</span>
+      <h2 class="section-title">Framework <em>in Practice</em></h2>
+    </div>
+    <div class="body-text">
+      <p>The following documentation illustrates each lens as developed for use in the Crow's Call Press curriculum. For each lens, the conceptual diagrams establish the interpretive model, and the workbook pages show how students apply the framework to a specific text.</p>
+    </div>
+
+    <!-- Lens 01: Archetypes -->
+    <div class="lens-block">
+      <div class="subsection-label">Lens 01 - Archetypes</div>
+      <div class="nas-img-grid">
+        <div class="nas-row cols-3">
+          <img src="Narrative%20Images/Archetype%20Wheel.png" alt="Archetype Wheel diagram">
+          <img src="Narrative%20Images/Order%20%26%20Freedom.png" alt="Order vs Freedom axis diagram">
+          <img src="Narrative%20Images/Ego%20%26%20Social.png" alt="Ego vs Social axis diagram">
+        </div>
+      </div>
+      <div class="nas-img-grid">
+        <div class="nas-row cols-3">
+          <img src="Narrative%20Images/1%20-%20Arch.png" alt="Archetypes workbook page 1">
+          <img src="Narrative%20Images/2%20-%20Arch.png" alt="Archetypes workbook page 2">
+          <img src="Narrative%20Images/3%20-%20Arch.png" alt="Archetypes workbook page 3">
+        </div>
+      </div>
+    </div>
+
+    <!-- Lens 02: Allusions & Symbolism -->
+    <div class="lens-block">
+      <div class="subsection-label">Lens 02 - Allusions &amp; Symbolism</div>
+      <div class="nas-img-grid">
+        <div class="nas-row cols-2">
+          <img src="Narrative%20Images/Allusions.png" alt="Allusions framework diagram">
+          <img src="Narrative%20Images/Symbolism.png" alt="Symbolism framework diagram">
+        </div>
+      </div>
+      <div class="nas-img-grid">
+        <div class="nas-row cols-2">
+          <img src="Narrative%20Images/1%20-%20AS.png" alt="Allusions and Symbolism workbook page 1">
+          <img src="Narrative%20Images/2-%20AS.png" alt="Allusions and Symbolism workbook page 2">
+        </div>
+      </div>
+    </div>
+
+    <!-- Lens 03: Theme Analysis -->
+    <div class="lens-block">
+      <div class="subsection-label">Lens 03 - Theme Analysis</div>
+      <div class="nas-img-grid">
+        <div class="nas-row cols-3">
+          <img src="Narrative%20Images/Theme%20Analysis.png" alt="Theme Analysis framework diagram">
+          <img src="Narrative%20Images/1%20-%20TA.png" alt="Theme Analysis workbook page 1">
+          <img src="Narrative%20Images/2%20-%20TA.png" alt="Theme Analysis workbook page 2">
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="pixel-sep"></div>
+
+<!-- Section 05: Learning Outcomes -->
+<div class="section-outer">
+  <div class="section-gutter"></div>
+  <div class="section-content">
+    <div class="section-head">
+      <span class="section-ref">$ 05</span>
+      <h2 class="section-title">Learning <em>Outcomes</em></h2>
+    </div>
+    <ul class="outcomes-list">
+      <li>Identify archetypal character types and narrative patterns across culturally and generically diverse texts, connecting individual characters to broader symbolic inheritance.</li>
+      <li>Position characters and narrative arcs along interpretive axes (Order vs. Freedom, Ego vs. Social) and analyze what those positions reveal about thematic intent.</li>
+      <li>Distinguish between allusion and symbolism as distinct interpretive operations, and apply each as a lens for reading beneath the surface of a text.</li>
+      <li>Identify symbolic objects, images, and references in a text, and construct interpretations that connect surface detail to layered meaning within its cultural and narrative context.</li>
+      <li>Formulate a fully developed thematic claim, articulating not just the subject of a theme but what the text argues about it.</li>
+      <li>Select and analyze textual evidence that supports a thematic argument, using specific moments in the narrative to demonstrate analytical reasoning.</li>
+      <li>Transfer interpretive thinking into written analytical response across all three lenses, producing work that demonstrates both comprehension and independent interpretation.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="pixel-sep"></div>
+
+</body>
+</html>

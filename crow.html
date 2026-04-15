@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CROW Methodology · Nico Orsini</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --paper: #ede9da; --paper-warm: #e2dcc8; --paper-card: #f3f0e4;
+    --ink: #2a2620; --ink-soft: #4a4438; --ink-muted: #8a8072;
+    --navy: #2d2c28; --navy-light: #3e3c38; --navy-faint: #e8e6dc;
+    --gold: #9e8c65; --rule: rgba(42,38,32,0.10); --rule-strong: rgba(42,38,32,0.20);
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+    --mono: 'Courier Prime', 'Courier New', monospace;
+  }
+  body { font-family: var(--sans); background: var(--paper); color: var(--ink); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
+
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: grid; grid-template-columns: 3rem 1fr; background: var(--navy); border-bottom: 1px solid rgba(255,255,255,0.08); height: 3.25rem; }
+  .nav-margin { border-right: 1.5px solid rgba(255,255,255,0.08); }
+  .nav-inner { display: flex; align-items: center; padding: 0 2rem; gap: 2rem; }
+  .nav-back { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.5); transition: color 0.2s; }
+  .nav-back:hover { color: var(--paper); }
+  .nav-spacer { flex: 1; }
+  .nav-ref { font-family: var(--mono); font-size: 0.58rem; color: rgba(255,255,255,0.22); letter-spacing: 0.1em; text-transform: uppercase; }
+
+  .subpage-hero { background: var(--navy); display: grid; grid-template-columns: 3rem 1fr; padding-top: 3.25rem; }
+  .subpage-hero-margin { border-right: 1.5px solid rgba(255,255,255,0.08); }
+  .subpage-hero-body { padding: 5rem 3rem 4rem; display: flex; flex-direction: column; justify-content: flex-end; gap: 1.5rem; }
+  .subpage-breadcrumb { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.32); }
+  .subpage-breadcrumb a { color: rgba(255,255,255,0.32); transition: color 0.2s; }
+  .subpage-breadcrumb a:hover { color: rgba(255,255,255,0.65); }
+  .subpage-subtitle { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); }
+  .subpage-title { font-family: var(--serif); font-size: clamp(2.2rem, 5.5vw, 5rem); font-weight: 300; color: var(--paper); line-height: 1.0; letter-spacing: -0.01em; max-width: 900px; }
+  .subpage-title em { font-style: italic; color: rgba(237,233,218,0.5); }
+  .subpage-meta { display: flex; flex-wrap: wrap; gap: 2.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 0.5rem; }
+  .subpage-meta-item { display: flex; flex-direction: column; gap: 0.3rem; }
+  .subpage-meta-label { font-family: var(--mono); font-size: 0.54rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.28); }
+  .subpage-meta-value { font-size: 0.82rem; color: rgba(255,255,255,0.65); }
+
+  .pixel-sep { height: 8px; background-image: linear-gradient(90deg, var(--rule) 1px, transparent 1px); background-size: 8px 8px; background-color: var(--paper-warm); border-top: 1px solid var(--rule-strong); border-bottom: 1px solid var(--rule-strong); }
+  .section-outer { display: grid; grid-template-columns: 3rem 1fr; }
+  .section-outer.warm { background: var(--paper-warm); }
+  .section-gutter { border-right: 1.5px solid var(--rule-strong); }
+  .section-gutter.warm { background: var(--paper-warm); }
+  .section-content { padding: 5rem 3rem; max-width: 1100px; }
+  .section-head { display: flex; align-items: baseline; gap: 1.5rem; padding-bottom: 2rem; border-bottom: 1.5px solid var(--rule-strong); margin-bottom: 3rem; }
+  .section-ref { font-family: var(--mono); font-size: 0.6rem; color: var(--ink-muted); letter-spacing: 0.12em; text-transform: uppercase; flex-shrink: 0; }
+  .section-title { font-family: var(--serif); font-size: clamp(2rem, 4vw, 3.8rem); font-weight: 300; line-height: 1.0; color: var(--ink); }
+  .section-title em { font-style: italic; color: var(--navy-light); }
+  .subsection-label { font-family: var(--mono); font-size: 0.63rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 1.25rem; margin-top: 3rem; display: flex; align-items: center; gap: 1rem; }
+  .subsection-label::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+
+  .body-text p { color: var(--ink-soft); font-size: 0.92rem; line-height: 1.95; margin-bottom: 1.25rem; max-width: 760px; }
+
+  .crow-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--rule-strong); border: 1px solid var(--rule-strong); margin-bottom: 3rem; }
+  .crow-phase { background: var(--paper-card); padding: 2rem 1.5rem; transition: background 0.2s; }
+  .crow-phase:hover { background: var(--navy-faint); }
+  .crow-letter { font-family: var(--serif); font-size: 3.5rem; font-weight: 300; color: var(--navy); line-height: 1; margin-bottom: 0.5rem; opacity: 0.22; }
+  .crow-phase-name { font-family: var(--mono); font-size: 0.64rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--navy); margin-bottom: 0.75rem; }
+  .crow-phase-desc { font-size: 0.82rem; color: var(--ink-soft); line-height: 1.75; }
+
+  .lens-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--rule-strong); border: 1px solid var(--rule-strong); margin: 1.5rem 0; }
+  .lens-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--rule-strong); border: 1px solid var(--rule-strong); margin: 1.5rem 0; }
+  .lens-card { background: var(--paper-card); padding: 1.75rem 1.5rem; }
+  .lens-title { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.75rem; }
+  .lens-body { font-size: 0.82rem; color: var(--ink-soft); line-height: 1.8; }
+
+  .fw-table-wrap { overflow-x: auto; margin: 2rem 0; border: 1px solid var(--rule-strong); }
+  .fw-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; min-width: 680px; }
+  .fw-table th, .fw-table td { padding: 0.85rem 1rem; text-align: left; vertical-align: top; border: 1px solid var(--rule); line-height: 1.7; color: var(--ink-soft); }
+  .fw-table th { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--navy); background: var(--paper-warm); border-color: var(--rule-strong); }
+  .fw-table td:first-child { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-muted); background: var(--paper-warm); border-color: var(--rule-strong); white-space: nowrap; }
+  .fw-table tr:hover td { background: var(--navy-faint); }
+  .fw-table tr:hover td:first-child { background: var(--navy-faint); }
+
+  .level-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin: 1.5rem 0; }
+  .level-card { background: var(--paper-card); padding: 1.5rem 1.25rem; position: relative; transition: background 0.15s; }
+  .level-card::before { content: ''; position: absolute; top: 0; left: 0; width: 8px; height: 8px; background: var(--gold); opacity: 0; transition: opacity 0.15s; }
+  .level-card:hover::before { opacity: 1; }
+  .level-card:hover { background: var(--navy-faint); }
+  .level-name { font-family: var(--serif); font-size: 1.15rem; font-weight: 400; color: var(--ink); margin-bottom: 0.2rem; }
+  .level-cefr { font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.1em; color: var(--gold); margin-bottom: 0.75rem; }
+  .level-desc { font-size: 0.8rem; color: var(--ink-muted); line-height: 1.7; }
+
+  .workbook-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 1.5rem 0; }
+  .workbook-gallery img { width: 100%; display: block; border: 1px solid var(--rule-strong); transition: transform 0.25s; }
+  .workbook-gallery img:hover { transform: scale(1.02); }
+  .workbook-gallery-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin: 1.5rem 0; }
+  .workbook-gallery-2 img { width: 100%; display: block; border: 1px solid var(--rule-strong); transition: transform 0.25s; }
+  .workbook-gallery-2 img:hover { transform: scale(1.02); }
+
+  .outcome-card { border: 1px solid var(--rule-strong); background: var(--paper-card); padding: 2.25rem; max-width: 720px; margin-top: 2rem; }
+  .outcome-card-title { font-family: var(--serif); font-size: 1.3rem; font-weight: 400; color: var(--ink); margin-bottom: 1.25rem; }
+  .outcome-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+  .outcome-list li { font-size: 0.84rem; color: var(--ink-soft); display: flex; gap: 0.75rem; align-items: baseline; line-height: 1.75; }
+  .outcome-list li::before { content: '·'; color: var(--navy); opacity: 0.35; flex-shrink: 0; font-family: var(--mono); }
+
+  .attribution { font-family: var(--mono); font-size: 0.6rem; color: var(--ink-muted); letter-spacing: 0.06em; margin-top: 2.5rem; line-height: 1.8; }
+  footer { padding: 1.5rem 2rem 1.5rem 5.5rem; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--rule); background: var(--paper); }
+  footer p { font-family: var(--mono); font-size: 0.62rem; color: var(--ink-muted); letter-spacing: 0.06em; text-transform: uppercase; }
+
+  @media (max-width: 900px) {
+    .crow-grid { grid-template-columns: 1fr 1fr; }
+    .level-grid { grid-template-columns: 1fr 1fr; }
+    .lens-grid { grid-template-columns: 1fr 1fr; }
+    .workbook-gallery { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 600px) {
+    nav { grid-template-columns: 0 1fr; } .nav-margin { display: none; }
+    .subpage-hero { grid-template-columns: 0 1fr; } .subpage-hero-margin { display: none; }
+    .subpage-hero-body { padding: 4rem 1.5rem 3rem; } .subpage-meta { gap: 1.25rem; }
+    .section-outer { grid-template-columns: 0 1fr; } .section-gutter { display: none; }
+    .section-content { padding: 3.5rem 1.5rem; }
+    .crow-grid { grid-template-columns: 1fr; }
+    .level-grid { grid-template-columns: 1fr; }
+    .lens-grid { grid-template-columns: 1fr; }
+    .lens-grid-2 { grid-template-columns: 1fr; }
+    .workbook-gallery { grid-template-columns: 1fr; }
+    .workbook-gallery-2 { grid-template-columns: 1fr; }
+    footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-margin"></div>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-back">← Portfolio</a>
+    <div class="nav-spacer"></div>
+    <span class="nav-ref">Crow's Call Press · 2026</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="subpage-hero">
+  <div class="subpage-hero-margin"></div>
+  <div class="subpage-hero-body">
+    <div class="subpage-breadcrumb">
+      <a href="index.html">N. Orsini</a> <span>·</span> Frameworks
+    </div>
+    <div class="subpage-subtitle">Analytical Learning Framework</div>
+    <h1 class="subpage-title">CROW <em>Methodology</em></h1>
+    <div class="subpage-meta">
+      <div class="subpage-meta-item">
+        <span class="subpage-meta-label">Role</span>
+        <span class="subpage-meta-value">Instructional Designer / Curriculum Author</span>
+      </div>
+      <div class="subpage-meta-item">
+        <span class="subpage-meta-label">Format</span>
+        <span class="subpage-meta-value">Cross-curricular analytical framework</span>
+      </div>
+      <div class="subpage-meta-item">
+        <span class="subpage-meta-label">Audience</span>
+        <span class="subpage-meta-value">A2-C1 (Junior through Opsis)</span>
+      </div>
+      <div class="subpage-meta-item">
+        <span class="subpage-meta-label">Focus</span>
+        <span class="subpage-meta-value">Structured literary reasoning and developed response writing</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="pixel-sep"></div>
+
+<!-- OVERVIEW -->
+<div class="section-outer">
+  <div class="section-gutter"></div>
+  <div class="section-content">
+    <div class="section-head">
+      <span class="section-ref">§ 01</span>
+      <h2 class="section-title"><em>Overview</em></h2>
+    </div>
+    <div class="body-text">
+      <p>The CROW Methodology was developed as the central analytical system governing multiple literature curricula within the Crow's Call instructional model. Rather than treating literary analysis as an isolated skill, the framework organizes interpretation into a repeatable four-phase progression: Collect, Reframe, Oppose, and Wield.</p>
+      <p>Each phase corresponds to a distinct stage of analytical thinking. Students begin by gathering textual observations, identifying key details in language, character behavior, and narrative structure. From there, they reconsider these observations through interpretive questioning, examining symbolism, motivation, and thematic development.</p>
+      <p>As students grow more confident in their interpretations, the framework encourages them to challenge their own conclusions through opposing perspectives. This stage introduces intellectual tension and debate, reinforcing the idea that interpretation emerges through critical examination rather than singular answers. The final phase asks students to wield their analysis, synthesizing evidence and interpretation through structured written responses and guided discussion.</p>
+    </div>
+
+    <div class="subsection-label">The Four Phases</div>
+    <div class="crow-grid">
+      <div class="crow-phase">
+        <div class="crow-letter">C</div>
+        <div class="crow-phase-name">Collect</div>
+        <p class="crow-phase-desc">Activate prior knowledge and gather textual observations. Students brainstorm, identify key details, and connect the text to experience, culture, or prior reading.</p>
+      </div>
+      <div class="crow-phase">
+        <div class="crow-letter">R</div>
+        <div class="crow-phase-name">Reframe</div>
+        <p class="crow-phase-desc">Transform raw observations into literary concepts and structured understanding. Students apply vocabulary such as symbolism, POV, tone, and archetype to what they have collected.</p>
+      </div>
+      <div class="crow-phase">
+        <div class="crow-letter">O</div>
+        <div class="crow-phase-name">Oppose</div>
+        <p class="crow-phase-desc">Challenge assumptions through contrast, debate, and critical questioning. Students compare interpretations and evaluate strengths and weaknesses of competing readings.</p>
+      </div>
+      <div class="crow-phase">
+        <div class="crow-letter">W</div>
+        <div class="crow-phase-name">Wield</div>
+        <p class="crow-phase-desc">Apply insights through structured written response and discussion. Students synthesize evidence and interpretation, extending analysis into expressive argument.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="pixel-sep"></div>
+
+<!-- INSTRUCTIONAL CHALLENGE -->
+<div class="section-outer warm">
+  <div class="section-gutter warm"></div>
+  <div class="section-content">
+    <div class="section-head">
+      <span class="section-ref">§ 02</span>
+      <h2 class="section-title">Instructional <em>Challenge</em></h2>
+    </div>
+    <div class="body-text">
+      <p>Many literature classrooms struggle with a common difficulty: students are often asked to produce interpretation before they have developed the skills required to construct it. Learners may summarize plot rather than analyze meaning, rely on teacher explanations rather than independent reasoning, or view literary interpretation as a search for the correct answer. As a result, analytical writing can become formulaic or superficial, particularly for students developing English as a second language.</p>
+      <p>The CROW methodology was designed to address this challenge by breaking literary reasoning into distinct cognitive stages. By guiding students first through observation, then interpretation, then critical opposition, and finally expression, the framework ensures that analytical thinking develops gradually and intentionally. This structure allows students to build confidence with literary reasoning while strengthening both their linguistic fluency and their ability to articulate complex ideas.</p>
+    </div>
+  </div>
+</div>
+
+<div class="pixel-sep"></div>
+
+<!-- DESIGN APPROACH -->
+<div class="section-outer">
+  <div class="section-gutter"></div>
+  <div class="section-content">
+    <div class="section-head">
+      <span class="section-ref">§ 03</span>
+      <h2 class="section-title">Design <em>Approach</em></h2>
+    </div>
+    <div class="lens-grid">
+      <div class="lens-card">
+        <div class="lens-title">Four-Phase Analytical Progression</div>
+        <p class="lens-body">Each stage of literary reasoning is treated as a distinct cognitive task. Students move from observation through interpretation and critical challenge to expressive synthesis, with each phase building directly on the work of the previous one.</p>
+      </div>
+      <div class="lens-card">
+        <div class="lens-title">Structured Discussion Techniques</div>
+        <p class="lens-body">Analytical thinking develops through guided dialogue rather than direct instruction. At each phase, students are prompted to observe, interpret, and justify, which builds both language fluency and critical confidence.</p>
+      </div>
+      <div class="lens-card">
+        <div class="lens-title">Text-Based Evidence Gathering</div>
+        <p class="lens-body">The framework is anchored in the text itself. Students are consistently asked to locate and justify their interpretations using specific language, detail, and narrative behavior rather than general impression.</p>
+      </div>
+      <div class="lens-card">
+        <div class="lens-title">Guided Interpretation of Character and Theme</div>
+        <p class="lens-body">Students are given defined analytical categories to work within. Rather than approaching a text without orientation, learners examine how characters function, how themes develop, and how narrative structure shapes meaning.</p>
+      </div>
+      <div class="lens-card">
+        <div class="lens-title">Critical Debate and Opposing Viewpoints</div>
+        <p class="lens-body">The Oppose phase carries real instructional weight. Students test their interpretations against alternative readings, which sharpens reasoning and prevents analysis from collapsing into personal preference.</p>
+      </div>
+      <div class="lens-card">
+        <div class="lens-title">Developed Response Writing</div>
+        <p class="lens-body">Written response serves as the synthesis point for the full analytical cycle. At the Wield phase, students articulate their analysis in structured written form, connecting textual evidence to interpretive argument.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="pixel-sep"></div>
+
+<!-- FRAMEWORK IN PRACTICE -->
+<div class="section-outer warm">
+  <div class="section-gutter warm"></div>
+  <div class="section-content">
+    <div class="section-head">
+      <span class="section-ref">§ 04</span>
+      <h2 class="section-title">Framework <em>in Practice</em></h2>
+    </div>
+
+    <div class="subsection-label">Framework in Practice</div>
+    <div class="fw-table-wrap">
+      <table class="fw-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Collect</th>
+            <th>Reframe</th>
+            <th>Oppose</th>
+            <th>Wield</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Purpose</td>
+            <td>Activate prior knowledge and personal associations</td>
+            <td>Transform raw associations into literary concepts and structured understanding</td>
+            <td>Challenge assumptions through contrast, debate, and critical questioning</td>
+            <td>Apply insights through writing, speaking, or reflection that connects the text to broader contexts</td>
+          </tr>
+          <tr>
+            <td>Student Action</td>
+            <td>Brainstorm, share connections, or respond to opening prompts</td>
+            <td>Apply literary terms (POV, tone, archetypes, symbolism, allusions, theme) to ideas from the Collect phase</td>
+            <td>Compare interpretations, test perspectives, and evaluate strengths and weaknesses</td>
+            <td>Extend analysis into structured written responses or discussion that connects the text to wider contexts</td>
+          </tr>
+          <tr>
+            <td>Be Mindful</td>
+            <td>Students may give shallow or unrelated answers. Encourage depth by asking why or how.</td>
+            <td>Students may stop at definitions. Require that terms be applied to examples or comparisons.</td>
+            <td>Students may rely on personal preference. Require reasoning and textual evidence.</td>
+            <td>Students may generalize loosely. Anchor them in the text first, then extend outward.</td>
+          </tr>
+          <tr>
+            <td>Activity Frames</td>
+            <td>Brainstorm what students already know about the theme, genre, or big idea. Connect the topic to experience, culture, or prior reading.</td>
+            <td>Classify brainstormed ideas into literary categories. Describe a familiar text using academic vocabulary. Compare two interpretations and reframe them with precision.</td>
+            <td>Debate two opposing readings of a character, theme, or event. Contrast cultural expectations with what appears in the text.</td>
+            <td>Apply a theme, archetype, or symbol to a modern or personal context. Create a new example that demonstrates the literary concept in action.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="subsection-label">Unit Learning Progression</div>
+    <div class="fw-table-wrap">
+      <table class="fw-table">
+        <thead>
+          <tr>
+            <th>Week</th>
+            <th>Core Focus</th>
+            <th>Workbook Pages</th>
+            <th>Writing Tasks</th>
+            <th>Analytical Skills</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Week 1 - Foundations</td>
+            <td>Context and orientation</td>
+            <td>Genre Intro, About the Author, Reading Notes, Reflection Essay (from previous unit)</td>
+            <td>Reflection Essay (carry-over)</td>
+            <td>Authorial intention, theorizations, connecting prior cycles</td>
+          </tr>
+          <tr>
+            <td>Week 2 - Structure and First Response</td>
+            <td>Comprehension and structure</td>
+            <td>Comprehension 1, Literary Elements, Symbolism and Allusions</td>
+            <td>Developed Response A</td>
+            <td>Distinguishing symbolism (internal) vs. allusions (external); broad application of genre and structure</td>
+          </tr>
+          <tr>
+            <td>Week 3 - Characters and Cultural Patterns</td>
+            <td>Character depth and archetypes</td>
+            <td>Comprehension 2, Character Maps, Archetypes, Symbolism and Allusions (extended)</td>
+            <td>Non-applicable</td>
+            <td>Multi-perspective character analysis; archetypes for characters, settings, forces; symbolic and cultural coding</td>
+          </tr>
+          <tr>
+            <td>Week 4 - Conflict, Theme and Final Response</td>
+            <td>Synthesis and precision</td>
+            <td>Comprehension 3, Conflict, Theme, Wrap-Up</td>
+            <td>Developed Response B</td>
+            <td>Layered conflicts; themes as universal truths; close analysis of style and structure</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="subsection-label">Curriculum Levels</div>
+    <div class="level-grid">
+      <div class="level-card">
+        <div class="level-name">Junior</div>
+        <div class="level-cefr">A2</div>
+        <p class="level-desc">Students develop foundational reading skills while learning to identify textual details and basic narrative elements. CROW phases prioritize Collect and early Reframe.</p>
+      </div>
+      <div class="level-card">
+        <div class="level-name">Lexis</div>
+        <div class="level-cefr">B1</div>
+        <p class="level-desc">Learners expand their analytical vocabulary and begin interpreting character motivations, thematic ideas, and symbolic meaning. Full CROW cycle with structured debate.</p>
+      </div>
+      <div class="level-card">
+        <div class="level-name">Mythos</div>
+        <div class="level-cefr">B2</div>
+        <p class="level-desc">Students engage more deeply with narrative structure, archetypes, and thematic interpretation, strengthening their ability to construct analytical arguments under challenge.</p>
+      </div>
+      <div class="level-card">
+        <div class="level-name">Opsis</div>
+        <div class="level-cefr">C1</div>
+        <p class="level-desc">Independent literary reasoning, critical debate, and sophisticated written responses supported by textual evidence. Students challenge their own interpretations.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="pixel-sep"></div>
+
+<!-- FRAMEWORK DOCUMENTATION -->
+<div class="section-outer">
+  <div class="section-gutter"></div>
+  <div class="section-content">
+    <div class="section-head">
+      <span class="section-ref">§ 05</span>
+      <h2 class="section-title">Framework <em>Documentation</em></h2>
+    </div>
+    <p style="font-size:0.92rem; color:var(--ink-soft); line-height:1.95; max-width:660px; margin-bottom:0;">The following pages are drawn from the CROW Framework documentation workbook, which introduces the methodology to instructors and serves as a reference across all curriculum levels.</p>
+
+    <div class="subsection-label">Methodology Overview</div>
+    <div class="workbook-gallery">
+      <img src="Crow%20Images/02%20-%20About.png" alt="About the CROW Framework">
+      <img src="Crow%20Images/03%20-%20ToC1.png" alt="Table of Contents page 1">
+      <img src="Crow%20Images/04%20-%20ToC2.png" alt="Table of Contents page 2">
+    </div>
+
+    <div class="subsection-label">Core Competency Pages</div>
+    <div class="workbook-gallery">
+      <img src="Crow%20Images/05%20-%20Introduction.png" alt="Introduction to CROW">
+      <img src="Crow%20Images/06%20-%20Core%20Com1.png" alt="Core Competency 1">
+      <img src="Crow%20Images/07%20-%20Core%20Com2.png" alt="Core Competency 2">
+      <img src="Crow%20Images/08%20-%20Core%20Com3.png" alt="Core Competency 3">
+      <img src="Crow%20Images/09%20-%20Core%20Com4.png" alt="Core Competency 4">
+      <img src="Crow%20Images/10%20-%20Core%20Com5.png" alt="Core Competency 5">
+    </div>
+
+    <div class="subsection-label">Developed Response Samples</div>
+    <div class="workbook-gallery-2">
+      <img src="Crow%20Images/Junior%201.png" alt="Junior level developed response page 1">
+      <img src="Crow%20Images/Junior%202.png" alt="Junior level developed response page 2">
+    </div>
+    <div class="workbook-gallery-2" style="margin-top:1rem;">
+      <img src="Crow%20Images/Mythos%201.png" alt="Mythos level developed response page 1">
+      <img src="Crow%20Images/Mythos%202.png" alt="Mythos level developed response page 2">
+    </div>
+
+    <p class="attribution">Instructional design and curriculum architecture by Nico Orsini.<br>Visual design by Zoe Yera of Crow's Call Press.</p>
+  </div>
+</div>
+
+<div class="pixel-sep"></div>
+
+<!-- LEARNING OUTCOMES -->
+<div class="section-outer warm">
+  <div class="section-gutter warm"></div>
+  <div class="section-content">
+    <div class="section-head">
+      <span class="section-ref">§ 06</span>
+      <h2 class="section-title">Learning <em>Outcomes</em></h2>
+    </div>
+    <div class="outcome-card">
+      <div class="outcome-card-title">What students develop</div>
+      <ul class="outcome-list">
+        <li>Students develop structured approaches to literary observation and evidence collection</li>
+        <li>Learners build interpretive reasoning through guided analytical questioning</li>
+        <li>Critical opposition strengthens debate, discussion, and perspective-taking</li>
+        <li>Developed response writing encourages clear analytical expression grounded in textual evidence</li>
+        <li>The framework fosters confidence in independent literary interpretation across all proficiency levels</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>Nico Orsini - Learning Systems &amp; Instructional Design</p>
+  <p>Built without templates.</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Text-Based Analytical Keys · Nico Orsini</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --paper: #ede9da; --paper-warm: #e2dcc8; --paper-card: #f3f0e4;
+    --ink: #2a2620; --ink-soft: #4a4438; --ink-muted: #8a8072;
+    --navy: #2d2c28; --navy-light: #3e3c38; --navy-faint: #e8e6dc;
+    --gold: #9e8c65; --rule: rgba(42,38,32,0.10); --rule-strong: rgba(42,38,32,0.20);
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+    --mono: 'Courier Prime', 'Courier New', monospace;
+  }
+  body { font-family: var(--sans); background: var(--paper); color: var(--ink); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
+
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: grid; grid-template-columns: 3rem 1fr; background: var(--navy); border-bottom: 1px solid rgba(255,255,255,0.08); height: 3.25rem; }
+  .nav-margin { border-right: 1.5px solid rgba(255,255,255,0.08); }
+  .nav-inner { display: flex; align-items: center; padding: 0 2rem; gap: 2rem; }
+  .nav-back { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.5); transition: color 0.2s; }
+  .nav-back:hover { color: var(--paper); }
+  .nav-spacer { flex: 1; }
+  .nav-ref { font-family: var(--mono); font-size: 0.58rem; color: rgba(255,255,255,0.22); letter-spacing: 0.1em; text-transform: uppercase; }
+
+  .subpage-hero { background: var(--navy); display: grid; grid-template-columns: 3rem 1fr; padding-top: 3.25rem; }
+  .subpage-hero-margin { border-right: 1.5px solid rgba(255,255,255,0.08); }
+  .subpage-hero-body { padding: 5rem 3rem 4rem; display: flex; flex-direction: column; justify-content: flex-end; gap: 1.5rem; }
+  .subpage-breadcrumb { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.32); }
+  .subpage-breadcrumb a { color: rgba(255,255,255,0.32); transition: color 0.2s; }
+  .subpage-breadcrumb a:hover { color: rgba(255,255,255,0.65); }
+  .subpage-subtitle { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); }
+  .subpage-title { font-family: var(--serif); font-size: clamp(2.2rem, 5.5vw, 5rem); font-weight: 300; color: var(--paper); line-height: 1.0; letter-spacing: -0.01em; max-width: 900px; }
+  .subpage-title em { font-style: italic; color: rgba(237,233,218,0.5); }
+  .subpage-meta { display: flex; flex-wrap: wrap; gap: 2.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 0.5rem; }
+  .subpage-meta-item { display: flex; flex-direction: column; gap: 0.3rem; }
+  .subpage-meta-label { font-family: var(--mono); font-size: 0.54rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.28); }
+  .subpage-meta-value { font-size: 0.82rem; color: rgba(255,255,255,0.65); }
+
+  .pixel-sep { height: 8px; background-image: linear-gradient(90deg, var(--rule) 1px, transparent 1px); background-size: 8px 8px; background-color: var(--paper-warm); border-top: 1px solid var(--rule-strong); border-bottom: 1px solid var(--rule-strong); }
+  .section-outer { display: grid; grid-template-columns: 3rem 1fr; }
+  .section-outer.warm { background: var(--paper-warm); }
+  .section-gutter { border-right: 1.5px solid var(--rule-strong); }
+  .section-gutter.warm { background: var(--paper-warm); }
+  .section-content { padding: 5rem 3rem; max-width: 1100px; }
+  .section-head { display: flex; align-items: baseline; gap: 1.5rem; padding-bottom: 2rem; border-bottom: 1.5px solid var(--rule-strong); margin-bottom: 3rem; }
+  .section-ref { font-family: var(--mono); font-size: 0.6rem; color: var(--ink-muted); letter-spacing: 0.12em; text-transform: uppercase; flex-shrink: 0; }
+  .section-title { font-family: var(--serif); font-size: clamp(2rem, 4vw, 3.8rem); font-weight: 300; line-height: 1.0; color: var(--ink); }
+  .section-title em { font-style: italic; color: var(--navy-light); }
+  .subsection-label { font-family: var(--mono); font-size: 0.63rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 1.25rem; margin-top: 3rem; display: flex; align-items: center; gap: 1rem; }
+  .subsection-label::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+
+  .body-text p { color: var(--ink-soft); font-size: 0.92rem; line-height: 1.95; margin-bottom: 1.25rem; max-width: 760px; }
+  .body-text strong { color: var(--ink); font-weight: 500; }
+
+  /* Lens / approach cards */
+  .lens-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--rule-strong); border: 1px solid var(--rule-strong); margin: 1.5rem 0; }
+  .lens-card { background: var(--paper-card); padding: 1.75rem 1.5rem; }
+  .lens-title { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.75rem; }
+  .lens-body { font-size: 0.82rem; color: var(--ink-soft); line-height: 1.8; }
+
+  /* Seven sections table */
+  .fw-table-wrap { overflow-x: auto; margin: 1.5rem 0; border: 1px solid var(--rule-strong); }
+  .fw-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; min-width: 680px; }
+  .fw-table th, .fw-table td { padding: 0.85rem 1rem; text-align: left; vertical-align: top; border: 1px solid var(--rule); line-height: 1.7; color: var(--ink-soft); }
+  .fw-table th { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--navy); background: var(--paper-warm); border-color: var(--rule-strong); }
+  .fw-table td:first-child { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-muted); background: var(--paper-warm); border-color: var(--rule-strong); white-space: nowrap; }
+  .fw-table tr:hover td { background: var(--navy-faint); }
+  .fw-table tr:hover td:first-child { background: var(--navy-faint); }
+  .fw-table td strong { color: var(--ink); font-weight: 500; }
+
+  /* Sample key gallery */
+  .keys-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--rule-strong); border: 1px solid var(--rule-strong); margin-top: 2rem; }
+  .keys-gallery img { display: block; width: 100%; height: auto; background: var(--paper-card); }
+
+  /* Outcomes / specs list */
+  .outcomes-list { list-style: none; display: flex; flex-direction: column; gap: 0; border: 1px solid var(--rule-strong); counter-reset: outcome-counter; margin-top: 1.5rem; }
+  .outcomes-list li { padding: 1.25rem 1.5rem; font-size: 0.88rem; color: var(--ink-soft); line-height: 1.8; border-bottom: 1px solid var(--rule); display: flex; gap: 1.5rem; counter-increment: outcome-counter; }
+  .outcomes-list li:last-child { border-bottom: none; }
+  .outcomes-list li::before { content: counter(outcome-counter); font-family: var(--mono); font-size: 0.55rem; color: var(--gold); letter-spacing: 0.08em; padding-top: 0.35rem; flex-shrink: 0; }
+
+  /* Meta row */
+  .fw-meta-row { display: flex; flex-wrap: wrap; gap: 0; border: 1px solid var(--rule-strong); margin-bottom: 2.5rem; }
+  .fw-meta-item { padding: 1.25rem 1.5rem; border-right: 1px solid var(--rule); flex: 1 1 200px; }
+  .fw-meta-item:last-child { border-right: none; }
+  .fw-meta-label { font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); display: block; margin-bottom: 0.4rem; }
+  .fw-meta-val { font-size: 0.82rem; color: var(--ink-soft); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-margin"></div>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-back">← Portfolio</a>
+    <div class="nav-spacer"></div>
+    <span class="nav-ref">Crow's Call Press &bull; 2026</span>
+  </div>
+</nav>
+
+<!-- Hero -->
+<div class="subpage-hero">
+  <div class="subpage-hero-margin"></div>
+  <div class="subpage-hero-body">
+    <div class="subpage-breadcrumb">
+      <a href="index.html">N. Orsini</a> &bull; Frameworks
+    </div>
+    <div class="subpage-subtitle">Instructional Document System</div>
+    <div class="subpage-title">Text-Based <em>Analytical Keys</em></div>
+    <div class="subpage-meta">
+      <div class="subpage-meta-item">
+        <div class="subpage-meta-label">Role</div>
+        <div class="subpage-meta-value">Instructional Designer / Curriculum Author</div>
+      </div>
+      <div class="subpage-meta-item">
+        <div class="subpage-meta-label">Format</div>
+        <div class="subpage-meta-value">Book-specific analytical reference documents</div>
+      </div>
+      <div class="subpage-meta-item">
+        <div class="subpage-meta-label">Audience</div>
+        <div class="subpage-meta-value">A2-C1 (Junior through Opsis)</div>
+      </div>
+      <div class="subpage-meta-item">
+        <div class="subpage-meta-label">Publisher</div>
+        <div class="subpage-meta-value">Crow's Call Press</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="pixel-sep"></div>
+
+<!-- Section 01: Overview -->
+<div class="section-outer">
+  <div class="section-gutter"></div>
+  <div class="section-content">
+    <div class="section-head">
+      <span class="section-ref">$ 01</span>
+      <h2 class="section-title">Overview</h2>
+    </div>
+
+    <div class="fw-meta-row">
+      <div class="fw-meta-item">
+        <span class="fw-meta-label">Role</span>
+        <span class="fw-meta-val">Instructional Designer / Curriculum Author</span>
+      </div>
+      <div class="fw-meta-item">
+        <span class="fw-meta-label">Format</span>
+        <span class="fw-meta-val">Book-specific analytical reference documents, paired with student workbooks</span>
+      </div>
+      <div class="fw-meta-item">
+        <span class="fw-meta-label">Audience</span>
+        <span class="fw-meta-val">Multi-level learners across A2-C1 (Junior through Opsis)</span>
+      </div>
+      <div class="fw-meta-item">
+        <span class="fw-meta-label">Focus</span>
+        <span class="fw-meta-val">Text-grounded literary analysis supporting discussion, interpretive reasoning &amp; response writing</span>
+      </div>
+    </div>
+
+    <div class="body-text">
+      <p>The Crow's Call curriculum operates on a distinction between two levels of instructional document: the <strong>methodology</strong>, which establishes the transferable analytical architecture used across all levels and texts, and the <strong>analytical key</strong>, which applies that architecture to a specific literary work. Standard answer keys fail literary instruction in a predictable way: they model one interpretation as the correct interpretation. The Crow's Call keys were designed to resolve this tension: each key provides example responses that demonstrate analytical precision, framing them explicitly as starting points rather than endpoints.</p>
+      <p>Each key is paired directly with a student workbook for the same text. Where the workbook scaffolds the student's analytical process, the key provides the instructor with text-grounded responses that demonstrate what rigorous analysis looks like, and where the interpretive limits and alternatives lie.</p>
+    </div>
+  </div>
+</div>
+
+<div class="pixel-sep"></div>
+
+<!-- Section 02: Design Approach -->
+<div class="section-outer warm">
+  <div class="section-gutter warm"></div>
+  <div class="section-content">
+    <div class="section-head">
+      <span class="section-ref">$ 02</span>
+      <h2 class="section-title">Design <em>Approach</em></h2>
+    </div>
+
+    <div class="lens-grid">
+      <div class="lens-card">
+        <div class="lens-title">Universal / Specific</div>
+        <div class="lens-body">The system is universal; the analysis is specific. The CROW methodology establishes lesson sequencing, activity design, and phase expectations. The key supplies the text-grounded content that implements it.</div>
+      </div>
+      <div class="lens-card">
+        <div class="lens-title">Instructional Principles as Precision Tools</div>
+        <div class="lens-body">Each section opens with a brief Instructional Principle that defines what students must do, what counts as a strong response, and where the conceptual limits lie; calibration instruments, not methodology summaries.</div>
+      </div>
+      <div class="lens-card">
+        <div class="lens-title">Primary &amp; Alternative Pathways</div>
+        <div class="lens-body">Archetype classifications, symbolic readings, conflict framings, and thematic statements all include secondary options with brief justifications, reflecting the curriculum's core commitment: interpretation must be defensible, not singular.</div>
+      </div>
+      <div class="lens-card">
+        <div class="lens-title">Literary Theory Pluralism</div>
+        <div class="lens-body">Keys support instruction across multiple critical frameworks without privileging any single one. Teachers working with authorial intent and teachers who foreground reader-response both have what they need; neither approach is marked as primary.</div>
+      </div>
+      <div class="lens-card">
+        <div class="lens-title">Nested Narrative Complexity</div>
+        <div class="lens-body">Where texts employ complex narrative architectures (embedded retrospectives, unreliable narrators, non-linear chronologies) the keys address this directly, distinguishing frame narrators from embedded first-person accounts.</div>
+      </div>
+      <div class="lens-card">
+        <div class="lens-title">Scene Anchors over Chapter Tracking</div>
+        <div class="lens-body">Comprehension questions are organised around major structural movements rather than chapter numbers. Each question references a scene anchor for orientation without tying instruction to rigid pacing requirements.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="pixel-sep"></div>
+
+<!-- Section 03: Key Architecture -->
+<div class="section-outer">
+  <div class="section-gutter"></div>
+  <div class="section-content">
+    <div class="section-head">
+      <span class="section-ref">$ 03</span>
+      <h2 class="section-title">Key Architecture <em>- Seven Sections</em></h2>
+    </div>
+    <div class="body-text">
+      <p>Every analytical key follows a consistent seven-section structure, ensuring that instructors can navigate any key immediately without a learning curve, regardless of which text it covers. The structure maps directly to the CROW methodology phases and the Narrative Analysis System lenses, so students encounter the same analytical architecture across every unit of study.</p>
+    </div>
+
+    <div class="fw-table-wrap">
+      <table class="fw-table">
+        <thead>
+          <tr>
+            <th>Section</th>
+            <th>What it covers</th>
+            <th>Distinctive feature</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Literary Elements</td>
+            <td><strong>Literary Elements:</strong> Setting, plot arc, point of view, tone, foreshadowing</td>
+            <td>Responses model analytical precision over singular interpretation</td>
+          </tr>
+          <tr>
+            <td>Archetypes</td>
+            <td><strong>Archetypes:</strong> Order / Freedom / Ego / Social framework classifications</td>
+            <td>Includes the True Shadow: the distorted force across the whole narrative, distinct from the antagonist</td>
+          </tr>
+          <tr>
+            <td>Character Maps</td>
+            <td><strong>Character Maps:</strong> Goal, motivation, values, traits, development arc</td>
+            <td>Character selection menu gives instructors flexibility; flat/round and static/dynamic with textual evidence</td>
+          </tr>
+          <tr>
+            <td>Allusions &amp; Symbolism</td>
+            <td><strong>Allusions &amp; Symbolism:</strong> External cultural reference (allusion) vs. internal narrative representation (symbolism)</td>
+            <td>Both sections include primary examples with full justification and alternative options</td>
+          </tr>
+          <tr>
+            <td>Conflict Analysis</td>
+            <td><strong>Conflict Analysis:</strong> Conflict type, competing forces &amp; proposed solutions, outcome</td>
+            <td>Connects conflict patterns to thematic direction; primary and alternative conflicts both provided</td>
+          </tr>
+          <tr>
+            <td>Comprehension Questions</td>
+            <td><strong>Comprehension Questions:</strong> Three sets aligned to structural arc (beginning, middle, end)</td>
+            <td>Model response and scene anchor per question; promotes holistic reading over recall</td>
+          </tr>
+          <tr>
+            <td>Theme Analysis</td>
+            <td><strong>Theme Analysis:</strong> Topic vs. theme distinction; defensible thematic statements with evidence</td>
+            <td>Connections to contemporary questions and comparable works; typically three primary themes with full development</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="pixel-sep"></div>
+
+<!-- Section 04: Sample Key -->
+<div class="section-outer warm">
+  <div class="section-gutter warm"></div>
+  <div class="section-content">
+    <div class="section-head">
+      <span class="section-ref">$ 04</span>
+      <h2 class="section-title">Sample Key <em>- The Royal Game</em></h2>
+    </div>
+    <div class="body-text">
+      <p>The following pages are drawn from the analytical key developed for Stefan Zweig's <em>The Royal Game</em> (Schachnovelle), used at the Lexis level (B1). The key addresses the novella's nested narrative structure, its engagement with prewar European political history, and its psychological study of obsession and identity fracture under authoritarian confinement.</p>
+      <p>The Royal Game presents particular instructional challenges that test the key's design principles directly. Its frame narrator, who remains unnamed and observationally neutral, differs substantially from the embedded first-person account of Dr. B., a distinction the key addresses explicitly in its Literary Elements section, providing instructors with language to guide students through the novella's layered perspective architecture without collapsing the two into a single narrative voice.</p>
+    </div>
+
+    <div class="keys-gallery">
+      <img src="Keys%20Images/02%20-%20About.png" alt="The Royal Game - About the Author section" loading="lazy">
+      <img src="Keys%20Images/03%20-%20ToC1.png" alt="The Royal Game - Table of Contents page 1" loading="lazy">
+      <img src="Keys%20Images/04%20-%20ToC2.png" alt="The Royal Game - Table of Contents page 2" loading="lazy">
+    </div>
+  </div>
+</div>
+
+<div class="pixel-sep"></div>
+
+<!-- Section 05: Learning Outcomes -->
+<div class="section-outer">
+  <div class="section-gutter"></div>
+  <div class="section-content">
+    <div class="section-head">
+      <span class="section-ref">$ 05</span>
+      <h2 class="section-title">Learning <em>Outcomes</em></h2>
+    </div>
+    <ul class="outcomes-list">
+      <li>Instructors gain structured, text-specific analytical support without being constrained to a single interpretive path.</li>
+      <li>Evaluative standards remain consistent across classrooms through Instructional Principles that calibrate expectations at the section level.</li>
+      <li>Students develop the capacity to construct defensible analysis grounded in textual evidence rather than locating predetermined answers.</li>
+      <li>Literary theory pluralism allows instruction to remain responsive to teacher preference, student level, and classroom context; no single critical framework is privileged.</li>
+      <li>The primary and alternative structure models the interpretive process itself: rigorous analysis requires examining competing readings, not just producing one.</li>
+      <li>Scene-anchored comprehension questions promote holistic reading habits over chapter-by-chapter recall, building toward sustained analytical engagement with a full text.</li>
+      <li>The True Shadow classification within the Archetypes section provides precision vocabulary for the distinction between antagonist and systemic narrative force, a distinction critical to Oppose phase debate.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="pixel-sep"></div>
+
+</body>
+</html>

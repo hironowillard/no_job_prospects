@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -E \"\\\\.\\(png|jpg|jpeg|gif|svg|webp\\)$\")",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(cp \"/Users/nicoorsini/Desktop/Sharkle/Nico Portfolio/crow.html\" /tmp/portfolio/)",
+      "Bash(mkdir -p \"/tmp/portfolio/Framework Images/CROW\")",
+      "Bash(cp \"/Users/nicoorsini/Desktop/Sharkle/Nico Portfolio/Framework Images/CROW/\"*.png \"/tmp/portfolio/Framework Images/CROW/\")",
+      "Bash(cp \"/Users/nicoorsini/Desktop/Sharkle/Nico Portfolio/narrative.html\" /tmp/portfolio/)",
+      "Bash(mkdir -p \"/tmp/portfolio/Framework Images/Narrative\")",
+      "Bash(cp \"/Users/nicoorsini/Desktop/Sharkle/Nico Portfolio/Framework Images/Narrative/\"*.png \"/tmp/portfolio/Framework Images/Narrative/\")",
+      "Bash(grep -l \"Nico Orsini –\" \"/Users/nicoorsini/Desktop/Sharkle/Nico Portfolio/\"*.html)",
+      "Bash(cp crow.html narrative.html keys.html roll.html poet.html /tmp/portfolio/)",
+      "Bash(cp -r \"Crow Images\" /tmp/portfolio/)",
+      "Bash(cp -r \"Narrative Images\" /tmp/portfolio/)",
+      "Bash(cp -r \"Keys Images\" /tmp/portfolio/)",
+      "Bash(cp -r \"Roll Images\" /tmp/portfolio/)",
+      "Bash(grep -rn \"[–—]\" \"/Users/nicoorsini/Desktop/Sharkle/Nico Portfolio/\"*.html)",
+      "Bash(python3 -)",
+      "mcp__489e3d80-47cd-4753-b9e6-4bd4323733ff__notion-fetch",
+      "mcp__489e3d80-47cd-4753-b9e6-4bd4323733ff__notion-search",
+      "Bash(grep -oh 'src=\"[^\"]*\"' \"/Users/nicoorsini/Desktop/Sharkle/Nico Portfolio/\"*.html)"
+    ]
+  }
+}
