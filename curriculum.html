@@ -107,6 +107,24 @@
   .purpose-card { background: var(--paper-card); padding: 1.75rem 1.5rem; }
   .purpose-label { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.75rem; }
   .purpose-body { font-size: 0.82rem; color: var(--ink-soft); line-height: 1.8; }
+
+  @media (max-width: 900px) {
+    .crow-levels { grid-template-columns: 1fr 1fr; }
+    .genre-grid { grid-template-columns: 1fr 1fr; }
+    .purpose-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 600px) {
+    nav { grid-template-columns: 0 1fr; } .nav-margin { display: none; }
+    .subpage-hero { grid-template-columns: 0 1fr; } .subpage-hero-margin { display: none; }
+    .subpage-hero-body { padding: 4rem 1.5rem 3rem; } .subpage-meta { gap: 1.25rem; flex-wrap: wrap; }
+    .section-outer { grid-template-columns: 0 1fr; } .section-gutter { display: none; }
+    .section-content { padding: 3.5rem 1.5rem; }
+    .crow-levels { grid-template-columns: 1fr; }
+    .genre-grid { grid-template-columns: 1fr 1fr; }
+    .purpose-grid { grid-template-columns: 1fr; }
+    footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; }
+  }
 </style>
 </head>
 <body>

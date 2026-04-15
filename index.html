@@ -200,7 +200,7 @@
 
   .hero-n1, .hero-n2 {
     font-family: var(--serif);
-    font-size: clamp(5.5rem, 14.5vw, 18rem);
+    font-size: clamp(3.2rem, 14.5vw, 18rem);
     font-weight: 300;
     color: var(--paper);
     line-height: 0.88;
@@ -1199,9 +1199,14 @@
   @media (max-width: 600px) {
     .hero { grid-template-columns: 0 1fr; }
     .hero-margin { display: none; }
-    .hero-body { padding: 4rem 1.5rem 4rem; }
+    .hero-body { padding: 5rem 1.5rem 3.5rem; }
     .hero-ref { flex-direction: column; gap: 0.25rem; }
     .hero-meta { gap: 0.75rem; flex-direction: column; }
+    .hero-bottom { grid-template-columns: 1fr; gap: 2rem; }
+    .hero-band { flex-direction: column; align-items: flex-start; gap: 0.35rem; padding: 0.75rem 0; }
+    .hero-band-r { display: none; }
+    .hero-cta { flex-direction: column; gap: 0.75rem; }
+    .hero-cta .btn-primary, .hero-cta .btn-secondary { text-align: center; }
 
     nav { grid-template-columns: 0 1fr; }
     .nav-margin { display: none; }
@@ -1215,6 +1220,7 @@
 
     .crow-grid { grid-template-columns: 1fr; }
     .crow-levels { grid-template-columns: 1fr; }
+    .tab-panels { padding: 0; }
 
     .contact-outer { grid-template-columns: 0 1fr; }
     .contact-gutter { display: none; }
