@@ -9,16 +9,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css?v=3">
 <style>
-/* NAV DROPDOWN - inlined to bypass CDN caching */
-.nav-dropdown-menu{display:none;position:absolute;top:100%;left:0;background:#2d2c28;border:1px solid rgba(255,255,255,0.1);border-top:none;min-width:220px;flex-direction:column;list-style:none;z-index:200;box-shadow:0 8px 24px rgba(0,0,0,0.35);}
-.nav-dropdown:hover .nav-dropdown-menu,.nav-dropdown:focus-within .nav-dropdown-menu{display:flex;}
-.nav-dropdown-menu li{border-bottom:1px solid rgba(255,255,255,0.05);}
-.nav-dropdown-menu li:last-child{border-bottom:none;}
-.nav-dropdown-menu a{display:block;padding:0.75rem 1.25rem;height:auto;font-size:0.60rem;color:rgba(242,236,224,0.5);letter-spacing:0.08em;white-space:nowrap;}
-.nav-dropdown-menu a:hover{background:rgba(255,255,255,0.05);color:rgba(242,236,224,0.9);}
-.nav-dropdown-menu a.active{color:rgba(242,236,224,0.85);border-left:2px solid #9e8c65;padding-left:calc(1.25rem - 2px);}
-.nav-dropdown>a::after{content:" ▾";font-size:0.55rem;opacity:0.6;}
-  .crow-levels { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--rule-strong); border: 1px solid var(--rule-strong); }
+/* === NAV DROP (JS-powered) === */
+.nav-drop{display:none;position:absolute;top:100%;left:0;background:#2d2c28;border:1px solid rgba(255,255,255,0.12);min-width:220px;list-style:none;z-index:500;box-shadow:0 8px 24px rgba(0,0,0,0.4);}
+.nav-drop.open{display:block;}
+.nav-drop li{border-bottom:1px solid rgba(255,255,255,0.05);}
+.nav-drop li:last-child{border-bottom:none;}
+.nav-drop a{display:block;padding:0.75rem 1.25rem;font-family:var(--mono);font-size:0.60rem;letter-spacing:0.08em;text-transform:uppercase;color:rgba(242,236,224,0.55);text-decoration:none;}
+.nav-drop a:hover{background:rgba(255,255,255,0.06);color:rgba(242,236,224,0.95);}
+.nav-has-drop{position:relative;}
+.nav-work::after{content:" ▾";opacity:0.55;}
+.crow-levels { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--rule-strong); border: 1px solid var(--rule-strong); }
   .crow-levels .level-card { background: var(--paper-card); padding: 2rem 1.5rem; position: relative; overflow: hidden; transition: background 0.2s; }
   .crow-levels .level-card::before { content: attr(data-level); position: absolute; bottom: -0.5rem; right: 0.75rem; font-family: var(--serif); font-size: 5rem; font-weight: 300; color: var(--navy); opacity: 0.05; line-height: 1; pointer-events: none; transition: opacity 0.2s; }
   .crow-levels .level-card:hover::before { opacity: 0.1; }
@@ -49,9 +49,9 @@
     <a href="index.html" class="nav-name">N. Orsini</a>
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
-      <li class="nav-dropdown">
-        <a href="#" class="active">Work</a>
-        <ul class="nav-dropdown-menu">
+      <li class="nav-has-drop">
+        <a href="#" class="nav-work active" onclick="toggleDrop(event)">Work</a>
+        <ul class="nav-drop" id="workDrop">
           <li><a href="crow.html">Crow Methodology</a></li>
           <li><a href="curriculum.html" class="active">Curriculum Architecture</a></li>
           <li><a href="keys.html">Analytical Keys</a></li>
@@ -62,9 +62,12 @@
       </li>
       <li><a href="index.html#contact">Contact</a></li>
     </ul>
-    <span class="nav-ref">Portfolio · 2026</span>
   </div>
 </nav>
+<script>
+function toggleDrop(e){e.preventDefault();var d=document.getElementById('workDrop');d.classList.toggle('open');}
+document.addEventListener('click',function(e){if(!e.target.closest('.nav-has-drop')){var d=document.getElementById('workDrop');if(d)d.classList.remove('open');}});
+</script>
 
 <!-- Hero -->
 <div class="subpage-hero">
