@@ -999,6 +999,7 @@ footer {
 }
 
 .footer-nav {
+  position: static;
   display: flex;
   gap: 1.5rem;
   list-style: none;
