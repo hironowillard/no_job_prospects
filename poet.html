@@ -9,7 +9,22 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <style>
-/* All shared styles in styles.css */
+  .spec-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; max-width: 640px; margin: 1.5rem 0 2.5rem; }
+  .spec-list li { font-size: 0.86rem; color: var(--ink-soft); display: flex; gap: 0.75rem; align-items: baseline; line-height: 1.75; }
+  .spec-list li::before { content: '·'; color: var(--navy); opacity: 0.4; flex-shrink: 0; font-family: var(--mono); }
+  .mockup-gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin: 2rem 0 3rem; }
+  .mockup-gallery img { width: 100%; display: block; border: 1px solid var(--rule-strong); }
+  .stanza-list { display: flex; flex-direction: column; gap: 1px; background: var(--rule-strong); border: 1px solid var(--rule-strong); margin: 2rem 0; }
+  .stanza-item { background: var(--paper-card); padding: 1.5rem 1.75rem; transition: background 0.15s; }
+  .stanza-item:hover { background: var(--navy-faint); }
+  .stanza-header { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 0.6rem; }
+  .stanza-num { font-family: var(--mono); font-size: 0.6rem; color: var(--gold); letter-spacing: 0.1em; text-transform: uppercase; flex-shrink: 0; min-width: 5rem; }
+  .stanza-name { font-family: var(--serif); font-size: 1.25rem; font-weight: 400; color: var(--ink); }
+  .stanza-subs { padding-left: 6rem; display: flex; flex-direction: column; gap: 0.25rem; }
+  .stanza-sub { font-size: 0.8rem; color: var(--ink-muted); line-height: 1.65; padding-left: 1rem; position: relative; }
+  .stanza-sub::before { content: '-'; position: absolute; left: 0; color: var(--ink-muted); opacity: 0.45; }
+  @media (max-width: 900px) { .mockup-gallery { grid-template-columns: 1fr; } }
+  @media (max-width: 600px) { .stanza-subs { padding-left: 1rem; } }
 </style>
 </head>
 <body>
