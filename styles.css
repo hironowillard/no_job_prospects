@@ -53,7 +53,7 @@ nav {
   grid-template-columns: 3rem 1fr;
   background: var(--navy);
   border-bottom: 1px solid rgba(255,255,255,0.08);
-  height: 3.25rem;
+  height: 4rem;
   align-items: stretch;
 }
 
@@ -68,7 +68,7 @@ nav {
   display: flex;
   align-items: center;
   padding: 0 2rem;
-  gap: 2rem;
+  gap: 1rem;
 }
 
 .nav-name {
@@ -107,12 +107,7 @@ nav {
 .nav-links a.active { color: rgba(242,236,224,0.85); border-bottom: 2px solid var(--gold); }
 
 .nav-ref {
-  font-family: var(--mono);
-  font-size: 0.58rem;
-  color: rgba(242,236,224,0.22);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  flex-shrink: 0;
+  display: none;
 }
 
 /* ── NAV VARIANT: homepage (transparent hero → dark on scroll) ── */
@@ -141,7 +136,7 @@ nav.home.scrolled {
   background: var(--navy);
   display: grid;
   grid-template-columns: 3rem 1fr;
-  padding-top: 3.25rem;
+  padding-top: 4rem;
 }
 
 .subpage-hero-margin { border-right: 1.5px solid rgba(255,255,255,0.08); }
