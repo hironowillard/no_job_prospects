@@ -9,8 +9,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <style>
-  .keys-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--rule-strong); border: 1px solid var(--rule-strong); margin-top: 2rem; }
-  .keys-gallery img { display: block; width: 100%; height: auto; background: var(--paper-card); }
+  .keys-gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--rule-strong); border: 1px solid var(--rule-strong); margin-top: 2rem; }
+  .keys-gallery img { display: block; width: 100%; height: auto; max-height: 320px; object-fit: cover; object-position: top; background: var(--paper-card); }
   .outcomes-list { list-style: none; display: flex; flex-direction: column; gap: 0; border: 1px solid var(--rule-strong); counter-reset: outcome-counter; margin-top: 1.5rem; }
   .outcomes-list li { padding: 1.25rem 1.5rem; font-size: 0.88rem; color: var(--ink-soft); line-height: 1.8; border-bottom: 1px solid var(--rule); display: flex; gap: 1.5rem; counter-increment: outcome-counter; }
   .outcomes-list li:last-child { border-bottom: none; }
