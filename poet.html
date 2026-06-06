@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=4">
+<link rel="stylesheet" href="styles.css?v=6">
 <style>
 .spec-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; max-width: 640px; margin: 1.5rem 0 2.5rem; }
   .spec-list li { font-size: 0.86rem; color: var(--ink-soft); display: flex; gap: 0.75rem; align-items: baseline; line-height: 1.75; }
@@ -29,31 +29,7 @@
 </head>
 <body>
 
-<nav>
-  <div class="nav-margin"></div>
-  <div class="nav-inner">
-    <a href="index.html" class="nav-name">N. Orsini</a>
-    <ul class="nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li class="nav-has-drop">
-        <a href="#" class="nav-work active" onclick="toggleDrop(event)">Work</a>
-        <ul class="nav-drop" id="workDrop">
-          <li><a href="crow.html">Crow Methodology</a></li>
-          <li><a href="curriculum.html">Curriculum Architecture</a></li>
-          <li><a href="keys.html">Analytical Keys</a></li>
-          <li><a href="narrative.html">Narrative Analysis</a></li>
-          <li><a href="roll.html">Roll for Inspiration</a></li>
-          <li><a href="poet.html" class="active">Making of a Poet</a></li>
-        </ul>
-      </li>
-      <li><a href="index.html#contact">Contact</a></li>
-    </ul>
-  </div>
-</nav>
-<script>
-function toggleDrop(e){e.preventDefault();var d=document.getElementById('workDrop');d.classList.toggle('open');}
-document.addEventListener('click',function(e){if(!e.target.closest('.nav-has-drop')){var d=document.getElementById('workDrop');if(d)d.classList.remove('open');}});
-</script>
+
 
 <!-- HERO -->
 <div class="subpage-hero">
