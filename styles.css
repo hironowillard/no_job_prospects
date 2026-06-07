@@ -869,6 +869,9 @@ nav.home.scrolled {
 
 .project-cover.rise {
   background: var(--navy);
+  background-image: url('Intensive%20Covers/Rise%20Mockup.png');
+  background-size: cover;
+  background-position: center;
   align-items: flex-start;
   justify-content: flex-start;
   padding: 2rem 1.75rem;
