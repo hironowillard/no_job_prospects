@@ -1,0 +1,824 @@
+<!-- TODO(content gate): Twits and Hitchhiker's Guide comprehension questions still need to be
+     checked against the actual workbooks before deploy. Some phrasings were tightened for
+     length and may not match the source exactly. Do not deploy until Nico confirms this
+     content pass is done. -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CROW Lesson Builder · Nico Orsini</title>
+<meta name="description" content="An interactive lesson builder demonstrating the CROW Methodology: one instructional engine that assembles standards-aligned lessons across four reading levels and any text.">
+<meta property="og:title" content="CROW Lesson Builder · Nico Orsini">
+<meta property="og:description" content="A working demonstration of the CROW Methodology, a curriculum system by Nico Orsini that scales one instructional engine across four reading levels and any text.">
+<meta property="og:image" content="Images/assets/archetype-wheel.jpg">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="CROW Lesson Builder · Nico Orsini">
+<meta name="twitter:description" content="A working demonstration of the CROW Methodology, a curriculum system by Nico Orsini.">
+<meta name="twitter:image" content="Images/assets/archetype-wheel.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=48">
+<style>
+  :root{
+    --collect:#725A5F; --reframe:#4E4433; --oppose:#A86163; --wield:#8C6531;
+    --oppose-tint:#F2E2E0; --shadow:#6B3D52;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+
+  .lb-overview-row{display:flex;gap:2.5rem;align-items:flex-start;flex-wrap:wrap}
+  .lb-overview-row .subpage-body{flex:1 1 480px;margin:0}
+  .lb-cyclekey{display:flex;flex-direction:column;gap:8px;flex:1 1 200px;max-width:220px;padding-top:6px}
+  .lb-cyclekey span{display:block;text-align:center;padding:0.42rem 1rem;border-radius:999px;color:var(--cream);font-family:"Archivo",system-ui,sans-serif;font-weight:600;font-size:0.78rem;letter-spacing:.02em}
+
+  /* left sidebar (length, text/key, content area stacked) + stage on the
+     right, spanning full height. Same light card treatment as
+     .subpage-cell/.std elsewhere on the site, not an inverted dark panel. */
+  .lb-grid{display:grid;grid-template-columns:230px 1fr;min-height:0;border:1px solid var(--rule);border-radius:10px;overflow:hidden}
+  .lb-sidebar{background:var(--cream-card);border-right:1px solid var(--rule);padding:24px 20px}
+  .lb-block{margin-bottom:26px}
+  .lb-block:last-child{margin-bottom:0}
+  .stage{background:var(--cream);color:var(--ink)}
+  .ctrl-label{font-family:"Archivo",system-ui,sans-serif;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:12px;display:block}
+  .opt{display:block;width:100%;text-align:left;cursor:pointer;background:var(--cream);color:var(--ink);border:1px solid var(--rule);border-radius:7px;padding:11px 13px;margin-bottom:7px;font-family:"Archivo",sans-serif;font-size:13.5px;transition:border-color .15s, background .15s, transform .08s}
+  .opt:hover{border-color:var(--rule-strong);background:var(--cream-2)}
+  .opt:active{transform:translateY(1px)}
+  .opt.sel{border-color:var(--gold-deep);background:#F2E7D6;color:var(--ink)}
+  .opt .sub{display:block;font-size:11px;color:var(--ink-faint);margin-top:3px;font-family:"Archivo",system-ui,sans-serif;letter-spacing:.02em}
+  .opt.disabled{opacity:.5;cursor:not-allowed}
+  .opt.disabled:hover{border-color:var(--rule);background:var(--cream)}
+  .seg{display:flex;gap:7px}
+  .seg .opt{margin-bottom:0;text-align:center}
+  .focus-list{display:grid;gap:6px}
+  :focus-visible{outline:2px solid var(--gold-deep);outline-offset:2px}
+
+  .empty{height:100%;min-height:320px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px;color:#8A7C64}
+  .empty .big{font-family:"Fraunces",serif;font-size:78px;line-height:1;color:var(--rule);letter-spacing:.06em}
+  .empty p{max-width:360px;font-size:14px;margin-top:18px}
+
+  .lesson{padding:34px 40px 60px;animation:rise .4s ease both}
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){.lesson,.phase{animation:none}}
+
+  .lesson-head{border-bottom:1px solid var(--rule);padding-bottom:22px}
+  .kicker{font-family:"Archivo",system-ui,sans-serif;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--oppose);margin-bottom:10px}
+  .lesson-title{font-family:"Fraunces",serif;font-weight:600;font-size:30px;line-height:1.08;margin:0 0 4px;color:#2B2318}
+  .lesson-sub{font-size:13.5px;color:#8A7C64}
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+  .chip{font-family:"Archivo",system-ui,sans-serif;font-size:11px;background:var(--cream-2);border:1px solid var(--rule);border-radius:5px;padding:7px 11px;color:#4E4433}
+  .chip b{color:#2B2318;font-weight:600}
+  .standards{margin-top:16px;display:grid;gap:9px;grid-template-columns:1fr 1fr}
+  .std{border:1px solid var(--rule);border-radius:7px;padding:12px 14px;background:#FAF6ED}
+  .std .src{font-family:"Archivo",system-ui,sans-serif;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--reframe);margin-bottom:5px}
+  .std .code{font-family:"Archivo",system-ui,sans-serif;font-size:12.5px;font-weight:600;color:#2B2318;margin-bottom:3px}
+  .std .desc{font-size:12px;color:#8A7C64;line-height:1.4}
+
+  .sectlabel{font-family:"Archivo",system-ui,sans-serif;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);margin:30px 0 6px}
+  .sectlabel b{color:#4E4433}
+
+  .flow{margin-top:14px;position:relative;padding-left:64px}
+  .spine{position:absolute;left:26px;top:6px;bottom:20px;width:2px;background:var(--rule)}
+  .phase{position:relative;margin-bottom:18px;animation:rise .4s ease both}
+  .phase:nth-child(2){animation-delay:.05s}.phase:nth-child(3){animation-delay:.1s}.phase:nth-child(4){animation-delay:.15s}.phase:nth-child(5){animation-delay:.2s}
+  .node{position:absolute;left:-64px;top:0;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:"Fraunces",serif;font-weight:600;font-size:22px;color:#fff;box-shadow:0 0 0 5px var(--cream)}
+  .phase-card{border:1px solid var(--rule);border-radius:10px;overflow:hidden}
+  .phase-top{padding:11px 16px;color:#fff}
+  .phase-name{font-family:"Archivo",system-ui,sans-serif;font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:600}
+  .phase-focus{font-size:12px;font-style:italic;opacity:.92;margin-top:2px}
+  .acts{background:var(--cream-2);padding:4px 16px 6px}
+  .act{padding:13px 0;border-bottom:1px solid var(--cream-2)}
+  .act:last-child{border-bottom:none}
+  .act-name{font-weight:600;font-size:14.5px;color:#2B2318;margin-bottom:5px;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+  .act-tag{font-family:"Archivo",system-ui,sans-serif;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:4px;color:#fff}
+  .act-dir{font-size:13px;color:#4E4433;line-height:1.55;margin-bottom:6px}
+  .act-why{font-size:12px;color:#8A7C64;line-height:1.45}
+  .act-why .l{font-family:"Archivo",system-ui,sans-serif;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-right:6px}
+  .check{background:var(--cream-2);padding:10px 16px;font-size:12.5px;color:#4E4433;border-top:1px solid var(--rule)}
+  .check .l{font-family:"Archivo",system-ui,sans-serif;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--reframe);margin-right:7px}
+
+  .mindful{margin-top:22px;border-left:3px solid var(--oppose);background:var(--oppose-tint);border-radius:0 8px 8px 0;padding:14px 18px}
+  .mindful .h{font-family:"Archivo",system-ui,sans-serif;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--oppose);margin-bottom:6px}
+  .mindful p{margin:0;font-size:13.5px;color:#4E4433}
+
+  .shadowbar{margin-top:28px;border:1px solid #C7ABA8;background:linear-gradient(180deg,#F4E8E4,#EDE0DC);border-radius:9px;padding:15px 18px}
+  .shadowbar .h{font-family:"Archivo",system-ui,sans-serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--shadow);margin-bottom:6px}
+  .shadowbar .name{font-family:"Fraunces",serif;font-weight:600;font-size:19px;color:#4A2A32;margin-bottom:4px}
+  .shadowbar p{margin:0;font-size:13px;color:#6B4A50;line-height:1.5}
+
+  .keypanel{margin-top:14px;border:1px solid var(--rule);border-radius:10px;background:#FAF6ED;overflow:hidden}
+  .keyhead{background:var(--cream-2);padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .keyhead .t{font-family:"Archivo",system-ui,sans-serif;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#4E4433}
+  .keyhead .t b{color:var(--reframe)}
+  .keyhead .lvl{font-family:"Archivo",system-ui,sans-serif;font-size:10px;letter-spacing:.08em;color:var(--ink-faint)}
+  .keybody{padding:16px 18px}
+  .kgroup{margin-bottom:16px}.kgroup:last-child{margin-bottom:0}
+  .kglabel{font-family:"Archivo",system-ui,sans-serif;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:8px}
+  .krow{border-top:1px solid var(--cream-2);padding:9px 0}.krow:first-of-type{border-top:none}
+  .kname{font-weight:600;color:#2B2318;font-size:14px}
+  .ktag{font-family:"Archivo",system-ui,sans-serif;font-size:11px;color:var(--oppose);margin-left:2px}
+  .kdesc{font-size:12.5px;color:#4E4433;line-height:1.5;margin-top:2px}
+  .kfield{font-size:13px;color:#4E4433;margin-bottom:7px;line-height:1.5}.kfield b{color:#2B2318}
+  .keq{font-family:"Fraunces",serif;font-style:italic;color:#2B2318}
+  details.more{margin-top:8px}
+  details.more summary{cursor:pointer;list-style:none;font-family:"Archivo",system-ui,sans-serif;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--reframe);padding:6px 0}
+  details.more summary::-webkit-details-marker{display:none}
+  details.more summary::after{content:" +"}details.more[open] summary::after{content:" –"}
+  .alt{font-size:12px;color:#8A7C64;font-style:italic;margin-top:8px}
+
+  /* Comprehension */
+  .compnote{font-size:13px;color:#4E4433;line-height:1.55;margin:6px 0 14px}
+  .compsec{border:1px solid var(--rule);border-radius:9px;background:#FAF6ED;margin-bottom:10px;overflow:hidden}
+  .compsec > summary{cursor:pointer;list-style:none;padding:13px 16px;font-family:"Archivo",system-ui,sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4E4433;background:var(--cream-2);display:flex;justify-content:space-between;align-items:center}
+  .compsec > summary::-webkit-details-marker{display:none}
+  .compsec > summary::after{content:"+";color:var(--ink-faint);font-size:15px}
+  .compsec[open] > summary::after{content:"–"}
+  .compsec .inner{padding:6px 16px 12px}
+  .compq{padding:12px 0 0;border-top:1px solid var(--cream-2)}
+  .compq:first-child{border-top:none}
+  .cq{font-weight:600;color:#2B2318;font-size:13.5px;line-height:1.5}
+  .cq .n{color:var(--oppose);font-family:"Archivo",system-ui,sans-serif;font-size:12px;margin-right:6px}
+  .ca{font-size:13px;color:#4E4433;line-height:1.55;margin:5px 0 4px}
+  .cs{font-family:"Archivo",system-ui,sans-serif;font-size:11px;color:var(--ink-faint);line-height:1.4;padding-bottom:10px}
+  .cs .l{color:var(--reframe);letter-spacing:.08em}
+
+  .wheelwrap{margin-top:14px;border:1px solid var(--rule);border-radius:10px;background:#FAF6ED;padding:16px 16px 18px;text-align:center}
+  .wheelcap{font-family:"Archivo",system-ui,sans-serif;font-size:10.5px;letter-spacing:.06em;color:var(--ink-faint);margin-bottom:12px;line-height:1.55}
+  .wheelcap b{color:#4E4433}
+  .wheelimg{max-width:100%;width:540px;height:auto;border-radius:6px}
+  .pending{margin-top:14px;border:1px dashed var(--rule);border-radius:8px;padding:18px 20px;background:#FAF6ED}
+  .pending .h{font-family:"Archivo",system-ui,sans-serif;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--reframe);margin-bottom:8px}
+  .pending p{margin:0;font-size:13.5px;color:#8A7C64;line-height:1.55}
+
+  @media (max-width:860px){
+    .lb-grid{grid-template-columns:1fr}
+    .lb-sidebar{border-right:none;border-bottom:1px solid var(--rule)}
+    .standards{grid-template-columns:1fr}
+    .lesson{padding:26px 20px 48px}
+    .flow{padding-left:50px}
+    .node{left:-50px;width:40px;height:40px;font-size:17px}
+    .spine{left:19px}
+  }
+</style>
+</head>
+<body>
+
+<nav id="siteNav">
+  <a href="index.html#top" class="nav-name">Nico Orsini</a>
+  <ul class="nav-links">
+    <li><a href="index.html#top">Who I Am</a></li>
+    <li><a href="index.html#work">Work</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="subpage-hero" id="lb-hero">
+  <div class="subpage-hero-inner">
+    <div class="subpage-breadcrumb"><a href="index.html#work">Selected Work</a></div>
+    <div class="subpage-eyebrow">Interactive Demonstration</div>
+    <h1 class="subpage-title">CROW Lesson Builder</h1>
+    <div class="subpage-meta-row">
+      <div class="subpage-meta-item">
+        <span class="subpage-meta-label">Role</span>
+        <span class="subpage-meta-value">Curriculum &amp; Systems Design</span>
+      </div>
+      <div class="subpage-meta-item">
+        <span class="subpage-meta-label">Format</span>
+        <span class="subpage-meta-value">Interactive lesson generator</span>
+      </div>
+      <div class="subpage-meta-item">
+        <span class="subpage-meta-label">Texts</span>
+        <span class="subpage-meta-value">4 keyed, standards-aligned</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- OVERVIEW -->
+<div class="subpage-section" id="lb-overview">
+  <div class="subpage-section-inner">
+    <div class="subpage-section-head">
+      <h2 class="subpage-section-title">How It Works</h2>
+    </div>
+    <div class="lb-overview-row">
+      <div class="subpage-body">
+        <p>A working demonstration of the CROW Methodology, a curriculum system I designed that scales one instructional engine across four reading levels and any text.</p>
+        <p>One universal instructional engine, any text. The Collect &rarr; Reframe &rarr; Oppose &rarr; Wield methodology supplies the full activity sequence, teacher directions, purpose, and learning checks; a per-book analytical Key supplies the text-specific answers and comprehension. Pick a text and a content area to assemble a complete, standards-aligned lesson, aligned to the Korean English Curriculum (2022 Revision) and CCSS ELA.</p>
+      </div>
+      <div class="lb-cyclekey">
+        <span style="background:var(--collect)">Collect</span>
+        <span style="background:var(--reframe)">Reframe</span>
+        <span style="background:var(--oppose)">Oppose</span>
+        <span style="background:var(--wield)">Wield</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main class="wrap">
+  <div class="lb-grid">
+    <aside class="lb-sidebar">
+      <div class="lb-block" id="lenblock">
+        <span class="ctrl-label">Class length</span>
+        <div class="seg" id="length">
+          <button class="opt sel" data-len="short">Short<span class="sub">1 / phase</span></button>
+          <button class="opt" data-len="long">Long<span class="sub">2 / phase</span></button>
+        </div>
+      </div>
+
+      <div class="lb-block">
+        <span class="ctrl-label">Text / Key</span>
+        <div id="books"></div>
+      </div>
+
+      <div class="lb-block">
+        <span class="ctrl-label">Content area</span>
+        <div class="focus-list" id="areas"></div>
+      </div>
+    </aside>
+
+    <section class="stage" id="stage">
+      <div class="empty" id="empty">
+        <div class="big">C R O W</div>
+        <p>Pick a text and a content area, the lesson assembles automatically.</p>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <span class="footer-name">Nico Orsini &middot; Learning Experience Design &amp; Creative Direction</span>
+  <span class="footer-copy">&copy; 2026 Nico Orsini.</span>
+</footer>
+
+<script>
+  const nav = document.getElementById('siteNav');
+  const updateNav = () => nav.classList.toggle('scrolled', window.scrollY > 60);
+  window.addEventListener('scroll', updateNav, { passive: true });
+  updateNav();
+</script>
+
+<script>
+const PHASES={Collect:{color:"var(--collect)"},Reframe:{color:"var(--reframe)"},Oppose:{color:"var(--oppose)"},Wield:{color:"var(--wield)"}};
+const ORDER=["Collect","Reframe","Oppose","Wield"];
+const WHEEL="Images/assets/archetype-wheel.jpg";
+
+/* ============ UNIVERSAL METHODOLOGY ============ */
+/* acts: [phase, name, teacher direction, instructional purpose] */
+const METH={
+  genre:{name:"Genre Introduction",week:"Week 1 — Foundations",emphasis:"Collect / Wield",keySection:null,
+    ccss:{code:"RL.5.9",desc:"Compare and contrast stories in the same genre."},
+    korean:"Recognizes literary genres and compares thematic and structural patterns across texts.",
+    mindful:"Students may list specific titles instead of traits. Redirect toward broader conventions.",
+    checks:{Collect:"Which idea on the board connects most strongly to the text so far?",Reframe:"Which reframed pattern fits this text's opening, and why?",Oppose:"What is one strength and one weakness of this genre's approach?",Wield:"What challenges do you predict the protagonist will face, and how might they change?"},
+    acts:[["Collect","Genre Association Brainstorm","Write the genre at the center of the board; students surface associated objects, settings, emotions, characters, and events, clustered into emerging categories.","Activate prior knowledge and build a shared schema before analysis."],
+      ["Collect","Role & Scenario Exploration","Pose a scenario in which students meet a figure typical of the genre; sort imagined behaviours into groupings such as helpful vs. dangerous.","Deepen genre understanding through imagined interaction."],
+      ["Reframe","Genre Structure Mapping","Introduce a common scaffold (ordinary world → disruption → altered world → return) and apply it to familiar stories, naming genre terms as they arise.","Reframe genre as a system of narrative patterns, not surface features."],
+      ["Reframe","Comparative Genre Reframe","Give two short premises resembling different genres; students classify each and justify using genre-specific language.","Move from instinctive recognition to analytical classification."],
+      ["Oppose","Genre Function Debate","Split the class to argue opposing claims about the genre's purpose (comfort vs. disturb), each side backing its position with examples.","Examine genre as a vehicle for meaning, not just enjoyment."],
+      ["Oppose","Cross-Cultural Genre Comparison","Compare genre expressions from two cultural traditions; discuss how purpose, tone, or moral emphasis shifts while the genre stays recognizable.","Complicate genre understanding through cultural context."],
+      ["Wield","Predictive Genre Lens","Using cover, title, and conventions, students predict settings, conflicts, symbolic objects, and character types likely to appear.","Apply genre knowledge as a tool for informed prediction."],
+      ["Wield","Narrative Arc Forecast","Apply the scaffold to forecast how the story might progress, challenges, transformations, outcomes.","Synthesize genre understanding into forward-thinking expectations."]]},
+
+  author:{name:"About the Author",week:"Week 1 — Foundations",emphasis:"Collect",keySection:null,
+    ccss:{code:"RL.6.6",desc:"Analyze how an author's point of view or purpose shapes a text."},
+    korean:"Relates an author's life, era, or worldview to narrative voice and subject matter.",
+    mindful:"Students may retell biography without analysis. Push them to trace biography → style → story.",
+    checks:{Collect:"Which example feels closest to this author's world so far?",Reframe:"Which detail best shows the author's signature technique?",Oppose:"What is one strength of the author's style, and one cost?",Wield:"Which prediction best fits the author's style, and why?"},
+    acts:[["Collect","Experience Brainstorm","Students share moments when the ordinary felt subtly strange; cluster into familiar vs. disruptive elements.","Activate experiential understanding of tone and connect lived experience to authorial style."],
+      ["Collect","Author Influence Snapshot","Present a brief overview of the author's influences; discuss how these might shape mood or theme.","Establish author background as an interpretive lens, not isolated biography."],
+      ["Reframe","Style Concept Diagram","Map a signature stylistic technique onto paired examples from the text, showing how the technique operates.","Reframe authorial style as deliberate technique."],
+      ["Reframe","Style Identification Match","Students match short passages to a target authorial style, justifying with specific stylistic features.","Move from intuitive reaction to precise stylistic analysis."],
+      ["Oppose","Interpretive Value Debate","Argue opposing interpretations of a central stylistic or narrative choice, supported with textual evidence.","Foreground authorial intent as open to interpretation."],
+      ["Oppose","Style Contrast Analysis","Compare passages from different tonal traditions and evaluate how each achieves its effect.","Complicate judgments about effective writing by examining purpose and impact."],
+      ["Wield","Predictive Authorial Lens","Use the author's background and tendencies to predict narrative developments and thematic turns.","Apply author study as a forward-looking analytical tool."],
+      ["Wield","Style Imitation Exercise","Students compose a short passage imitating the author's characteristic tone or technique.","Synthesize understanding of authorial style through creative application."]]},
+
+  elements:{name:"Literary Elements",week:"Week 2 — Structure & First Response",emphasis:"Collect / Reframe",keySection:"elements",
+    ccss:{code:"RL.7.3",desc:"Analyze how particular elements of a story interact."},
+    korean:"Explains how structure and perspective influence meaning in fiction.",
+    mindful:"Students may memorize definitions. Require textual evidence to show understanding.",
+    checks:{Collect:"What detail from the opening tells us when the story takes place?",Reframe:"What makes an event the climax rather than another rising-action beat?",Oppose:"What is one limitation of first-person that third-person avoids?",Wield:"What changes most when we shift the point of view?"},
+    acts:[["Collect","Setting Snapshot","Read the opening aloud; students note physical location, time period, and social context, then compare observations.","Establish setting as a multidimensional element shaping behaviour and expectation."],
+      ["Collect","Event Sorting & Plot Assembly","Students separate authentic events from decoys and arrange the true ones in sequence on a plot chart.","Reinforce comprehension of progression and prepare for structural analysis."],
+      ["Reframe","Match the Arc","From the sequenced events, students assign the ones that fill each structural role (exposition, rising action, climax, resolution), justifying by function.","Reframe plot as intentional structure, not a list of events."],
+      ["Reframe","Subplot Connections","Identify a secondary thread and explain in a sentence how it supports, complicates, or mirrors the main plot.","Deepen understanding of how subplots reinforce central conflict and theme."],
+      ["Oppose","Point of View Debate","Identify the text's POV and debate how a different narrative perspective would change suspense, access, or emotional impact.","Examine POV as a deliberate authorial choice, not neutral narration."],
+      ["Oppose","Tone Analysis & Contrast","Students highlight tone-setting language in a passage, then revise it to produce a contrasting tone and discuss the effect.","Highlight tone as a tool that shapes meaning beyond word choice."],
+      ["Wield","Perspective Rewrite","Rewrite a short passage from a different POV, adjusting language and internal detail.","Apply POV understanding through controlled transformation."],
+      ["Wield","Tone Shift Application","Revise a selected line to intentionally alter its tone; explain how the reader's experience changes.","Synthesize tone analysis into purposeful stylistic decisions."]]},
+
+  archetypes:{name:"Archetypes",week:"Week 3 — Characters & Cultural Patterns",emphasis:"Reframe / Oppose",keySection:"archetypes",
+    ccss:{code:"RL.8.9",desc:"Analyze how modern works draw on themes or patterns from myths and traditional stories."},
+    korean:"Identifies shared cultural symbols and character functions within stories.",
+    mindful:"Students may repeat roles too often. Encourage varied archetypes across characters, objects, and forces.",
+    checks:{Collect:"Which role do we already see in this text?",Reframe:"Do archetypes only belong to people, or can objects and places carry them too?",Oppose:"Which archetype feels most contested, and why?",Wield:"Which detail most clearly shows how one archetype appears?"},
+    acts:[["Collect","Archetypal Role Brainstorm","Brainstorm common story roles (hero, shadow, helper, trickster, mentor) and what each does in a narrative.","Activate prior schema for archetypal function."],
+      ["Collect","Story Element Collection","Gather a focused pool of 10-15 key elements, characters, then objects, then places and forces.","Establish a shared pool of elements for mapping."],
+      ["Reframe","Beyond Characters Expansion","Sort elements into Characters / Objects / Places / Forces and discuss how non-human elements carry roles.","Reframe archetypes as functional roles expressible beyond character."],
+      ["Reframe","Archetype Matching & Justification","Using the archetype wheel, assign archetypes to elements; students justify a few aloud with brief evidence.","Shift archetype work from labeling to reasoning."],
+      ["Oppose","Constraint-Based Revision","Give one or two constraints (e.g., only three Shadows; a key villain is not human); students revise assignments accordingly.","Drive precision through purposeful limitation."],
+      ["Oppose","Reveal & Evidence Debate","Compare maps to the consensus key; for disputed cases, students make brief evidence-based arguments.","Reinforce that archetype assignment is interpretive and evidence-driven."],
+      ["Wield","Presentation Language","Describe how each central archetype is presented in one or two observable words.","Synthesize into precise descriptive language for later writing."],
+      ["Wield","Predictive Archetype Lens","Predict how roles might shift near the climax and justify using established patterns.","Apply archetypal thinking to forecasting."]]},
+
+  character:{name:"Character Maps",week:"Week 3 — Characters & Cultural Patterns",emphasis:"Reframe / Oppose",keySection:"character",
+    ccss:{code:"RL.6.3",desc:"Describe how a character's response or change contributes to the central theme."},
+    korean:"Describes how relationships and experiences shape character development.",
+    mindful:"Students may stick to generic traits. Push for specificity with evidence.",
+    checks:{Collect:"At the start, who feels most important to the protagonist, and who to us?",Reframe:"Would the protagonist see this character as flat or round at first? What about us?",Oppose:"What is one reason this character might give to defend their actions?",Wield:"Which character is most likely to change by the end, and why?"},
+    acts:[["Collect","Relational Character Brainstorm","Name characters connected to the protagonist and map them outward from both the protagonist's and the audience's view.","Introduce that relationships may be perceived differently by characters and readers."],
+      ["Collect","Protagonist Mapping","Fill the protagonist's map, goal, motivation, values, traits, distinguishing self-view from audience interpretation.","Ground character analysis in perspective and evidence."],
+      ["Reframe","Oppositional Character Study","Map an antagonistic figure's goals as they appear to the protagonist vs. the audience.","Reframe antagonists as intentional agents, not simple villains."],
+      ["Reframe","Secondary Character Contrast","Analyze a supporting character's surface behaviour against underlying function or insight.","Recognize narrative support roles beyond main figures."],
+      ["Oppose","Intention Justification Debate","Students articulate why a character might see their own actions as justified, even against the protagonist.","Explore intention as distinct from outcome and challenge moral binaries."],
+      ["Oppose","Cross-Character Intention Comparison","Compare motivations across characters to locate how competing but rational perspectives create conflict.","Examine relational conflict as competing perspectives."],
+      ["Wield","Development Labels","Apply flat/round and static/dynamic to selected characters with brief evidence.","Synthesize analysis into formal terminology."],
+      ["Wield","Relationship Shift Prediction","Predict how key relationships change by the end, in understanding, trust, or values.","Apply analysis toward relational and thematic forecasting."]]},
+
+  allusion:{name:"Allusions & Symbolism",week:"Week 2 — Structure & First Response",emphasis:"Oppose / Wield",keySection:"allusion",
+    ccss:{code:"RL.8.4",desc:"Determine the meaning of words, phrases, and allusions as used in a text."},
+    korean:"Interprets meaning through metaphor, imagery, and intertextual references.",
+    mindful:"Students may confuse allusions with symbolism. Allusions point outward; symbols point inward.",
+    checks:{Collect:"Does this detail point outward, inward, or both? Why?",Reframe:"Who reacts more strongly to this object, a character, or us?",Oppose:"Which symbol changes how a character feels, and which changes how we feel most?",Wield:"Would your invention change how characters see the story, or how we do?"},
+    acts:[["Collect","Directional Meaning Sort","Classify modeled examples as allusion (outward reference) or symbol (inward meaning) using directional language.","Establish clear boundaries between allusion and symbolism."],
+      ["Collect","Perspective-Based Clarification","Articulate what a detail reveals to a character vs. what it suggests to the audience.","Ground interpretation in perspective, not vague reaction."],
+      ["Reframe","Symbol Identification","Identify ordinary-seeming recurring details; describe reactions and propose abstract meaning.","Reframe symbolism as a relationship between object, reaction, and idea."],
+      ["Reframe","Allusion Identification","Identify an allusion, classify its type, and explain its effect on understanding.","Move from recognizing references to analyzing their function."],
+      ["Oppose","Symbol Effectiveness Evaluation","Evaluate why a symbol works, contrasting its impact on characters with its effect on the audience.","Emphasize intentional design over description."],
+      ["Oppose","Allusion Purpose Debate","Debate whether an allusion primarily serves character understanding or audience meaning, then refine the claim.","Reinforce audience awareness and precise meaning."],
+      ["Wield","Invented Allusion","Create an original allusion that fits the narrative, reference, type, intended meaning.","Apply understanding of allusion through creation."],
+      ["Wield","Designed Symbol","Design a symbolic object; describe response to it and the abstract idea it represents.","Synthesize symbolic thinking through creative application."]]},
+
+  conflict:{name:"Conflict Analysis",week:"Week 4 — Conflict, Theme & Final Response",emphasis:"Oppose / Wield",keySection:"conflict",
+    ccss:{code:"RL.7.2",desc:"Analyze how conflict develops and resolves across a text."},
+    korean:"Analyzes conflict in relation to emotional, moral, or social development.",
+    mindful:"Students may focus only on physical fights. Redirect to inner or systemic struggles.",
+    checks:{Collect:"Do we have at least one example for each type of conflict?",Reframe:"Which category does your constructed conflict belong to?",Oppose:"Does reversing the participants create a new meaning or focus?",Wield:"Does the outcome match one side's proposed solution, or something different?"},
+    acts:[["Collect","Participant Collection","Brainstorm conflict participants, expanding from characters to groups, societies, and abstract forces.","Broaden what can function as a source of conflict."],
+      ["Collect","Category Sorting","Sort participants into conflict categories (vs. self, society, nature, fate, other), allowing justified overlaps.","Establish a framework for analyzing conflict types."],
+      ["Reframe","Conflict Construction","Pair two participants and articulate what each wants and why those wants clash, recording it in the diagram.","Reframe conflict as intentional opposition driven by desire or belief."],
+      ["Reframe","Conceptual Conflict Challenge","Build a conflict between a character and a broad concept (fear, tradition, responsibility), specifying how the force opposes.","Elevate analysis beyond surface confrontation."],
+      ["Oppose","Agency Order Swap","Reverse a conflict's order and explain how emphasis, agency, or moral framing shifts.","Challenge default assumptions about perspective and power."],
+      ["Oppose","Conflict Inversion","Imagine the outcome reversed and consider whether the category or nature of the conflict shifts.","Complicate win/lose thinking and deepen structural analysis."],
+      ["Wield","Outcome Mapping","Map proposed solutions from each side against the outcome the text actually selects.","Distinguish intention from resolution."],
+      ["Wield","Thematic Pattern Connection","Compare outcomes across conflicts to surface recurring values the text implies.","Connect resolution to emerging theme without collapsing into summary."]]},
+
+  theme:{name:"Theme Analysis",week:"Week 4 — Conflict, Theme & Final Response",emphasis:"Wield",keySection:"theme",
+    ccss:{code:"RL.8.2",desc:"Determine themes and analyze their development through characters and events."},
+    korean:"Expresses thematic interpretation through cultural or personal reflection.",
+    mindful:"Students may list single words. Insist on full-sentence statements.",
+    checks:{Collect:"Which is the theme, a single word, or a full-sentence message?",Reframe:"Does your sentence sound like the author's message, or just what happens?",Oppose:"Can your theme still stand even if some scenes disagree with it?",Wield:"If someone hadn't read the text, could they still understand your theme?"},
+    acts:[["Collect","Topic vs. Theme Modeling","Distinguish a topic (one idea) from a theme (a full statement); model how a topic expands into a claim.","Prevent one-word or summary-based themes."],
+      ["Collect","Thematic Topic Brainstorm","Brainstorm recurring emotional, social, and abstract ideas, not objects or plot details.","Generate viable thematic starting points grounded in the text."],
+      ["Reframe","Topic-to-Theme Construction","Transform selected topics into full-sentence statements expressing a lesson about human experience.","Reframe theme as interpretive meaning, not summary."],
+      ["Reframe","Theme Refinement Workshop","Share drafts and revise collaboratively for precision, universality, and depth.","Strengthen thematic language and reduce vagueness."],
+      ["Oppose","Theme Evidence Analysis","Find evidence supporting a chosen theme and at least one moment that complicates it; refine accordingly.","Test claims against the text and encourage intellectual honesty."],
+      ["Oppose","Thematic Interpretation Debate","Present claims and evidence while peers question or propose alternatives.","Treat theme as an arguable, evidence-based interpretation."],
+      ["Wield","Real-World Application","Connect a developed theme to a real situation, ethical question, or experience.","Apply literary meaning to lived experience."],
+      ["Wield","Cross-Text Comparison","Compare the theme to one in another story, film, or cultural narrative.","Synthesize thematic understanding across contexts."]]},
+
+  comprehension:{name:"Comprehension Questions",week:"Ongoing · across the cycle",emphasis:"Assessment",keySection:"comprehension",isComp:true,
+    ccss:{code:"RL — recall & inference",desc:"Cite textual evidence to support analysis of what the text says explicitly and inferentially."},
+    korean:"Confirms accurate, detailed reading and supports inferential discussion.",
+    note:"Comprehension runs as ongoing checks rather than a single CROW lesson. Questions are organized into three sets aligned to the narrative's structural movements; some intentionally bridge across sections. Each carries a model response and a scene anchor for teacher orientation, not a strict location marker."}
+};
+
+/* ============ BOOKS ============ */
+const BOOKS={
+  twits:{title:"The Twits",author:"Roald Dahl",level:"Junior",keyed:true},
+  campfire:{title:"The Curse of the Campfire Weenies",author:"David Lubar",level:"Lexis",keyed:true},
+  hitchhiker:{title:"The Hitchhiker's Guide to the Galaxy",author:"Douglas Adams",level:"Mythos",keyed:true},
+  cat:{title:"She and Her Cat",author:"Shinkai & Nagakawa",level:"Opsis",keyed:true}
+};
+
+/* ============ KEYS ============ */
+const KEYS={
+  twits:{
+    trueShadow:{name:"Cruelty for Its Own Sake",desc:"The habit of hurting others for amusement, which creates vulnerability across the household, the cage, and the tree. The Twits embrace it daily, until they become the weaker creatures, and the targets, themselves."},
+    elements:{fields:[
+      ["Setting — physical","Mr and Mrs Twit's windowless house and its thistle-and-nettle garden in England. The sealed walls keep the world out and the cruelty in."],
+      ["Setting — time","Ordinary days and weeks of small, repeated cruelties, then a fast final stretch, a few hours while the Twits are out buying guns, that lets the monkeys spring their trick."],
+      ["Setting — society","A small private world where cruelty is normal and meanness is repaid with meanness, tricks, revenge, and control over weaker creatures."],
+      ["Point of view","Third person, with a chatty narrator who speaks straight to the reader, openly judging the Twits and pulling the reader onto the animals' side."],
+      ["Tone","Playfully disgusting and gleefully cruel, gross physical detail, direct jokes to the audience, invented insults, and a cheerful 'HOORAY' at the Twits' end."]],
+      foreshadow:["The Hugtight glue, traps birds in the tree, and later the Twits to the floor","The fake Shrinks, invented to scare Mrs Twit, but they turn out to be real","The upside-down monkeys, forced to live inverted, which the Twits eventually experience","The ugly-thoughts passage, thoughts reshape a person from the inside out"]},
+    archetypes:{
+      characters:[["Mr Twit","Ruler → Shadow Tyrant","Rules his small world by force and fear, demanding obedience from his wife and the caged monkeys."],
+        ["Mrs Twit","Jester → Shadow Hater","Twists jokes and tricks into ways of hurting others, finding pleasure in fear."],
+        ["Muggle-Wump","Outlaw → Revolutionary","Refuses the cage any longer and leads the uprising that overturns the Twits' rule."],
+        ["The Four Monkey Family","Innocent → Shadow Victim","Suffer daily upside-down labour, unable to escape or refuse without punishment."],
+        ["The English Birds","Innocent → Daydreamer","Trust the tree as a safe roost and need an outside voice to see the danger."],
+        ["The Roly-Poly Bird","Explorer → Iconoclast","Breaks the trap by speaking across languages and warning the birds the system depends on catching."],
+        ["Fred","Everyman → Realist","Arrives from the ordinary world to find what is left of the Twits, confirming the cruelty has ended."],
+        ["The Four Little Boys","Explorer → Seeker","Wander into the garden out of curiosity and escape the glue their own way."]],
+      objects:[["The Shrinks","Creator → Shadow Destroyer","Begins as a lie and ends as the real force that breaks the Twits down piece by piece."]],
+      forces:[["The Twits' House","Sage → Shadow Elitist","Shuts out the world with no windows, hoarding the Twits' private cruelty behind sealed walls."],
+        ["The Monkey Cage","Caregiver → Shadow Slave","Holds the monkey family through forced service to Mr Twit's circus dream."],
+        ["The Upside-Down Room","Magician → Shadow Deceiver","Tricks the Twits' eyes into believing the world has flipped, leading them into their own trap."]]},
+    character:[
+      {n:"Mr Twit",lines:["<b>Goal</b>, play the nastiest possible tricks and keep his monkeys and his Bird Pie.","<b>Motivation</b>, enjoys cruelty and feels powerful when he controls or frightens others.","<b>Values</b>, control, revenge, appetite; his own pleasure above all, making him the clearest face of the book's cruelty.","<b>Traits</b>, Cunning, Determined (+); Cruel, Vengeful (−).","<b>Development</b>, Flat / Static. He never changes inside, and that is the point, as cruel at the end as the start, so his downfall feels like the world catching up rather than him learning."]},
+      {n:"Muggle-Wump",lines:["<b>Goal</b>, free his family from the cage and get them safely back to Africa.","<b>Motivation</b>, loves his family and hates watching them suffer the daily upside-down torture.","<b>Values</b>, family, freedom, justice; puts his family first, becoming the force that rises against the Twits.","<b>Traits</b>, Clever, Brave (+); Bossy, Impatient (−).","<b>Development</b>, Round / Dynamic. Shifts from a helpless prisoner who can only shout warnings to a leader who takes action; the Roly-Poly Bird gives him the power to act."]},
+      {n:"Fred",lines:["<b>Goal</b>, read the gas meter and get on with his work.","<b>Motivation</b>, doing an ordinary job that brings him to the Twits' door by chance.","<b>Values</b>, routine, normalcy, decency; stands for everything the Twits shut out.","<b>Traits</b>, Observant, Grounding (+); Uninvolved, Unreflective (−).","<b>Development</b>, Flat / Static. He doesn't change, but his function matters, the ordinary world knocking on the door of extraordinary cruelty; his cheerful hooray is the world's verdict."]}],
+    allusions:[["The Witch's Cooking Pot","Folkloric / Literary, Hansel and Gretel","Mr Twit's threat to make Boy Pie echoes the child-eating ogre, marking him as a storybook monster meant to be defeated."],
+      ["Trick and Counter-Trick","Folkloric / Literary, trickster tradition","The escalating prank war follows the folk pattern where each side tops the last, shaping the expectation that cruelty will rebound."],
+      ["The Animals' Revolt","Literary, mistreated-animals tradition","Caged and hunted creatures rising against cruel masters lets the reader cheer the monkeys and birds as rightful winners."]],
+    allusionAlt:"Alternatives: the dreaded Shrinks (fairy-tale wasting curses) · the glass eye (folk tricksters using false body parts) · the Roly-Poly Bird (magical helper animals).",
+    symbols:[["The Hugtight Glue","Cruelty"],["The Big Dead Tree","Death"],["The Balloons","Freedom"]],
+    symbolAlt:"Alternatives: The Glass Eye = Watchfulness · The Gun = Controlled Power · The Walking-Stick = Deception.",
+    conflict:[["Mr Twit vs. Mrs Twit","Character vs. Character","Their endless revenge spends their energy on each other and leaves them open to the animals' plan."],
+      ["Muggle-Wump vs. Mr Twit","Character vs. Character","Muggle-Wump outsmarts Mr Twit, traps him in his own house, and escapes with his family."],
+      ["The Twits vs. Consequence","Society vs. Fate","The Twits are destroyed by their own glue, their own upside-down trick, and the real Shrinks."],
+      ["The Wild Birds vs. The Hunt","Nature vs. Society","Once the Roly-Poly Bird breaks the language barrier, the birds stay clear of the glue and the hunt collapses."]],
+    conflictAlt:"Alternatives: The Monkeys vs. The Cage, Society vs. Society · The Garden vs. Visitors, Nature vs. Society · Order vs. Chaos, Nature vs. Nature.",
+    theme:[["Cruelty","Cruelty offered freely to others tends to circle back upon the one who gives it.","kin: Matilda"],
+      ["Inner & Outer Ugliness","What a person thinks and feels inside slowly reshapes how they appear to the world.","kin: The Picture of Dorian Gray"],
+      ["Rising Up","When the mistreated act together, they can overturn those who seemed to hold all the power.","kin: Fantastic Mr Fox"]],
+    comprehension:[
+      {section:"Section 1 · Meet the Twits",items:[
+        {q:"What does the narrator say happens when a man grows hair all over his face?",a:"It becomes impossible to tell what he really looks like underneath.",scene:"The narrator addressing the reader at the very opening, before Mr or Mrs Twit is introduced."},
+        {q:"How does the narrator explain why Mrs Twit's face has become so ugly?",a:"Having ugly thoughts every single day makes a person's face grow uglier and uglier over time.",scene:"The narrator's explanation that good thoughts shine out of a face like sunbeams."},
+        {q:"Why does Mrs Twit really carry her walking stick?",a:"She uses it to hit dogs, cats, and small children.",scene:"Mrs Twit claiming it is for a wart on her foot while the narrator gives the real reason."},
+        {q:"Where does Mrs Twit hide her glass eye to play a trick on Mr Twit?",a:"She drops it into his mug of beer.",scene:"Mrs Twit keeping her back turned so he cannot see she has taken her eye out."},
+        {q:"How does Mr Twit frighten Mrs Twit while she is in bed?",a:"He hides a frog in her bed, and it crawls over her feet and jumps onto her face.",scene:"Mr Twit catching the frog at the pond and slipping it between the sheets."},
+        {q:"What does Mrs Twit mix into the spaghetti on Mr Twit's plate?",a:"Worms dug up from the garden.",scene:"Mrs Twit covering the worms with tomato sauce and grated cheese so nothing shows."},
+        {q:"Which object does Mr Twit secretly lengthen each night to convince Mrs Twit she is shrinking?",a:"Her walking stick, he adds a tiny piece of wood every night.",scene:"Mr Twit also adding wood to her chair legs so her feet no longer reach the floor."},
+        {q:"Where does Mrs Twit land when she floats back down from the sky?",a:"Right on top of Mr Twit.",scene:"Mr Twit in the garden with his beer, certain he has seen the last of her, when she floats silently down."}]},
+      {section:"Section 2 · Inside the Twits' Home",items:[
+        {q:"How does the narrator describe the Twits' house from the outside?",a:"It looks like a prison with no windows at all.",scene:"Mr Twit explaining he did not want people peeping in, not realising windows are mainly for looking out."},
+        {q:"What does Mrs Twit grow in the garden around the house?",a:"Thistles and stinging-nettles.",scene:"Mrs Twit explaining she grows them to keep out nasty nosey little children."},
+        {q:"Which sticky substance does Mr Twit paint on the Big Dead Tree each week?",a:"A sticky glue called HUGTIGHT.",scene:"Mr Twit painting the branches the day before Bird Pie Wednesday so birds land not knowing."},
+        {q:"How do the four boys escape the sticky tree?",a:"They unbutton their trousers, slip out of them, drop to the ground, and run home.",scene:"Mr Twit reaching the top of the ladder just as the boys tumble free."},
+        {q:"How do the young monkeys react when they stand on their heads for too long?",a:"They sometimes faint because too much blood rushes to their heads.",scene:"Mr Twit watching and not caring when the monkey children collapse."},
+        {q:"Which bird arrives from Africa and can talk to the English birds?",a:"The Roly-Poly Bird.",scene:"The bird landing on the monkey cage and explaining he can travel anywhere in the world for free."},
+        {q:"What do the Twits decide to buy when the birds keep avoiding the glue?",a:"A gun each.",scene:"Mrs Twit suggesting big shotguns that spray fifty bullets a bang."},
+        {q:"What does Muggle-Wump announce he is going to do to the Twits?",a:"Turn both Mr and Mrs Twit upside down.",scene:"Muggle-Wump shouting that they will stand on their heads for hours so they feel what it is like."}]},
+      {section:"Section 3 · The Twits Get Their Comeuppance",items:[
+        {q:"How do the monkeys and birds prepare the living room ceiling?",a:"They paint HUGTIGHT glue all over the ceiling so everything sticks to it.",scene:"Monkeys hopping on each other's shoulders and birds carrying paint-brushes in their claws."},
+        {q:"Which pieces of furniture are stuck upside down to the ceiling?",a:"The table, chairs, sofa, lamps, carpet, and everything else in the room.",scene:"The animals hoisting each piece into its right position before the Twits return."},
+        {q:"What do two ravens do to the tops of the Twits' heads just before they enter?",a:"They brush a streak of sticky glue onto both their heads.",scene:"The Twits feeling a light touch and assuming a bird dropped on them, rushing in to wash it off."},
+        {q:"How do the Twits get their heads stuck to the floor?",a:"They stand on their heads and the glue on their hair sticks them fast.",scene:"Mr Twit wriggling but held as tightly as the birds once were in the branches."},
+        {q:"Where do the monkeys go after the Twits are trapped?",a:"Up to the big wood on the hill, where they build a tree-house in the tallest tree.",scene:"Crows and magpies nesting around the tree-house so no one on the ground can see it."},
+        {q:"What does the Roly-Poly Bird offer to do when the cold weather comes?",a:"Carry the monkeys one at a time on his back and fly them home to Africa.",scene:"The Roly-Poly Bird warning that English winters can freeze a bird's feet to the branch."},
+        {q:"How do the Twits' bodies change while stuck upside down?",a:"Their heads shrink into their necks, their necks into their bodies, until nothing is left.",scene:"Mr Twit still wriggling and blaming Mrs Twit as the shrinking begins."},
+        {q:"What does Fred find on the floor when he peeps into the house?",a:"Two bundles of old clothes, two pairs of shoes, and a walking-stick.",scene:"Fred the gas man getting no reply at the door and peeping through a gap to find out why."}]}]
+  },
+
+  campfire:{
+    trueShadow:{name:"Willful Dismissal",desc:"The refusal to look at, listen to, or remember what is already there. Across the collection this dismissal is what exposes characters to harm, and in the final story it pulls the reader into the same logic."},
+    elements:{fields:[
+      ["Setting — physical","The title story unfolds at a present-day campground in the woods; the final story takes place across the page itself, between the writer who set the words down and the reader holding the book now."],
+      ["Setting — time","The title story spans a single summer evening; the final story stretches across the centuries the Wanderban has spent fading and lands in the present moment of reading."],
+      ["Setting — society","An ordinary present-day world shaped by adult confidence, social hierarchy, and the casual habit of dismissing what is small, quiet, or strange."],
+      ["Point of view","First-person across both anchor stories, breaking into second-person in the final story to address the reader directly. First-person dominates, but third-person limited and brief second-person turns also appear."],
+      ["Tone","Wry, deadpan, and quietly menacing, with a conspiratorial edge in the final story where the narrator speaks directly to the reader."]],
+      foreshadow:["Mr. Dwerkin's hoisted food sack, tied up to protect the food, it draws the bear straight to camp","Dwerkin's lecture that predators fear fire, the line the bear crosses minutes later","The Wanderban's opening lines, revealed at the end as the words whispered into Lubar's mind","The Wanderban's plan statement, so the closing address arrives already expected"]},
+    archetypes:{
+      characters:[["David Lubar, the Teller of Tales","Creator → Innovator","Builds the collection's stories from ideas that arrive in his mind, including the one the Wanderban slips into him."],
+        ["The Reader","Everyman → Silent Majority","Stands among the silent mass whose long inattention let the Wanderban fade in the first place."],
+        ["Sarah","Everyman → Realist","Reads the situation as it is and keeps naming the bear the adults refuse to see."],
+        ["Rupert","Everyman → Good Person","Trusts his older sister's read and follows her away from the firelight."],
+        ["Mom & Dad","Caregiver → Parent","Try to protect their children by handing them to an experienced camper, the exact mistake that endangers them."],
+        ["Mr. Dwerkin","Sage → Shadow Elitist","Hoards his camping expertise as the foundation of his self-worth and rejects every correction."],
+        ["The Wanderban","Lover → Shadow Seducer","Manipulates a writer and a reader for the attention it needs in order to exist at all."]],
+      objects:[["The Campfire","Magician → Visionary","Promises safety from inside its circle of light, the very perception that fails."],
+        ["The Wanderban's Name","Magician → Shadow Deceiver","Deceives whoever speaks it, carrying the monster back the moment it is heard."],
+        ["The 'What If' Question","Sage → Philosopher","The engine behind every story, opening an ordinary situation onto an extraordinary cost."]],
+      forces:[["The Campground Woods","Magician → Arcanist","Holds untold secrets, including the bear, and gives them up only when it is too late."],
+        ["Forgotten Monsters","Innocent → Shadow Victim","Holds the creatures whose innocence has been taken advantage of by the world's long forgetting."],
+        ["The Page","Creator → Artist","Expresses the writer's imagination and carries it across to the reader on a single surface."]]},
+    character:[
+      {n:"David Lubar, the Teller of Tales",lines:["<b>Goal</b>, write down the story that has arrived in his mind, the way he writes any other.","<b>Motivation</b>, treats new ideas as gifts from nowhere and trusts the work of turning them into stories.","<b>Values</b>, receptivity, craft, story; prizes the idea that arrives unbidden, the exact opening the Wanderban needed.","<b>Traits</b>, Receptive, Disciplined (+); Unquestioning, Complicit (−).","<b>Development</b>, Flat / Static. He holds steady as the writer the Wanderban needs; his habit of receiving an idea and writing it down makes him the perfect vessel."]},
+      {n:"The Reader",lines:["<b>Goal</b>, read the story through to its closing line.","<b>Motivation</b>, opened the book to be moved, frightened, or surprised, and follows the writer's voice.","<b>Values</b>, attention, trust, completion, the exact opening the Wanderban needs.","<b>Traits</b>, Attentive, Trusting (+); Compliant, Complicit (−).","<b>Development</b>, Flat / Dynamic. Personality unchanged, but their role shifts from witness to participant; the closing address recruits them."]},
+      {n:"The Wanderban",lines:["<b>Goal</b>, return to the world by being written about and named again.","<b>Motivation</b>, cannot exist without belief, which requires both a writer and a reader.","<b>Values</b>, attention, fear, name.","<b>Traits</b>, Patient, Persuasive (+); Predatory, Manipulative (−).","<b>Development</b>, Flat / Static. Unchanging; waits centuries for the chain of writer and reader to reconnect."]}],
+    allusions:[["The Tree Outside Ricky's Window","Literary, The Giving Tree","Inverts Silverstein's unconditional generosity into a tree that remembers what was taken and will not forgive it."],
+      ["The Green-Stoned Necklace","Literary / Mythological, Aladdin's lamp","Primes the reader for a trap: granted wishes carry hidden costs, and cleverness can't beat a being older than the bargain."],
+      ["Amy's Eternal Walk","Philosophical, Zeno's Paradox","Drops a teenager into the paradox itself, turning the lesson she dismissed in class into her own situation."]],
+    allusionAlt:"Alternatives: the clown in 'Mr. HooHaa' (Stephen King's It) · Vince's transformation in 'Mug Shots' (Kafka's Metamorphosis) · the captured leprechaun in 'Cat Napped' (Irish folklore).",
+    symbols:[["The Campfire","Civilization"],["The Whisper","Belief"],["The Bug","Submission"]],
+    symbolAlt:"Alternatives: The Spinning Sand = Power · The Witch List = Betrayal · The Pierced Ear = Vulnerability.",
+    conflict:[["Sarah vs. Mr. Dwerkin","Character vs. Character","He refuses to hear Sarah and Rupert's caution, telling his story until his last breath."],
+      ["Mr. Dwerkin vs. The Woods","Character vs. Nature","The bear, drawn by his own mishandled food, kills him at the fire he built to keep it away."],
+      ["The Wanderban vs. Being Forgotten","Character vs. Fate","It completes the chain by writing itself into the story the reader is now finishing."],
+      ["The Reader vs. David Lubar","Character vs. Character","The chain of writer and reader embraces the Wanderban's pleas, and the monster steps back into the world."]],
+    conflictAlt:"Alternatives: Rusty vs. the Established Rules, Self vs. Society ('Head of the Class') · Tucker vs. the Endless Game, Character vs. Fate ('Tied Up') · Andrew vs. the Clown's Real Face, Character vs. Character ('Mr. HooHaa').",
+    theme:[["Arrogance","Treating one's own certainty as proof of safety creates the very danger it denies.","kin: The Emperor's New Clothes"],
+      ["Attention","What goes unseen does not stop existing, and what we choose to ignore is usually what eventually finds us.","kin: The Velveteen Rabbit"],
+      ["Temptation","Wanting something badly enough to ignore its cost is how the world catches you.","kin: The Little Mermaid"]],
+    comprehension:[
+      {section:"Section 1 · The Opening Act",items:[
+        {q:"'Mr. HooHaa!', Why does Andrew decide to watch Mr. HooHaa remove his makeup?",a:"He hopes seeing what Mr. HooHaa really looks like will cure his fear, the way seeing inside a vacuum cured his brother's fear of it.",scene:"Andrew peeping through the van window while Mr. HooHaa sits at the makeup table before driving away."},
+        {q:"'Spin', Why does Jimmy ignore the screams he hears from below the climbing fort?",a:"He is so used to being screamed at that he doesn't realise these screams mean something far worse is happening.",scene:"Jimmy on the fort platform spinning the sand as shouts rise briefly from below and then stop."},
+        {q:"'Tied Up', How does Tucker realise the baseball game is somewhere he needs to escape from?",a:"Kent's real wounds and Coach Wagner's broken neck tell him the game is a place people are stuck when caught between life and death.",scene:"Tucker near the dugout taking stock of everything wrong before approaching Coach Wagner."},
+        {q:"'Predators', What does the narrator's closing thought about the internet show about why he uses it?",a:"It shows he isn't looking for friendship but for prey, and the internet makes it easy to find people who come to him.",scene:"The narrator walking away from the quarry, reflecting that the internet is the best way to meet the right people."},
+        {q:"'The Unforgiving Tree', What does Ricky's father reveal that shows the threat is bigger than Ricky understood?",a:"His father reminds him he carved his initials into every tree in the yard, and Ricky sees they have all moved closer, the danger was never one tree.",scene:"Ricky's father warning him after the crew cuts the tree down; every other tree has shifted closer with branches rustling in still air."},
+        {q:"'Eat a Bug', What does Debbie's warning about chewing reveal about what she has actually given Laura?",a:"The warning shows the bug is alive and able to hatch, something is now growing inside Laura that she cannot take back.",scene:"Debbie telling Laura not to chew, because chewing would stop the eggs."},
+        {q:"'Touch the Bottom', How does the narrator's final hope show the way he sees the creature?",a:"He hopes the first creature to reach the surface will be a kid like him, showing he sees it as something like himself rather than a threat.",scene:"The narrator back on the surface, thinking about what he and the creature have in common."},
+        {q:"'Alexander Watches a Play', How does his own reaction show he can't follow the advice he gives the actor?",a:"He shouts at the frozen actor to run, but when he finds himself on a stage with the balcony falling, he freezes exactly the same way.",scene:"Alexander in the audience as the play shifts around him until he realises he is standing on a stage."}]},
+      {section:"Section 2 · The Closing Act",items:[
+        {q:"'Inquire Within', Why does Deliah add Quinn's name to the list?",a:"She wants to keep all the reward money for herself and stop Quinn from claiming a share.",scene:"Deliah alone after Quinn leaves, adding Quinn's name to the bottom of the witch list."},
+        {q:"'Three', What is the consequence of Dennis's mother reaching three?",a:"Every parent on the street walks out at the same moment, the count was a real trigger affecting every family, not just Dennis's.",scene:"Dennis pinned by his friends as every front door on the street opens at once."},
+        {q:"'Sniffles', What does the narrator's action at Dr. Grande's car show about how he handles being wronged?",a:"He rubs poison ivy on the door handle before confronting him, he already knew words wouldn't be enough and had the real revenge in place first.",scene:"The narrator watching Dr. Grande's car pull out of the lot after the conversation."},
+        {q:"'Sidewalk Chalk', How does the creature from Cindy's drawing prove her warning to Tracy was right?",a:"The dinosaur proves her warning right: she told Tracy she was a bad artist, and the drawing proves exactly that.",scene:"Cindy finishing her driveway drawing and realising the shape is not the puppy she meant to draw."},
+        {q:"'Head of the Class', What does Rusty's wish show about the danger of getting exactly what you ask for?",a:"His wish is granted so exactly that his misspelled 'any body' is read as correct and he loses his body, getting what you asked for can go wrong in ways you never imagined.",scene:"Rusty looking down after Mrs. Grimkin reads 'any body' aloud and realising there is nothing below his neck."},
+        {q:"'Halfway Home', How does Amy's situation on the road show the lesson she ignored in class was right?",a:"The lesson she called stupid is exactly what is happening to her, she ignored the one thing that could have explained why she's trapped.",scene:"Amy walking toward the stop sign, getting closer but never arriving as the day darkens."},
+        {q:"'Mug Shots', Why does Vince end up worse off than the others despite staying calm?",a:"He enjoyed watching Keaton struggle instead of helping, so when he turns invisible and can't smash his own mug, no one can see him to help.",scene:"Vince watching rabbit-Keaton nudge a chair toward the counter, then holding up his hands and seeing nothing there."},
+        {q:"'Forgotten Monsters', Why can the Wanderban not return without both a writer and a reader?",a:"It needs the writer to put its story into the world and the reader to fear its name, without both, the chain that brings it back is broken.",scene:"The Wanderban describing its plan and then addressing the reader directly, calling on them to whisper its name."}]},
+      {section:"Section 3 · The Big Picture",items:[
+        {q:"'The Curse of the Campfire Weenies', What does the ending suggest about why this story names the whole collection?",a:"Dwerkin, certain he knew best, is taken by the danger he waved away, the sharpest example of what happens across the collection when someone is too sure of themselves.",scene:"Sarah and Rupert in the trees listening as Dwerkin's scream goes on far longer than a ghost story ending would require."},
+        {q:"'The Curse of the Campfire Weenies', What does the story's early placement in the anthology suggest about its role?",a:"At story eight of thirty-five, it arrives early, meant to set the tone for everything that follows rather than sit at the end as a reward.",scene:"The story sitting eighth in a collection of thirty-five, met by a reader who hasn't yet seen most of the anthology."},
+        {q:"Reader Selected, Does the character end up with what they wanted, or does the ending take it away?",a:"Oswald doesn't get the gold because Raffi already traded the leprechaun for a can of tuna, the deal he thought he was making had already been made.",scene:"'Cat Napped', Oswald returning with the soup pot to find the leprechaun gone and a can of tuna beside Raffi."},
+        {q:"Reader Selected, What one thing does your character do that directly causes the ending?",a:"Karen switches gold for silver in the deal with Izma, that single act of trying to be clever locks her into an arrangement that endangers her.",scene:"'The Genie of the Necklace', Karen rejecting the gold candlestick and insisting on silver."},
+        {q:"Reader Selected, Why does your character not see the danger until it is too late?",a:"Ben is so locked into his Saturday routine that he can't tell the living world from the one he's trapped in, he has no idea he died two years ago when the shop burned down.",scene:"'The Soda Fountain', a young girl telling Ben that he and Mr. Paulson both died two years ago when the shop burned down."},
+        {q:"Reader Selected, How does the ending make you feel?",a:"More funny than frightening: Connie survived a nightmare of her own making and the worst result was a slightly off-centre hole, making her final line a joke she doesn't know she's telling.",scene:"'Puncturation', Connie checking her reflection in a shop window, noticing the hole is off and saying it could be worse."},
+        {q:"Overarching, How do most characters respond when warned about something?",a:"Most ignore or wave away warnings, usually the exact choice that causes the ending to happen to them.",scene:"Tucker ('Tied Up'), Ricky ('The Unforgiving Tree'), and Dwerkin ('The Curse of the Campfire Weenies') all ignoring warnings."},
+        {q:"Overarching, Which story would make a stronger title for the anthology?",a:"'Forgotten Monsters' would make a strong title, the only story that speaks directly to the reader and asks them to take part, capturing what the whole collection is trying to do.",scene:"The Wanderban addressing the reader directly in the final lines as the reason it could stand for everything in the anthology."}]}]
+  },
+
+  hitchhiker:{
+    trueShadow:{name:"Cosmic Meaninglessness",desc:"The universe's fundamental indifference to significance, the realization that scale, answers, and survival may all be structurally unrelated to purpose. It grants characters exactly what they seek (answers, planets, escape) only to reveal meaning was never attached to any of it."},
+    elements:{fields:[
+      ["Setting — physical","Suburban England and outer space, Arthur's house, the Heart of Gold, and Magrathea. The setting moves rapidly from the ordinary to the cosmic, collapsing the familiar scale of human experience."],
+      ["Setting — time","Contemporary present-day Earth expanding outward across millions of years of computed cosmic history. The disproportion between human time and cosmic time generates the central tension."],
+      ["Setting — society","Galactic civilization organized around bureaucracy, commerce, and the management of meaning. Every act of significance, planetary destruction, the search for truth, is treated as scheduled work."],
+      ["Point of view","Third-person omniscient, with editorial intrusions by the Guide, which interrupts to deliver definitions that undercut emotional moments with bureaucratic detachment."],
+      ["Tone","Deadpan absurdist, tilted toward cosmic melancholy, technical precision applied to nonsense, the Guide flattening horror into trivia, and Marvin voicing the despair the others refuse to feel."]],
+      foreshadow:["The towel entry, signals preparation will matter more than meaning","Earth's third-place intelligence ranking, sets up the mice reveal","The philosophers' strike, foreshadows the Answer's futility before it is delivered","The bowl of petunias' 'Oh no, not again', hints at cycles of meaning never explained"]},
+    archetypes:{
+      characters:[["Arthur Dent","Everyman → Realist","Grounds the reader in ordinary human logic while the universe destabilizes around him."],
+        ["Ford Prefect","Explorer → Wanderer","Moves through the galaxy without destination, collecting experience."],
+        ["Zaphod Beeblebrox","Outlaw → Shadow Criminal","Steals the Heart of Gold and the presidency for reasons he can't fully access."],
+        ["Trillian (Tricia McMillan)","Explorer → Seeker","Left Earth with an astrophysics degree and an open question, choosing departure over the planet's limits."],
+        ["Marvin","Sage → Philosopher","Articulates the cosmic futility the narrative only implies, the novel's chorus of despair."],
+        ["Slartibartfast","Creator → Artist","Designs coastlines as aesthetic works; treats planet-building as craft, not commerce."],
+        ["Prostetnic Vogon Jeltz","Ruler → Aristocrat","Announces Earth's destruction with the weary entitlement of an official treating protocol as privilege."],
+        ["Deep Thought","Sage → Mentor","Delivers the long-awaited Answer with majestic calm, then explains the question was never properly formed."],
+        ["The Mice","Sage → Shadow Elitist","Hoard the truth of the Earth experiment and negotiate to buy Arthur's brain as a substitute for the Question."],
+        ["Eddie the Shipboard Computer","Caregiver → Support","Offers assistance reliable in form and useless in substance."],
+        ["The Dolphins","Sage → Expert","Understand Earth's purpose better than humans ever did, and leave with a parting message."]],
+      objects:[["The Answer (42)","Magician → Shadow Deceiver","Promises resolution and delivers a value that can't be interpreted without the question it was meant to answer."],
+        ["The Babel Fish","Magician → Arcanist","Dissolves the barrier between species through a biological mechanism that reads as magic."],
+        ["The Infinite Improbability Drive","Jester → Trickster","Moves the ship by making the impossible statistically inevitable, narrative logic as a running joke."],
+        ["The Hitchhiker's Guide","Sage → Detective","Catalogs the galaxy, presenting partial truths and outdated findings with the confidence of a complete report."]],
+      forces:[["The Vogon Constructor Fleet","Ruler → Shadow Tyrant","Enforces galactic infrastructure protocol by demolishing worlds on schedule."],
+        ["Magrathea","Hero → Rescuer","Offers refuge, revelation, and the evidence that meaning was once an industry."],
+        ["Earth","Innocent → Shadow Victim","The unknowing subject of a cosmic experiment, destroyed five minutes before its purpose completes."],
+        ["The Hyperspace Bypass","Outlaw → Iconoclast","Breaks the continuity of a planetary civilization for administrative efficiency."]]},
+    character:[
+      {n:"Arthur Dent",lines:["<b>Goal</b>, find a stable point of reference in a universe that has stripped away every familiar coordinate.","<b>Motivation</b>, has lost home, planet, and species context, and searches for orientation by instinct.","<b>Values</b>, ordinary human logic, politeness, the expectation that effort should correlate with outcome.","<b>Traits</b>, Persistent, Resilient (+); Bewildered, Passive (−).","<b>Development</b>, Round / Static. He accumulates experience without transformation, and that refusal to grow is the point: cosmic revelation produces not wisdom but fatigue, and his unchanged ordinariness is what lets the absurdity register."]},
+      {n:"Ford Prefect",lines:["<b>Goal</b>, keep moving, gather experience, and file research for the Guide while staying unattached to any world.","<b>Motivation</b>, fifteen years stranded on Earth as a roving researcher; treats rootlessness as profession and temperament.","<b>Values</b>, curiosity, mobility, low-stakes survival; meaning found in motion, not destination.","<b>Traits</b>, Resourceful, Loyal (+); Casual, Detached (−).","<b>Development</b>, Round / Static. He models the Wanderer's orientation toward a purposeless universe; his consistency is his function, what survival looks like when meaning is not an expected outcome."]},
+      {n:"Marvin",lines:["<b>Goal</b>, have his suffering acknowledged and his intelligence recognized by a universe he believes structurally indifferent.","<b>Motivation</b>, a brain the size of a planet employed to open doors, a disproportion he experiences as ongoing existential injury.","<b>Values</b>, intellectual depth and honest despair; the only character willing to name the meaninglessness the others ignore.","<b>Traits</b>, Articulate, Reliable (+); Depressive, Resentful (−).","<b>Development</b>, Round / Static. The narrative's Philosopher; his permanence is the point, the universe does not redeem him, because redemption is the kind of meaning the novel has ruled out."]}],
+    allusions:[["The Guide (as reference work)","Literary, Baedeker / Encyclopaedia Galactica","Preserves the reassuring voice of the encyclopedia while undermining its authority, turning the familiar form into the novel's central comic register."],
+      ["Life, the Universe, and Everything","Teleological / Theological, the grand unifying question","Invokes the human project of seeking one principle that explains existence, then converts it into an engineering problem and a punchline."],
+      ["Pan Galactic Gargle Blaster","Mythological / Cultural, mead of poetry, Homeric wine","Places a cosmic-scale beverage in the tradition of drinks conferring vision or oblivion, then keeps only the oblivion."]],
+    allusionAlt:"Alternatives: Deep Thought (SF supercomputers and classical oracles) · the Answer of 42 (numerology, Kabbalah, Carroll's puzzles) · the Restaurant at the End of the Universe (Christian eschatology, Ragnarök).",
+    symbols:[["The Towel","Preparedness"],["The Heart of Gold","Improbability"],["Tea","Familiarity"]],
+    symbolAlt:"Alternatives: The Yellow Bulldozer = Demolition · The Dressing Gown = Domesticity · Magrathea's Surface = Abandonment.",
+    conflict:[["Arthur Dent vs. The Vogons","Character vs. Society","Arthur loses both his house and his planet, bureaucratic procedure outweighs any individual claim to existence."],
+      ["Trillian vs. Recognition","Character vs. Self","She keeps running the ship's real analysis while Zaphod takes credit, resolving through her quiet refusal to stop functioning at the level required."],
+      ["The Mice vs. the Deep Meaning of Life","Society vs. Fate","The planet is destroyed five minutes before completion; the mice settle for a marketable substitute question, revealing meaning was always a commercial product."],
+      ["Zaphod vs. Ford Prefect","Character vs. Character","They reach an equilibrium where Zaphod claims authority and Ford manages the logistics, the bond runs on Ford accommodating Zaphod's performance for proximity to his recklessness."]],
+    conflictAlt:"Alternatives: Marvin vs. His Own Intelligence, Character vs. Self · The Magratheans vs. the Galactic Economy, Society vs. Society · The Whale vs. Gravity, Character vs. Nature.",
+    theme:[["Meaning","The search for meaning can produce precise answers that remain useless, because meaning depends on the question, not the response.","kin: Slaughterhouse-Five"],
+      ["Survival","Survival in an indifferent universe is a matter of preparation and improvisation, not significance or merit.","kin: Catch-22"],
+      ["Cosmic Authority","Cosmic authority operates through procedure rather than wisdom, and its power is indistinguishable from its paperwork.","kin: The Trial"]],
+    comprehension:[
+      {section:"Section 1 · Don't Panic (Yet)",items:[
+        {q:"Why does Arthur lie down in front of the bulldozer rather than argue or leave?",a:"Making himself an obstacle is the only defence he can reach before he can find the words for why the house matters.",scene:"Arthur throwing himself flat in front of the advancing bulldozer within fifteen seconds."},
+        {q:"What does Ford's choice of 'Ford Prefect' as his Earth name tell us about the limits of research?",a:"He picked a car model because his data told him it was common, knowing a culture from outside cannot substitute for knowing what it feels like inside.",scene:"The narration explaining Ford skimped on his research and thought the name nicely inconspicuous."},
+        {q:"When the barman hears the world is ending and responds with football commentary, what does his reaction tell us?",a:"Unprocessable information is not rejected but routed around, and the conversation already happening fills the gap.",scene:"Ford announcing the world's end, the barman replying 'nice weather for it' and returning to the match."},
+        {q:"What does the Guide's entry on towels tell us about how competence gets judged in unfamiliar situations?",a:"A single visible marker stands in for everything a stranger cannot verify, so possession of the towel reads as proof of total readiness.",scene:"The Guide entry on the psychological value a towel carries with anyone who meets a hitchhiker who has one."},
+        {q:"What does the Vogons using every speaker on Earth for a two-sentence demolition notice tell us about bureaucratic systems?",a:"The delivery infrastructure receives the same care regardless of the message, a planet's destruction handled with the technical attention of any other task.",scene:"Every radio, tin can, and window on Earth activating to produce perfect quadrophonic sound for the notice."},
+        {q:"How does Zaphod's role as President tell us what political leadership is actually for?",a:"The job is not to hold power but to distract attention from whoever does, a performance that keeps the public from looking in the right direction.",scene:"The narration explaining only six people understand the President's function is to attract attention rather than govern."},
+        {q:"Arthur runs through whole continents unmoved but collapses at the thought of a McDonald's hamburger. What does this tell us about how grief works?",a:"The scale of the loss is too large to register, but one specific, ordinary thing breaks through because it is small enough to be real.",scene:"Arthur passing out at the thought that there is no longer any such thing as a McDonald's hamburger."},
+        {q:"What pattern emerges from every catastrophe being absorbed by procedure, announcement, or small talk?",a:"The systems process destruction and routine with the same procedural calm, as though scale is simply not a variable they account for.",scene:"The planning notice, the Vogon broadcast, the barman's commentary, and Prosser's procedures each treated alike."}]},
+      {section:"Section 2 · Bureaucracy, Meaning, and the Shape of Absurdity",items:[
+        {q:"Arthur praises the Vogon captain's poetry and the captain softens, then ejects them anyway. What does this tell us about appealing to someone's desire to be understood?",a:"The decision to eject them was already made before the poem was read, reaching someone's desire to be understood changes nothing when the outcome is not theirs to give.",scene:"Arthur praising the poem's imagery, the Vogon softening for a moment, then ordering them thrown out regardless."},
+        {q:"What do the survival odds, two to the power of 267,709 to one against, tell us about staying alive in this universe?",a:"Survival at those odds cannot be planned for or deserved, so the difference between living and dying has nothing to do with merit.",scene:"The Guide entry on the odds against rescue within thirty seconds of ejection into open space."},
+        {q:"How does Zaphod's reaction to the impossible rescue confirm what the novel has already established about him?",a:"He cannot account for it mathematically and cannot bring himself to care enough to press the question, enthusiasm without examination.",scene:"Zaphod on the bridge learning the ship picked up Ford and Arthur by itself, shrugging it off."},
+        {q:"What does Marvin's response to collecting two passengers tell us about intelligence with nothing proportionate to do?",a:"It does not rest, it turns on whatever it is given and treats it with contempt.",scene:"Marvin announcing he has a brain the size of a planet and has been asked to take two people down a corridor."},
+        {q:"Arthur confronts Zaphod about a party in Islington as Trillian walks in. What does this collision of lives tell us about coincidence in this universe?",a:"The distances crossed make the pattern feel too dense to be accidental, yet nothing in the story confirms there is any pattern at all.",scene:"Arthur recognising Zaphod as the man who took Tricia at the party, Trillian appearing at the far end of the bridge."},
+        {q:"The defence missiles become a whale that spends its seconds of life trying to understand its existence. What does this tell us about what the universe offers consciousness?",a:"The universe produces consciousness without any concern for whether it will have the time or the conditions to use what it discovers.",scene:"The whale naming its stomach, the wind, and its tail before the approaching ground and the wet thud."},
+        {q:"The only thought of the falling bowl of petunias is 'oh no, not again.' What does this tell us about the history the universe contains?",a:"It implies a life already lost to this kind of event before, a universe populated by histories of repeated misfortune no one will stop to trace.",scene:"The bowl of petunias materialising alongside the whale and falling with the single recorded thought."},
+        {q:"What pattern emerges from characters being affected by forces that have no awareness of them?",a:"Coincidence, automation, and improbability do the work choice cannot, what happens to the characters is consistently unrelated to anything they decided.",scene:"The improbable rescue, the Drive transformations, the missile from a five-million-year recording, Arthur saving the ship by touching the wrong switch."}]},
+      {section:"Section 3 · The Answer Is Never the Answer",items:[
+        {q:"Arthur describes the binary sunset as mountains of fire; Marvin confirms he has seen it and calls it rubbish. What does this exchange tell us?",a:"Marvin has the same experience and registers none of what Arthur feels, wonder is not a property of what is seen but of the capacity the observer brings to it.",scene:"Arthur in rapture at the binary sunset, Marvin calling it rubbish and going back to sleep."},
+        {q:"Slartibartfast leads Arthur through Magrathea without urgency or apology. What does his manner tell us about how the Magratheans understood their own work?",a:"They experienced it as craft and nothing more; what their creations were used for was simply never part of how they thought about the job.",scene:"Slartibartfast escorting Arthur underground, mentioning the Earth's destruction in passing without regret."},
+        {q:"Slartibartfast calls a ten-million-year project destroyed five minutes early 'bureaucracy for you.' What does this tell us about the scale at which indifference operates?",a:"Framing enormous loss as a minor inconvenience shows indifference does not shrink when consequences grow, it expands to contain them.",scene:"Slartibartfast adding the remark without pausing after describing the Earth's destruction."},
+        {q:"What does Deep Thought's delivery of '42' tell us about the relationship between having an answer and knowing what was asked?",a:"The answer is correct and useless at the same time, reaching a conclusion and understanding the question are entirely separate processes.",scene:"Deep Thought announcing 'Forty-two' with calm, then noting the real problem is they never knew the question."},
+        {q:"Loonquawl and Phouchg were selected at birth to hear the answer. What does their role tell us about a purpose that outlasts the people who carry it?",a:"The purpose has consumed two lives and produced nothing usable, inherited purpose without living understanding becomes a vessel that outlasts its meaning.",scene:"The two trained since birth sitting before Deep Thought, hearing 'Forty-two' with no idea what to do with it."},
+        {q:"The mice admit that by the end the experiment was largely habit. What does this tell us about grand purpose and the passage of time?",a:"A search for the ultimate question continued only because stopping would take more thought than going on, even the most ambitious purpose can hollow into routine.",scene:"Frankie mouse telling Arthur that after ten million years it had become largely habit."},
+        {q:"The story ends not with resolution but with the crew heading off to eat. What does this closing movement tell us?",a:"The ordinary does not give way in the presence of the cosmic but continues alongside it, and that persistence may be the most honest response available.",scene:"Arthur reading the Guide before Zaphod interrupts to announce they are off to the Restaurant at the End of the Universe."},
+        {q:"Across the novel, what does the repeated failure to find meaning tell us about the search itself?",a:"Every search ends in absurdity or incompletion, yet the characters keep moving and the novel refuses to call it defeat, the search justifies itself regardless of what it finds.",scene:"Earth destroyed before the Question is retrieved, 42 delivered without context, the crew heading for a restaurant."}]}]
+  },
+
+  cat:{
+    trueShadow:{name:"The Sea of Words",desc:"The corrupted form of human connection: language drifts past meaning, and what most needs to be said stays unsaid. It belongs to no single character, it is the condition of the human world the cats observe."},
+    elements:{fields:[
+      ["Setting — physical","A modern Tokyo suburb organized around a single elevated train line, apartments, art studios, and an older house along its slope. Shared cat territories are the connective tissue the humans cannot see."],
+      ["Setting — time","Roughly one year of contemporary urban life, structured by the cycle of seasons. Spring frames both ends, making loss part of a continuing cycle."],
+      ["Setting — society","Contemporary Japan, organized around restraint and indirection. The unspoken is the normal medium of relationship, and the reason every relationship quietly fails."],
+      ["Point of view","Alternating first-person, shifting between the cat and the human in each section, two interior voices per relationship, never at once."],
+      ["Tone","Quiet melancholy warmed by tenderness; the cats hold grief at a distance while the seasonal frame keeps sorrow from feeling permanent."]],
+      foreshadow:["Chobi's severance from the world, the thread nearly snapping","The unlabeled mailbox, Miyu's life not yet claimed","Mama Shiro's disappearance, support vanishing before it can be secured","Jon's talk of eternity, death redefined, a true wish granted"]},
+    archetypes:{
+      characters:[["Chobi","Lover → Partner","Loves Miyu as the fact of his continued life; stays through every silence."],
+        ["Miyu","Everyman → Realist","Holds the middle ground between hope and disappointment; anchors ordinary recovery."],
+        ["Nobu","Lover → Shadow Seducer","Uses words to hold attention without commitment; Miyu mistakes frequency for sincerity."],
+        ["Kuro","Outlaw → Wild Person","Refuses domestication until Jon's death obligates him, chosen attachment is still wild."],
+        ["Jon","Sage → Philosopher","Questions the structure of life itself, distributing wisdom across the neighborhood."],
+        ["Aoi","Innocent → Shadow Victim","Grief immobilizes her when someone she loved dies before she could speak."],
+        ["Reina","Creator → Artist","Expresses through paint what she cannot say; her crisis comes when that channel closes."],
+        ["The Boss","Magician → Shadow Deceiver","Reframes predation as professional opportunity."],
+        ["Mari","Lover → Sensualist","Lived through shared pleasure with Aoi; her absence is the loss of a way of being."],
+        ["Shino","Caregiver → Altruist","Spent her life nursing others; her recovered authority lets her protect Ryota."],
+        ["Tasuke","Ruler → Shadow Tyrant","Arrives with hired men, assuming no one will refuse him, until Shino does."]],
+      objects:[["Jon's Collar","Ruler → Aristocrat","Marks inherited authority, shed when he releases it to Kuro."],
+        ["Painting","Creator → Innovator","Reina's only language for what she cannot say; its abandonment marks her collapse."],
+        ["The Phone","Caregiver → Support","Carries relationships through messages that arrive too late, or never."]],
+      forces:[["The Neighborhood","Caregiver → Parent","Holds the four households in overlapping cat territories that braid the stories."],
+        ["Snow","Innocent → Utopian","Falls at moments of reset, offering each story a fresh, unspoiled beginning."],
+        ["Jon's Garden","Outlaw → Iconoclast","The space where the cats receive counsel; the meeting-place even after Jon is gone."]]},
+    character:[
+      {n:"Chobi",lines:["<b>Goal</b>, stay close to Miyu and carry what she cannot.","<b>Motivation</b>, severed from the world once, he loves her as the fact of his life.","<b>Values</b>, devotion, attention, presence; the clearest answer to the Sea of Words.","<b>Traits</b>, Loyal, Observant (+); Sentimental, Passive (−).","<b>Development</b>, Round / Static. He does not change, and that is the point, the witness to one woman's life."]},
+      {n:"Miyu",lines:["<b>Goal</b>, be in the world the way others seem to be, able to read and say what she feels.","<b>Motivation</b>, believes her difficulty with language is a flaw; wants to stop hurting people.","<b>Values</b>, honesty, care, quiet competence.","<b>Traits</b>, Attentive, Honest (+); Self-blaming, Avoidant (−).","<b>Development</b>, Round / Dynamic. Ends able to recognize that she was the one rescued on the rainy day she found Chobi."]},
+      {n:"Jon",lines:["<b>Goal</b>, settle his accounts before he dies; ensure Shino and the cats are cared for.","<b>Motivation</b>, knows the unsaid hardens into harm; wants to leave none of it behind.","<b>Values</b>, memory, attention, transmission, the deliberate counterforce to the Sea of Words.","<b>Traits</b>, Patient, Generous (+); Roundabout, Resigned (−).","<b>Development</b>, Round / Static. Already finished when the book begins; walks into the dark to become the felt presence he predicted."]}],
+    allusions:[["Kamata-sensei quotes Miyazawa","Literary / Cultural, 'Kokubetsu'","Impermanence as the condition under which devotion becomes meaningful; attention exercised now, not preserved."],
+      ["Jon's story of the divided sexes","Philosophical / Mythological, Plato's Symposium","Aristophanes' myth: love as the wound of primordial division. Loneliness is a condition of being alive."],
+      ["Jon's leaf-creature paradise","Mythological / Religious, Edenic / Golden Age","The loss of original simplicity as the price of choice; tenderness is what survives hunger and striving."]],
+    allusionAlt:"Alternatives: Chobi's severance = enishi (karmic thread) · Cookie's name (naming animals after foods) · Jon walking into eternity (the animal who leaves to die in snow).",
+    symbols:[["The Train","The World's Heartbeat"],["The Misanga","A Wish"],["The Camphor Tree","Patient Witness"]],
+    symbolAlt:"Alternatives: Jon's Kennel = Inherited Counsel · Chobi's Cardboard Box = The Severed Self · Reina's White Canvas = Possibility Before Risk.",
+    conflict:[["Miyu vs. The Sea of Words","Character vs. Self","She loses Nobu and Tamaki by speaking too late, but the crisis breaks her silence."],
+      ["Reina vs. The Boss","Character vs. Character","She throws him out but loses her competition and her belief that talent alone protects."],
+      ["Aoi vs. The World Outside","Character vs. Society","She forces herself out to rescue Cookie and, by the epilogue, is back at work."],
+      ["The Cats vs. Their Owner's Sorrow","Nature vs. Fate","They cannot remove the sorrow, but their presence is what each owner returns to the world through."]],
+    conflictAlt:"Alternatives: Mimi vs. Her Body (Character vs. Nature) · Shino vs. Tasuke (Character vs. Character) · Jon vs. Mortality (Character vs. Fate).",
+    theme:[["Connection","Connection is sustained less by what is said than by who remains present after the conversation fails.","kin: The Remains of the Day"],
+      ["Loneliness","Loneliness is the structural condition of being a separate self, not a failure of effort, treating it as a flaw makes it harder to bear.","kin: Convenience Store Woman"],
+      ["Witness","Being seen by another is what makes a self continuous through grief, and the witness need not share a language.","kin: The Travelling Cat Chronicles"]],
+    comprehension:[
+      {section:"Section 1 · Voices, Connection, and Loneliness",items:[
+        {q:"When Miyu finds Chobi in the rain, what does their meeting reveal about what each needs?",a:"Chobi has no reason to hold on and Miyu has just left Nobu without saying what she needed; the meeting gives both the connection neither could ask for otherwise.",scene:"The cat in the rain unable to lift his head; the woman crouching before tucking him inside her jacket."},
+        {q:"What does Miyu's preference for documents over conversation reveal about her relationship to language?",a:"She chooses tasks and people that don't require her to speak, she understands what connection needs but cannot produce it.",scene:"Miyu at work choosing document tasks and drifting through Nobu's chatter."},
+        {q:"How does learning the hilltop territory belonged to his mother Shiro change Chobi's sense of place?",a:"Jon's gift tells him he is not a stray accident but the continuation of a life that existed before him.",scene:"Chobi meeting Jon in the garden, mistaken at first for Shiro."},
+        {q:"What do Chobi and Mimi's daily meetings show each is looking for?",a:"Mimi needs someone who returns no matter what; Chobi sees in her open hunger a reflection of what he feels for Miyu but cannot say.",scene:"Mimi demanding he promise to return the next day as they wait for rain."},
+        {q:"What does losing both Tamaki and Nobu on the same day reveal about Miyu's silence?",a:"The silence that protected the two relationships is the silence that collapsed them both at once.",scene:"Tamaki revealing she had liked Nobu; Miyu ending it with Nobu three days later."},
+        {q:"When Miyu tells Reina the work is worth pursuing, what can she offer others that she can't offer herself?",a:"She gives Reina the directness she has never managed for her own life.",scene:"Miyu in Reina's studio, telling her the work is good and the year is not lost."},
+        {q:"What does Mimi's response after the Boss assaults Reina show about their bond?",a:"Reina insisted she could not keep a cat, but Mimi stays through the night, the bond now stronger than her refusal.",scene:"Reina sinking to the floor; Mimi coming in and sleeping beside her."},
+        {q:"How does Chobi's run through the snow to fetch Reina show what the bonds across both stories made possible?",a:"Every accumulated connection between the two stories is being called on at once.",scene:"Chobi finding Mimi in labour and biting her tail before running for Reina."}]},
+      {section:"Section 2 · Guilt, Protection, and the Courage to Move",items:[
+        {q:"What does Aoi's outburst at Mari reveal about how she understood their partnership?",a:"She treated the stopped stories as laziness, blind to her own dependence on the partnership.",scene:"Mari apologising that the stories won't come; Aoi yelling 'Drop dead.'"},
+        {q:"How does Kuro's view of Aoi's closed house reveal her condition before we enter?",a:"Withered plants and a dirty tray show she has stopped the small daily rhythms that keep a life going.",scene:"Kuro on the balcony finding the curtains drawn and the tray dirty with rainwater."},
+        {q:"How does Aoi's dream of inventing Mari's forgiveness show what guilt is doing to her?",a:"She wakes knowing she constructed the forgiveness for her own comfort, guilt writes even her sleep.",scene:"The misanga bell tinkling as little Mari appears and says it cannot be helped."},
+        {q:"What does Cookie's first impression of Aoi's room reveal that Aoi's narration can't?",a:"Cookie smells the hunted and the declining, translating Aoi's internal guilt into something observable.",scene:"Cookie smelling weakness and prey in the room; the sting of Aoi's fingers."},
+        {q:"What does Cookie's exchange with Kuro reveal about how she sees her situation?",a:"She accepts him as a fellow guardian rather than a threat once he names his connection to Jon.",scene:"Cookie punching the glass at Kuro's arrival; Kuro naming himself the boss."},
+        {q:"When Aoi slams the door on her mother on the anniversary, what does it show about wanting to feel versus controlling it?",a:"The Aoi who wants to heal is unrecognisable to the one who has to act.",scene:"Her mother arriving to take her to Mari's grave; Aoi pushing her out."},
+        {q:"How does the misanga snagging on the door handle show what had been holding Aoi in place?",a:"What locked her was not the inability to want to go but the impossibility of choice.",scene:"The misanga sliding off the handle into Aoi's hand as she slumps against the door."},
+        {q:"How does Cookie escaping and leading Aoi back to Reina's show the two chapters were one story?",a:"Both motions arrive at the same point, moving toward another rather than waiting is what both chapters were about.",scene:"Cookie and Aoi calling to each other outside Reina's building."}]},
+      {section:"Section 3 · Warmth, Loss, and Choosing to Live",items:[
+        {q:"What does Jon's story of the leaf creatures reveal about how he sees living and losing?",a:"He sees loss and difficulty not as diminishments but as the conditions that make life strong enough to continue.",scene:"Jon and Kuro sharing the meatball plate as Jon explains paradise never lasts."},
+        {q:"How does Jon calling his death 'becoming eternity' show what he wants to leave behind?",a:"By making his death impossible to witness, he leaves not a grave but an open question.",scene:"Jon removing his collar in the moonlight and walking into the dark."},
+        {q:"What does Shino's account of her nursing years reveal about care that is never returned?",a:"Care given without any of it returned can reduce a person's own life to a long disappearance.",scene:"Shino on the veranda describing her in-laws and her husband's absence."},
+        {q:"How do Kuro's small daily choices at Shino's house show a bond forming between two who didn't choose each other?",a:"The bond grows out of practical everyday decisions and becomes what keeps both of them going.",scene:"Kuro settling into Jon's kennel, accepting Shino's cooking and the walks."},
+        {q:"What does Ryota's arrival and recovery give Shino that her caregiving never did?",a:"For the first time, the experience of care that is actually wanted.",scene:"Ryota collapsed on the veranda, gradually becoming a receptive pupil."},
+        {q:"When Shino faces Tasuke calmly, what does it show she has become?",a:"Her years of endurance have turned into deliberate choice.",scene:"Shino opening the door to Tasuke and his men, refusing to move."},
+        {q:"What makes the convergence at the top of the hill a turning point for everyone?",a:"Four different paths pulling toward the same place show every thread was moving toward this without knowing.",scene:"Kuro running through the snow to the small park at the top of the hill."},
+        {q:"What does the ending suggest became possible for each character who began in isolation?",a:"Every character who could not reach outward at the start has found the connection that made it possible.",scene:"Miyu realising she was the one rescued as the blossoms drift down."}]}]
+  }
+};
+
+let state={book:"campfire",area:null,len:"short"};
+
+function renderBooks(){
+  const box=document.getElementById("books");box.innerHTML="";
+  Object.entries(BOOKS).forEach(([k,v])=>{
+    const b=document.createElement("button");
+    b.className="opt"+(state.book===k?" sel":"")+(v.keyed?"":" disabled");
+    b.innerHTML=`${v.title}<span class="sub">${v.author} · ${v.level}${v.keyed?"":" · pending"}</span>`;
+    if(v.note)b.title=v.note;
+    if(v.keyed){b.onclick=()=>{state.book=k;renderBooks();if(state.area)build();};}
+    box.appendChild(b);
+  });
+}
+function renderAreas(){
+  const box=document.getElementById("areas");box.innerHTML="";
+  Object.entries(METH).forEach(([k,v])=>{
+    const b=document.createElement("button");
+    b.className="opt"+(state.area===k?" sel":"");
+    const tail=v.isComp?"Q &amp; A · scene refs":(v.week.split("—")[0].trim()+" · "+v.emphasis);
+    b.innerHTML=`${v.name}<span class="sub">${tail}</span>`;
+    b.onclick=()=>{state.area=k;renderAreas();syncLen();build();};
+    box.appendChild(b);
+  });
+}
+function syncLen(){document.getElementById("lenblock").style.opacity=(state.area&&METH[state.area].isComp)?".4":"1";}
+document.getElementById("length").addEventListener("click",e=>{
+  const btn=e.target.closest("[data-len]");if(!btn)return;
+  state.len=btn.dataset.len;
+  [...document.querySelectorAll("#length .opt")].forEach(o=>o.classList.toggle("sel",o===btn));
+  if(state.area)build();
+});
+
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function rows(list){return list.map(r=>`<div class="krow"><span class="kname">${esc(r[0])}</span> <span class="ktag">${esc(r[1])}</span>${r[2]?`<div class="kdesc">${esc(r[2])}</div>`:""}</div>`).join("");}
+
+function renderComprehension(book){
+  const K=KEYS[book];
+  return `<div class="compnote">${esc(METH.comprehension.note)}</div>`+
+    K.comprehension.map((s,i)=>`<details class="compsec"${i===0?" open":""}><summary>${esc(s.section)}<span>${s.items.length} questions</span></summary><div class="inner">${
+      s.items.map((it,j)=>`<div class="compq"><div class="cq"><span class="n">${j+1}</span>${esc(it.q)}</div><div class="ca">${esc(it.a)}</div><div class="cs"><span class="l">Scene ·</span> ${esc(it.scene)}</div></div>`).join("")
+    }</div></details>`).join("");
+}
+
+function renderKey(area,book){
+  const sec=METH[area].keySection, K=KEYS[book];
+  if(sec==="comprehension") return renderComprehension(book);
+  const lvl=`${esc(BOOKS[book].title)} · ${esc(BOOKS[book].level)} Key`;
+  let body="";
+  const ts=(sec==="archetypes")?`<div class="shadowbar"><div class="h">True Shadow, the story's central distortion</div><div class="name">${esc(K.trueShadow.name)}</div><p>${esc(K.trueShadow.desc)}</p></div>`:"";
+  if(sec==="elements"){const E=K.elements;
+    body=E.fields.map(f=>`<div class="kfield"><b>${esc(f[0])}.</b> ${esc(f[1])}</div>`).join("")
+      +`<div class="kgroup"><div class="kglabel">Foreshadowing</div>${E.foreshadow.map(x=>`<div class="krow"><span class="kdesc">${esc(x)}</span></div>`).join("")}</div>`;}
+  if(sec==="archetypes"){const A=K.archetypes;
+    const shown=A.characters.slice(0,5),rest=A.characters.slice(5);
+    body=`<div class="kgroup"><div class="kglabel">Characters</div>${rows(shown)}${rest.length?`<details class="more"><summary>${rest.length} more characters</summary>${rows(rest)}</details>`:""}</div>`
+      +`<div class="kgroup"><div class="kglabel">Objects / Concepts</div>${rows(A.objects)}</div>`
+      +`<div class="kgroup"><div class="kglabel">Settings / Forces</div>${rows(A.forces)}</div>`;}
+  if(sec==="character"){body=K.character.map(c=>`<div class="kgroup"><div class="kname" style="font-size:15px;margin-bottom:6px">${esc(c.n)}</div>${c.lines.map(l=>`<div class="kfield">${l}</div>`).join("")}</div>`).join("");}
+  if(sec==="allusion"){body=`<div class="kgroup"><div class="kglabel">Allusions</div>${rows(K.allusions)}<div class="alt">${esc(K.allusionAlt)}</div></div>`
+      +`<div class="kgroup"><div class="kglabel">Symbols</div>${K.symbols.map(s=>`<div class="krow"><span class="kname">${esc(s[0])}</span> = <span class="keq">${esc(s[1])}</span></div>`).join("")}<div class="alt">${esc(K.symbolAlt)}</div></div>`;}
+  if(sec==="conflict"){body=`<div class="kgroup">${rows(K.conflict)}<div class="alt">${esc(K.conflictAlt)}</div></div>`;}
+  if(sec==="theme"){body=K.theme.map(t=>`<div class="krow"><span class="kname">${esc(t[0])}</span><div class="kfield" style="margin-top:3px"><span class="keq">"${esc(t[1])}"</span></div><div class="kdesc">${esc(t[2])}</div></div>`).join("");}
+  const wheel=(sec==="archetypes")?`<div class="wheelwrap"><div class="wheelcap"><b>The Crow's Call archetype wheel</b>, the shared framework every Key draws from. Inner ring: the four drives (Order · Freedom · Social · Ego). Outer ring: each archetype and its expressions. Keys read as <b>primary drive → expression or shadow distortion</b>.</div><img class="wheelimg" src="${WHEEL}" alt="Crow's Call archetype wheel"></div>`:"";
+  return ts+wheel+`<div class="keypanel"><div class="keyhead"><span class="t">Answer Key · <b>${esc(METH[area].name)}</b></span><span class="lvl">${lvl}</span></div><div class="keybody">${body}</div></div>`;
+}
+
+function build(){
+  if(!state.area){document.getElementById("areas").animate([{transform:"translateX(0)"},{transform:"translateX(-4px)"},{transform:"translateX(4px)"},{transform:"translateX(0)"}],{duration:220});return;}
+  const A=METH[state.area],B=BOOKS[state.book];
+
+  // Comprehension: no CROW flow, just the sectioned Q&A
+  if(A.isComp){
+    document.getElementById("stage").innerHTML=`
+      <div class="lesson">
+        <div class="lesson-head">
+          <div class="kicker">${esc(B.title)} · ${esc(B.author)} · ${esc(B.level)} Key</div>
+          <h2 class="lesson-title">${esc(A.name)}</h2>
+          <div class="lesson-sub">${esc(A.week)}</div>
+          <div class="standards">
+            <div class="std"><div class="src">CCSS ELA</div><div class="code">${esc(A.ccss.code)}</div><div class="desc">${esc(A.ccss.desc)}</div></div>
+            <div class="std"><div class="src">Korean Curriculum · 2022</div><div class="code">Anchor competency</div><div class="desc">${esc(A.korean)}</div></div>
+          </div>
+        </div>
+        <div class="sectlabel">${esc(B.title)} Key · <b>model responses &amp; scene anchors</b></div>
+        ${renderComprehension(state.book)}
+      </div>`;
+    document.getElementById("stage").scrollIntoView({behavior:"smooth",block:"nearest"});return;
+  }
+
+  const per=state.len==="long"?2:1;
+  const byPhase={};A.acts.forEach(([ph,n,d,p])=>{(byPhase[ph]=byPhase[ph]||[]).push({n,d,p});});
+  let flow="";
+  ORDER.forEach(ph=>{
+    const chosen=(byPhase[ph]||[]).slice(0,per);if(!chosen.length)return;
+    const c=PHASES[ph].color;
+    const acts=chosen.map(a=>`<div class="act"><div class="act-name">${esc(a.n)}<span class="act-tag" style="background:${c}">${ph}</span></div><div class="act-dir">${esc(a.d)}</div><div class="act-why"><span class="l">Why</span>${esc(a.p)}</div></div>`).join("");
+    flow+=`<div class="phase"><div class="node" style="background:${c}">${ph[0]}</div>
+      <div class="phase-card"><div class="phase-top" style="background:${c}"><span class="phase-name">${ph}</span></div>
+      <div class="acts">${acts}</div>
+      <div class="check"><span class="l">Learning check</span>${esc(A.checks[ph])}</div></div></div>`;
+  });
+
+  const keyLabel=A.keySection?`Layer 2 · <b>${esc(B.title)} Key</b>, text-specific analytical content`:`Layer 2 · <b>No key</b>, generative lesson`;
+  const keyBlock=A.keySection?renderKey(state.area,state.book):`<div class="pending"><div class="h">Generative lesson, no fixed key</div><p>Genre Introduction and About the Author are discussion-led. The methodology drives them and the book Key carries no set answers; the analytical lessons all draw on the ${esc(B.title)} Key.</p></div>`;
+
+  document.getElementById("stage").innerHTML=`
+    <div class="lesson">
+      <div class="lesson-head">
+        <div class="kicker">${esc(B.title)} · ${esc(B.author)} · ${state.len==="long"?"Long block":"Short block"}</div>
+        <h2 class="lesson-title">${esc(A.name)}</h2>
+        <div class="lesson-sub">${esc(A.week)} · ${esc(B.level)} level</div>
+        <div class="meta-row"><span class="chip">Cycle emphasis · <b>${esc(A.emphasis)}</b></span><span class="chip">Text · <b>${esc(B.title)}</b></span></div>
+        <div class="standards">
+          <div class="std"><div class="src">CCSS ELA</div><div class="code">${esc(A.ccss.code)}</div><div class="desc">${esc(A.ccss.desc)}</div></div>
+          <div class="std"><div class="src">Korean Curriculum · 2022</div><div class="code">Anchor competency</div><div class="desc">${esc(A.korean)}</div></div>
+        </div>
+      </div>
+      <div class="sectlabel">Layer 1 · <b>Universal methodology</b>, activity sequence with directions, purpose &amp; checks</div>
+      <div class="flow"><div class="spine"></div>${flow}</div>
+      <div class="mindful"><div class="h">Be mindful, designed-in pitfall</div><p>${esc(A.mindful)}</p></div>
+      <div class="sectlabel">${keyLabel}</div>
+      ${keyBlock}
+    </div>`;
+  document.getElementById("stage").scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+
+renderBooks();renderAreas();
+</script>
+</body>
+</html>

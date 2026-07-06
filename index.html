@@ -3,361 +3,596 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nico Orsini · Learning Systems &amp; Instructional Design</title>
+<title>Nico Orsini &middot; Learning Experience Design &amp; Creative Direction</title>
+<meta name="description" content="Nico Orsini: Learning Experience Designer and creative director. Originator of the CROW Methodology. Photography, writing, and brand strategy across Southeast Asia.">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" href="favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=11">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F7E7D8;
+    --cream-2: #F0DAC4;
+    --cream-card: #FBF0E4;
+    --ink: #2B2318;
+    --ink-soft: #4E4433;
+    --ink-faint: #8A7C64;
+    --forest: #48525B;
+    --forest-soft: #566169;
+    --gold: #B9884D;
+    --gold-deep: #8C6531;
+    --rule: rgba(43,35,24,0.14);
+    --rule-strong: rgba(43,35,24,0.26);
+    --display: 'Fraunces', 'Iowan Old Style', Georgia, serif;
+    --sans: 'Archivo', system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    background: #E3DFD6;
+    font-family: var(--sans);
+    color: var(--ink);
+  }
+
+  .app {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 14px;
+    height: calc(100vh - 34px);
+  }
+
+  .panel {
+    background: var(--cream-card);
+    border: 1px solid var(--rule);
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(43,35,24,0.08);
+  }
+
+  .topbar {
+    flex: 0.92;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .topbar-row1 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px 10px;
+    flex-shrink: 0;
+  }
+  .mono-btn {
+    height: 40px;
+    padding: 0 1.3rem;
+    border-radius: 999px;
+    border: 1px solid var(--rule);
+    background: var(--cream);
+    white-space: nowrap;
+    display: flex; align-items: center; gap: 0.65rem;
+    flex-shrink: 0;
+  }
+  .brand-name {
+    font-family: var(--display);
+    font-size: 1.08rem;
+    color: var(--ink);
+  }
+  .brand-divider {
+    width: 1px;
+    height: 16px;
+    background: var(--rule-strong);
+    flex-shrink: 0;
+  }
+  .brand-role {
+    font-family: var(--sans);
+    font-size: 0.78rem;
+    letter-spacing: 0.02em;
+    color: var(--ink-faint);
+  }
+  .tabs { display: flex; gap: 8px; }
+  .tab {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--sans);
+    font-size: 0.78rem;
+    font-weight: 500;
+    padding: 0.45rem 0.9rem;
+    border-radius: 999px;
+    border: 1px solid var(--rule);
+    background: transparent;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .tab--active {
+    background: var(--gold-deep);
+    border-color: var(--gold-deep);
+    color: var(--cream);
+  }
+
+  .mainrow {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 1.75rem;
+    padding: 6px 20px 20px;
+    overflow: hidden;
+  }
+
+  /* group 1: avatar + clock, exactly as paired in the side-rail concept */
+  .group-avatar {
+    flex: 0 0 210px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+  .avatar {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--rule);
+    background: var(--cream-card);
+  }
+  .avatar img { width: 100%; height: 100%; object-fit: cover; object-position: 40% 30%; display: block; }
+  .clock-label {
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .clock-time {
+    font-family: var(--display);
+    font-size: 1.6rem;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+  /* icons live in their own fixed-width column, opposite the clock, so
+     they never shift as the ticking seconds change the number's width */
+  .avatar-footer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+  .avatar-clock { text-align: left; }
+  .avatar-icons { display: flex; gap: 0.35rem; flex-shrink: 0; }
+  .avatar-icons .icon-btn { width: 30px; height: 30px; }
+  .avatar-icons .icon-btn svg { width: 15px; height: 15px; }
+
+  /* wrapper: avatar + bio + tags, with an "About Me" label matching
+     Selected Work's, so both groups start at the same top edge and
+     their actual content (photo/cards) lines up one row below it */
+  .group-about {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 906px;
+  }
+  .about-row {
+    display: flex;
+    width: 100%;
+    gap: 1.75rem;
+  }
+
+  /* group 2: bio */
+  .group-bio {
+    flex: 0 0 460px;
+    display: flex;
+    flex-direction: column;
+  }
+  .bio {
+    font-size: 1.02rem;
+    line-height: 1.75;
+    color: var(--ink-soft);
+    text-align: justify;
+    margin: 0;
+  }
+  .bio em { color: var(--ink); font-style: normal; }
+  /* grid instead of a plain centered flex row: email and WhatsApp read
+     as different lengths, so centering the row as a block still left
+     the divider between them off to one side. equal side columns force
+     the divider itself to the true center, which is what actually reads
+     as balanced. */
+  .bio-contact {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+    margin-top: 1.25rem;
+  }
+  .bio-contact a {
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+    text-decoration: none;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 0.25rem;
+    white-space: nowrap;
+  }
+  .bio-contact a:hover { color: var(--gold-deep); }
+  .bio-contact-divider {
+    width: 1px;
+    height: 1rem;
+    background: var(--rule-strong);
+    flex-shrink: 0;
+  }
+
+  /* group 3: tags */
+  .group-tags {
+    flex: 0 0 180px;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 0.6rem;
+  }
+  .group-tags span {
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    padding: 0.45rem 0.9rem;
+    white-space: nowrap;
+  }
+
+  /* group 4: Selected Work, three columns going down */
+  .group-work {
+    flex: 0 0 700px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-left: 1px solid var(--rule);
+    padding-left: 2rem;
+  }
+  .cards-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 1rem;
+  }
+  .workcols {
+    flex: 1;
+    display: flex;
+    gap: 1.75rem;
+  }
+  .workcol {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+  .card {
+    display: flex;
+    gap: 0.85rem;
+    text-decoration: none;
+    color: inherit;
+    padding: 0.5rem;
+    border-radius: 10px;
+    transition: background 0.2s;
+  }
+  .card:hover { background: var(--cream-2); }
+  .card-thumb {
+    width: 60px; height: 60px;
+    border-radius: 6px;
+    overflow: hidden;
+    flex-shrink: 0;
+    border: 1px solid var(--rule);
+  }
+  .card-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .card-thumb--wheel img { object-position: 50% 73%; transform: scale(1.5); }
+  .card-body { min-width: 0; }
+  .card-title {
+    font-family: var(--display);
+    font-size: 1rem;
+    color: var(--ink);
+    margin: 0 0 0.25rem;
+  }
+  .card-desc {
+    font-size: 0.78rem;
+    line-height: 1.45;
+    color: var(--ink-faint);
+    margin: 0;
+  }
+
+  /* ========= BOTTOM: Frames, capped + shuffle-only, an even 50/50
+     split with the info panel above rather than a slim accent strip ========= */
+  .frames-panel {
+    flex: 1.08;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .frames-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px 8px;
+    flex-shrink: 0;
+  }
+  .icon-btn {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: 1px solid var(--rule);
+    background: var(--cream);
+    color: var(--ink-soft);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+  .icon-btn:hover { background: var(--gold-deep); color: var(--cream); border-color: var(--gold-deep); }
+  .icon-btn svg { width: 14px; height: 14px; }
+
+  /* flex row sized off the panel's own height rather than a grid that
+     stretches tiles to fill the full width, so every frame keeps a true
+     4:5 shape and any leftover width just becomes centered margin */
+  /* tiles fill by width, evenly splitting the row's available space
+     (same 20px padding as topbar-row1/frames-head), so the first and
+     last photo always land flush with Nico/Frames and Info/shuffle
+     instead of drifting based on how tall the panel happens to be */
+  .frames-grid {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+    padding: 0 20px 20px;
+    overflow-x: auto;
+  }
+  .frames-grid::-webkit-scrollbar { height: 6px; }
+  .frames-grid::-webkit-scrollbar-thumb { background: var(--rule-strong); border-radius: 4px; }
+  .frame {
+    display: block;
+    flex: 1 1 0;
+    min-width: 0;
+    max-height: 100%;
+    aspect-ratio: 4 / 5;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid var(--rule);
+    background: var(--cream-card);
+  }
+  .frame img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; }
+  .frame:hover img { transform: scale(1.03); }
+
+  @media (max-width: 1100px) {
+    .mainrow { flex-wrap: wrap; overflow-y: auto; }
+    .group-work { border-left: none; padding-left: 0; flex-basis: 100%; }
+  }
+  @media (max-width: 900px) {
+    body { height: auto; }
+    .app { height: auto; }
+    .topbar { flex: none; }
+    .mainrow { overflow: visible; }
+    .workcols { flex-direction: column; }
+    .frames-grid { flex-wrap: wrap; height: auto; }
+    .frame { flex: 0 0 auto; max-height: none; height: 140px; }
+    .frames-panel { flex-basis: auto; }
+  }
+</style>
 </head>
 <body>
-<nav class="home">
-  <div class="nav-margin"></div>
-  <div class="nav-inner">
-    <a href="index.html" class="nav-name">N. Orsini</a>
-    <ul class="nav-links">
-      <li><a href="index.html" class="active">Home</a></li>
-      <li><a href="crow.html">CROW Methodology</a></li>
-      <li><a href="curriculum.html">Curriculum Architecture</a></li>
-      <li><a href="keys.html">Analytical Keys</a></li>
-      <li><a href="narrative.html">Narrative Analysis</a></li>
-      <li><a href="roll.html">Module I</a></li>
-      <li><a href="poet.html">Module II</a></li>
-    </ul>
-  </div>
-</nav>
 
+<div class="app" id="top">
 
-
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-inner">
-    <div class="hero-pre">
-      <span>Portfolio of Learning Systems</span>
-      <span>·</span>
-      <span>Narrative Instructional Design</span>
-    </div>
-    <div class="hero-name-block">
-      <span class="hero-n1">NICO</span>
-      <div class="hero-band">
-        <span class="hero-band-l">Instructional Designer &nbsp;·&nbsp; Co-Founder, Crow's Call Press</span>
-        <span class="hero-band-r">Busan, South Korea · 2026</span>
+  <!-- TOP BAR -->
+  <div class="panel topbar">
+    <div class="topbar-row1">
+      <div class="mono-btn">
+        <span class="brand-name">Nico Orsini</span>
+        <span class="brand-divider"></span>
+        <span class="brand-role">Learning Experience Design &middot; Creative Direction</span>
       </div>
-      <span class="hero-n2">Orsini</span>
-    </div>
-    <div class="hero-bottom">
-      <p class="hero-desc">I design learning systems that develop advanced reading, reasoning, and writing skills, translating literary interpretation into structured analytical frameworks and scalable curriculum architecture.</p>
-      <div class="hero-cta">
-        <a href="#work" class="btn-primary">View Work</a>
-        <a href="#contact" class="btn-secondary">Get in Touch</a>
+      <div class="tabs">
+        <button class="tab tab--active" style="cursor:default;">Info</button>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- BOOK COVER STRIP -->
-<div class="book-strip">
-  <div class="book-strip-track">
-    <!-- Set 1 - Poetry & Prose, Scripted & Illustrated, Anthologies & Novellas, Coming of Age (each J to O) -->
-    <img src="Covers/Joyful%20Noise.png"                                               class="book-thumb" alt="Joyful Noise">
-    <img src="Covers/Love%20That%20Dog.png"                                            class="book-thumb" alt="Love That Dog">
-    <img src="Covers/Instructions%20for%20Traveling%20West.png"                        class="book-thumb" alt="Instructions for Traveling West">
-    <img src="Covers/Citizen.png"                                                       class="book-thumb" alt="Citizen">
-    <img src="Scripted%20%26%20Illustrated%20Works%20Covers/Be%20Prepared.png"        class="book-thumb" alt="Be Prepared">
-    <img src="Scripted%20%26%20Illustrated%20Works%20Covers/IRL.png"                  class="book-thumb" alt="IRL">
-    <img src="Scripted%20%26%20Illustrated%20Works%20Covers/The%20Many%20Deaths.png"  class="book-thumb" alt="The Many Deaths">
-    <img src="Scripted%20%26%20Illustrated%20Works%20Covers/It's%20Lonely.png"        class="book-thumb" alt="It's Lonely at the Top">
-    <img src="Anthologies%20%26%20Novellas%20Covers/My%20Father's%20Dragon.png"        class="book-thumb" alt="My Father's Dragon">
-    <img src="Anthologies%20%26%20Novellas%20Covers/The%20Hundred%20Dresses.png"       class="book-thumb" alt="The Hundred Dresses">
-    <img src="Anthologies%20%26%20Novellas%20Covers/The%20Royal%20Game.png"            class="book-thumb" alt="The Royal Game">
-    <img src="Anthologies%20%26%20Novellas%20Covers/Castle.png"                        class="book-thumb" alt="Castle">
-    <img src="Coming%20of%20Age%20Covers/Tales.png"                                    class="book-thumb" alt="Tales">
-    <img src="Coming%20of%20Age%20Covers/Bridge.png"                                   class="book-thumb" alt="Bridge">
-    <img src="Coming%20of%20Age%20Covers/A%20Monster%20Calls.png"                      class="book-thumb" alt="A Monster Calls">
-    <img src="Coming%20of%20Age%20Covers/Speak.png"                                    class="book-thumb" alt="Speak">
-    <!-- Set 2 - duplicate for seamless loop -->
-    <img src="Covers/Joyful%20Noise.png"                                               class="book-thumb" alt="Joyful Noise">
-    <img src="Covers/Love%20That%20Dog.png"                                            class="book-thumb" alt="Love That Dog">
-    <img src="Covers/Instructions%20for%20Traveling%20West.png"                        class="book-thumb" alt="Instructions for Traveling West">
-    <img src="Covers/Citizen.png"                                                       class="book-thumb" alt="Citizen">
-    <img src="Scripted%20%26%20Illustrated%20Works%20Covers/Be%20Prepared.png"        class="book-thumb" alt="Be Prepared">
-    <img src="Scripted%20%26%20Illustrated%20Works%20Covers/IRL.png"                  class="book-thumb" alt="IRL">
-    <img src="Scripted%20%26%20Illustrated%20Works%20Covers/The%20Many%20Deaths.png"  class="book-thumb" alt="The Many Deaths">
-    <img src="Scripted%20%26%20Illustrated%20Works%20Covers/It's%20Lonely.png"        class="book-thumb" alt="It's Lonely at the Top">
-    <img src="Anthologies%20%26%20Novellas%20Covers/My%20Father's%20Dragon.png"        class="book-thumb" alt="My Father's Dragon">
-    <img src="Anthologies%20%26%20Novellas%20Covers/The%20Hundred%20Dresses.png"       class="book-thumb" alt="The Hundred Dresses">
-    <img src="Anthologies%20%26%20Novellas%20Covers/The%20Royal%20Game.png"            class="book-thumb" alt="The Royal Game">
-    <img src="Anthologies%20%26%20Novellas%20Covers/Castle.png"                        class="book-thumb" alt="Castle">
-    <img src="Coming%20of%20Age%20Covers/Tales.png"                                    class="book-thumb" alt="Tales">
-    <img src="Coming%20of%20Age%20Covers/Bridge.png"                                   class="book-thumb" alt="Bridge">
-    <img src="Coming%20of%20Age%20Covers/A%20Monster%20Calls.png"                      class="book-thumb" alt="A Monster Calls">
-    <img src="Coming%20of%20Age%20Covers/Speak.png"                                    class="book-thumb" alt="Speak">
+    <div id="view-info" class="mainrow">
+
+      <!-- groups 1-3: avatar, bio, tags, grouped under an "About Me" label
+           that matches Selected Work's, so both sides start level -->
+      <div class="group-about">
+        <div class="cards-label">About Me</div>
+        <div class="about-row">
+
+          <!-- group 1: avatar + clock; icons pinned to a fixed column on
+               the right so they never shift as the seconds tick over -->
+          <div class="group-avatar">
+            <div class="avatar"><img src="Images/Site/hero-bg.jpg" alt="Nico Orsini"></div>
+            <div class="avatar-footer">
+              <div class="avatar-clock">
+                <span class="clock-label">Busan</span><br>
+                <span class="clock-time" id="clock">00:00:00</span>
+              </div>
+              <div class="avatar-icons">
+                <a class="icon-btn" href="https://www.linkedin.com/in/nico-o-863528396/" target="_blank" rel="noopener" title="LinkedIn">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><line x1="8" y1="10" x2="8" y2="16"/><circle cx="8" cy="7" r="0.6" fill="currentColor"/><path d="M12 16v-4a2 2 0 0 1 4 0v4"/></svg>
+                </a>
+                <a class="icon-btn" href="https://www.instagram.com/sleek_neeks" target="_blank" rel="noopener" title="Instagram">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r="0.6" fill="currentColor"/></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- group 2: bio -->
+          <div class="group-bio">
+            <p class="bio">I'm a photographer and designer working internationally throughout Southeast Asia. For several years, I taught literature internationally, where I built <em>CROW</em>, a four-stage framework for readers of every age, from first observation to a reading they could defend. I designed the curricula it lived inside, along with the campaigns that promoted it.</p>
+            <div class="bio-contact" id="contact">
+              <a href="mailto:orsini.ocin@gmail.com">orsini.ocin@gmail.com</a>
+              <span class="bio-contact-divider"></span>
+              <a href="https://wa.me/821057093716" target="_blank" rel="noopener">WhatsApp, +82 10-5709-3716</a>
+            </div>
+          </div>
+
+          <!-- group 3: tags -->
+          <div class="group-tags">
+            <span>Photography</span>
+            <span>Curriculum Design</span>
+            <span>Brand Strategy</span>
+            <span>Editorial Direction</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- group 4: Selected Work, three columns -->
+      <div class="group-work" id="work">
+        <div class="cards-label">Selected Work</div>
+        <div class="workcols">
+
+          <div class="workcol">
+            <a class="card" href="photography.html">
+              <div class="card-thumb"><img src="Images/Photography%20Images/Temple%20Reflection.jog.jpg" alt=""></div>
+              <div class="card-body">
+                <h3 class="card-title">Film &amp; Motion</h3>
+                <p class="card-desc">Fujifilm X100VI</p>
+              </div>
+            </a>
+            <a class="card" href="campaigns.html">
+              <div class="card-thumb"><img src="Images/Crow's%20Call%20Promotional%20Materials/Oedipus%20Rex%20Promo.png" alt=""></div>
+              <div class="card-body">
+                <h3 class="card-title">Book Campaigns</h3>
+                <p class="card-desc">Crow's Call Press</p>
+              </div>
+            </a>
+          </div>
+
+          <div class="workcol">
+            <a class="card" href="crow.html">
+              <div class="card-thumb card-thumb--wheel"><img src="Images/Narrative%20Images/New%20Archetype%20Wheel.png" alt=""></div>
+              <div class="card-body">
+                <h3 class="card-title">CROW Methodology</h3>
+                <p class="card-desc">4-Stage Framework</p>
+              </div>
+            </a>
+            <a class="card" href="crow-lesson-builder.html">
+              <div class="card-thumb"><img src="Images/assets/lesson-builder-icon.jpg" alt=""></div>
+              <div class="card-body">
+                <h3 class="card-title">Lesson Builder</h3>
+                <p class="card-desc">Interactive tool</p>
+              </div>
+            </a>
+          </div>
+
+          <div class="workcol">
+            <a class="card" href="poet.html">
+              <div class="card-thumb"><img src="Images/Intensive%20Covers/The%20Making%20of%20a%20Poet.png" alt=""></div>
+              <div class="card-body">
+                <h3 class="card-title">The Making of a Poet</h3>
+                <p class="card-desc">Poetry curriculum</p>
+              </div>
+            </a>
+            <a class="card" href="roll.html">
+              <div class="card-thumb"><img src="Images/Intensive%20Covers/Roll%20for%20Inspiration.png" alt=""></div>
+              <div class="card-body">
+                <h3 class="card-title">Roll for Inspiration</h3>
+                <p class="card-desc">RPG curriculum</p>
+              </div>
+            </a>
+            <a class="card" href="#">
+              <div class="card-thumb"><img src="Images/Site/Rise%20Mockup.jpg" alt=""></div>
+              <div class="card-body">
+                <h3 class="card-title">Articulate Rise</h3>
+                <p class="card-desc">Coming soon</p>
+              </div>
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
   </div>
+
+  <!-- BOTTOM: FRAMES, capped at 6, shuffle only, sized as an accent -->
+  <div class="panel frames-panel">
+    <div class="frames-head">
+      <div class="tabs">
+        <button class="tab tab--active" style="cursor:default;">Frames</button>
+      </div>
+      <button class="icon-btn" id="shuffle-btn" type="button" title="Shuffle frames">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h4l3 4"/><path d="M4 17h4l7 -10h5"/><path d="M17 4l3 3l-3 3"/><path d="M17 20l3 -3l-3 -3"/></svg>
+      </button>
+    </div>
+    <div class="frames-grid" id="frames-grid"></div>
+  </div>
+
 </div>
-
-<div class="pixel-sep"></div>
-<!-- ABOUT -->
-<div class="section-outer" id="about" style="background: var(--paper-warm);">
-  <div class="section-gutter" style="background: var(--paper-warm);"></div>
-  <div class="section-content" style="max-width: 100%;">
-    <div class="section-head">
-      <span class="section-ref">§ 01</span>
-      <h2 class="section-title">Designing for <em>depth</em></h2>
-    </div>
-    <div class="about-grid">
-      <div>
-        <blockquote class="about-quote">
-          "You must not become a mere peddler of words. The thing to learn is to know what people are thinking about, not what they say."
-          <footer>Sherwood Anderson, <em>Winesburg, Ohio</em></footer>
-        </blockquote>
-        <div class="stamps">
-          <div class="stamp">
-            <span class="stamp-label">Education</span>
-            <span class="stamp-value">BA Honours, English · VCU</span>
-          </div>
-          <div class="stamp">
-            <span class="stamp-label">Credentials</span>
-            <span class="stamp-value">TEFL Excellent · CELTA · Google PM</span>
-          </div>
-          <div class="stamp">
-            <span class="stamp-label">Publisher</span>
-            <span class="stamp-value">Co-Founder · Crow's Call Press</span>
-          </div>
-          <div class="stamp">
-            <span class="stamp-label">Base</span>
-            <span class="stamp-value">Busan, KR · En Route</span>
-          </div>
-        </div>
-      </div>
-      <div class="about-right">
-        <p>I work at the intersection of literary reasoning, curriculum design, and instructional systems, building frameworks that help learners move beyond surface comprehension toward genuine analytical thinking.</p>
-        <p>My work spans structured curriculum architecture, original course materials, and co-authored language learning publications through Crow's Call Press, where I serve as a co-founder and lead instructional designer. Across every project, the goal is the same: build systems that scale, and learning experiences that last.</p>
-        <p>I hold a BA Honours in English from Virginia Commonwealth University and a TEFL certification (Excellent distinction). I am currently based in Busan, South Korea and working toward a role in corporate learning and development.</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- FRAMEWORKS -->
-<div class="section-outer" id="framework">
-  <div class="section-gutter"></div>
-  <div class="section-content" style="max-width: 100%;">
-    <div class="section-head">
-      <span class="section-ref">§ 02</span>
-      <h2 class="section-title">Instructional <em>Frameworks</em></h2>
-    </div>
-
-    <div class="tab-group">
-      <div class="tab-nav">
-        <button class="tab-btn active" data-tab="crow">CROW Methodology</button>
-        <button class="tab-btn" data-tab="narrative">Narrative Analysis</button>
-        <button class="tab-btn" data-tab="arch">Curriculum Architecture</button>
-        <button class="tab-btn" data-tab="keys">Analytical Keys</button>
-      </div>
-
-      <!-- CROW -->
-      <div class="tab-panel active" id="tab-crow">
-        <div class="crow-intro">
-          <p>CROW is a structured analytical learning framework developed to guide students through progressively deeper levels of literary reasoning. Through four phases (Collect, Reframe, Oppose, and Wield), learners move from observation and textual evidence through interpretation, critical challenge, and expressive argument. The system underpins the Junior, Lexis, Mythos, and Opsis literature curricula.</p>
-        </div>
-        <div class="crow-grid">
-          <div class="crow-phase">
-            <div class="crow-letter">C</div>
-            <div class="crow-phase-name">Collect</div>
-            <p class="crow-phase-desc">Activate prior knowledge and gather textual observations. Students brainstorm, identify key details, and connect the text to experience, culture, or prior reading.</p>
-          </div>
-          <div class="crow-phase">
-            <div class="crow-letter">R</div>
-            <div class="crow-phase-name">Reframe</div>
-            <p class="crow-phase-desc">Transform raw observations into literary concepts and structured understanding. Students apply vocabulary (symbolism, POV, tone, archetype) to what they've collected.</p>
-          </div>
-          <div class="crow-phase">
-            <div class="crow-letter">O</div>
-            <div class="crow-phase-name">Oppose</div>
-            <p class="crow-phase-desc">Challenge assumptions through contrast, debate, and critical questioning. Students compare interpretations and evaluate strengths and weaknesses of competing readings.</p>
-          </div>
-          <div class="crow-phase">
-            <div class="crow-letter">W</div>
-            <div class="crow-phase-name">Wield</div>
-            <p class="crow-phase-desc">Apply insights through structured written response and discussion. Students synthesize evidence and interpretation, extending analysis into expressive argument.</p>
-          </div>
-        </div>
-        <a href="crow.html" class="fw-view-link">View Full Framework &rarr;</a>
-      </div>
-
-      <!-- Narrative Analysis -->
-      <div class="tab-panel" id="tab-narrative">
-        <p class="lens-intro">The Narrative Analysis System is the interpretive layer of the Crow's Call curriculum. Where the CROW Methodology defines how students move through a text, the Narrative Analysis System defines what they are examining at each stage. Three recurring lenses apply across every text and level, building cumulative interpretive skill rather than isolated task completion.</p>
-
-        <div class="subsection-label">Analytical Lenses</div>
-        <div class="lens-grid">
-          <div class="lens-card">
-            <div class="lens-title">Archetypes</div>
-            <p class="lens-body">Character classification within the Order / Freedom / Ego / Social framework. Students identify motivational drives and shadow distortions, justifying placements through narrative behavior rather than surface description.</p>
-          </div>
-          <div class="lens-card">
-            <div class="lens-title">Allusions &amp; Symbolism</div>
-            <p class="lens-body">Two distinct analytical operations. Allusions connect the text to an external cultural reference; symbolism traces recurring objects through the narrative and articulates the abstract idea each carries.</p>
-          </div>
-          <div class="lens-card">
-            <div class="lens-title">Theme Analysis</div>
-            <p class="lens-body">Topic to thematic statement to textual evidence. Claims must be universal, arguable, and grounded in the text. The three-step process trains students to construct defensible literary argument rather than locate predetermined readings.</p>
-          </div>
-        </div>
-        <a href="narrative.html" class="fw-view-link">View Full Framework &rarr;</a>
-      </div>
-
-      <!-- Curriculum Architecture -->
-      <div class="tab-panel" id="tab-arch">
-        <p class="lens-intro">The four curricula (Junior, Lexis, Mythos, and Opsis) are structured as a connected progression, each level expanding on the skills introduced in the one before. What changes across levels is the complexity of the texts, the sophistication of the analytical language expected, the depth of critical debate required, and the precision of written response demanded.</p>
-        <p class="lens-intro">The curriculum is organized around a consistent twelve-month genre sequence, from Poetry &amp; Prose through Social &amp; Natural Sciences, ensuring every level encounters the same genre at the same time while the analytical demands differ substantially by level. Text selection is assessed against four criteria: analytical yield, language level, conflict potential, and representational range.</p>
-        <a href="curriculum.html" class="fw-view-link">View Full Framework &rarr;</a>
-      </div>
-
-      <!-- Analytical Keys -->
-      <div class="tab-panel" id="tab-keys">
-        <div class="lens-intro">
-          <p>The Crow's Call curriculum operates on a distinction between two levels of instructional document: the <strong>methodology</strong>, which establishes the transferable analytical architecture used across all levels and texts, and the <strong>analytical key</strong>, which applies that architecture to a specific literary work. Standard answer keys fail literary instruction in a predictable way: they model one interpretation as the correct interpretation. The Crow's Call keys were designed to resolve this tension, providing example responses that demonstrate analytical precision and framing them explicitly as starting points rather than endpoints.</p>
-          <p>Each key follows a consistent seven-section structure (Literary Elements, Archetypes, Character Maps, Allusions &amp; Symbolism, Conflict Analysis, Comprehension Questions, and Theme Analysis) and includes both primary and alternative interpretive pathways throughout, reflecting the curriculum's core commitment that analysis must be defensible, not singular.</p>
-        </div>
-        <a href="keys.html" class="fw-view-link">View Full Framework &rarr;</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="pixel-sep"></div>
-<!-- PROJECTS -->
-<div class="section-outer" id="work" style="background: var(--paper-warm);">
-  <div class="section-gutter" style="background: var(--paper-warm);"></div>
-  <div class="section-content" style="max-width: 100%;">
-    <div class="section-head">
-      <span class="section-ref">§ 03</span>
-      <h2 class="section-title">Selected <em>Projects</em></h2>
-    </div>
-    <div class="projects-grid">
-
-      <div class="project-card">
-        <div class="project-cover roll">
-          <img src="Intensive%20Covers/Roll%20for%20Inspiration.png" alt="Roll for Inspiration cover">
-        </div>
-        <div class="project-body">
-          <div class="project-type">Crow's Call Press · Narrative Learning Module</div>
-          <h3 class="project-title">Roll for Inspiration: A Narrative Role-Playing Learning Module</h3>
-          <p class="project-desc">A narrative role-playing module designed to develop creative writing and structured storytelling skills through tabletop RPG mechanics. Students build characters, navigate scenarios, and produce written reflections connecting personal narrative to literary form.</p>
-          <div class="project-meta">
-            <span class="tag">Narrative Design</span>
-            <span class="tag">Curriculum Architecture</span>
-            <span class="tag">Creative Writing</span>
-          </div>
-          <a href="roll.html" class="project-view-link">View Project &rarr;</a>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-cover poet">
-          <img src="Intensive%20Covers/The%20Making%20of%20a%20Poet.png" alt="The Making of a Poet cover">
-        </div>
-        <div class="project-body">
-          <div class="project-type">Crow's Call Press · Poetry Writing Module</div>
-          <h3 class="project-title">The Making of a Poet: A Creative Poetry Writing Module</h3>
-          <p class="project-desc">A structured module guiding learners through the craft of poetry, from reading with analytical attention to producing original work. Balances technical instruction with creative exploration, scaffolded for EFL learners developing expressive writing skills.</p>
-          <div class="project-meta">
-            <span class="tag">Poetry</span>
-            <span class="tag">EFL</span>
-            <span class="tag">Creative Writing</span>
-          </div>
-          <a href="poet.html" class="project-view-link">View Project &rarr;</a>
-        </div>
-      </div>
-
-      <div class="project-card coming-soon">
-        <div class="project-cover rise">
-          <div class="rise-typo">
-            <div class="rise-label">In Development</div>
-            <div class="rise-title">From<br>Delivery<br>to<br>Discussion</div>
-            <div class="rise-sub">Articulate Rise · 2026</div>
-          </div>
-        </div>
-        <div class="project-body">
-          <div class="project-type">L&amp;D · Articulate Rise</div>
-          <h3 class="project-title">From Delivery to Discussion: A Facilitator Feedback Module</h3>
-          <p class="project-desc">A scenario-based corporate e-learning module in design phase. A facilitator onboarding experience built around written feedback practices, translated into an interactive, discussion-centred format using Articulate Rise.</p>
-          <div class="project-meta">
-            <span class="tag">E-Learning</span>
-            <span class="tag">Articulate Rise</span>
-            <span class="tag">L&amp;D</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-<div class="pixel-sep"></div>
-<!-- CONTACT -->
-<div class="contact-outer" id="contact">
-  <div class="contact-gutter"></div>
-  <div class="contact-content">
-    <div>
-      <div class="contact-section-ref">§ 04</div>
-      <h2 class="contact-title">Collect good problems.<br>Reframe what's possible.<br>Oppose what isn't working.<br><em>Wield with me.</em></h2>
-      <p class="contact-sub">Available now. Remote or EU-based.</p>
-    </div>
-    <div class="contact-blocks">
-      <a href="mailto:orsini.ocin@gmail.com" class="contact-block">
-        <div class="contact-block-icon">
-          <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-        </div>
-        <div class="contact-block-label">Email</div>
-      </a>
-      <a href="https://www.linkedin.com/in/nico-o-863528396/" target="_blank" class="contact-block">
-        <div class="contact-block-icon">
-          <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-        </div>
-        <div class="contact-block-label">LinkedIn</div>
-      </a>
-      <a href="https://crowscallpress.com" target="_blank" class="contact-block">
-        <div class="contact-block-icon">
-          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-        </div>
-        <div class="contact-block-label">Publisher</div>
-      </a>
-      <a href="https://www.instagram.com/crowscall.press/" target="_blank" class="contact-block">
-        <div class="contact-block-icon">
-          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-        </div>
-        <div class="contact-block-label">Instagram</div>
-      </a>
-    </div>
-  </div>
-</div>
-
-<footer>
-  <div class="footer-inner">
-    <span class="footer-name">Nico Orsini · Learning Systems &amp; Instructional Design</span>
-  </div>
-  <p class="footer-copy">© 2026 Nico Orsini.</p>
-  <p class="footer-privacy">This site does not collect or store personal data.</p>
-</footer>
 
 <script>
-  // Nav scroll state
-  const nav = document.querySelector('nav');
-  const heroHeight = () => window.innerHeight * 0.85;
-  const updateNav = () => nav.classList.toggle('scrolled', window.scrollY > heroHeight());
-  window.addEventListener('scroll', updateNav, { passive: true });
-  updateNav();
+  // live clock, Busan time
+  function updateClock(){
+    var now = new Date();
+    var fmt = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Seoul', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+    var el = document.getElementById('clock');
+    if (el) el.textContent = fmt.format(now);
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
 
-  document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const group = btn.closest('.tab-group');
-      group.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      group.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-      btn.classList.add('active');
-      group.querySelector('#tab-' + btn.dataset.tab).classList.add('active');
+  // frames pool: kept identical to photography.html's actual gallery list.
+  // if you add or remove photos there, mirror the change here too.
+  var PHOTOS = [
+    { src: "Images/Photography%20Images/Lucky%20Day.jpg", alt: "Neon-lit night market alley" },
+    { src: "Images/Photography%20Images/Dark%20Buddha.jpg", alt: "Buddha statue viewed from behind, flanked by two standing monk statues, at dusk" },
+    { src: "Images/Photography%20Images/City%20Tops.jpg", alt: "Black and white aerial view of a dense city block" },
+    { src: "Images/Photography%20Images/Red%20Wood%20Wall.jpg", alt: "Row of orange shrine gate posts inscribed with Japanese characters" },
+    { src: "Images/Photography%20Images/Alley%20Temple.jpg", alt: "Temple facade lit at dusk" },
+    { src: "Images/Photography%20Images/Smal%20Rail%20Car.jpg", alt: "Empty train car interior, doors open to a platform" },
+    { src: "Images/Photography%20Images/Greenery.jpg", alt: "Dense field of lotus leaves" },
+    { src: "Images/Photography%20Images/Pink%20Flowers.jpg", alt: "Close-up of pink and white bougainvillea flowers" },
+    { src: "Images/Photography%20Images/Statue.jpg", alt: "Carved stone guardian figure detail at a Thai temple" },
+    { src: "Images/Photography%20Images/City%20Bridge.jpg", alt: "Suspension bridge leading to a hillside temple above a lake" },
+    { src: "Images/Photography%20Images/Golden%20Temple.jpg", alt: "Kinkaku-ji, the Golden Pavilion, framed by pine branches" },
+    { src: "Images/Photography%20Images/Lighthouse.jpg", alt: "Red-domed lighthouse against open sea" },
+    { src: "Images/Photography%20Images/Temple%20Reflection.jog.jpg", alt: "Floating pavilion reflected in a still lake, Bangkok" },
+    { src: "Images/Photography%20Images/Temple%20Tops.jpg", alt: "Ornate gilded temple spires against a clear sky, Bangkok" },
+    { src: "Images/Photography%20Images/Coffee%20Shop%20Ceiling.jpg", alt: "Sculptural wing-like installation of wood and dried branches beneath a glass skylight" },
+    { src: "Images/Photography%20Images/Red%20Wall%20Demon.jpg", alt: "Black and white striped sculptural creature against a brick wall" },
+    { src: "Images/Photography%20Images/Cat.jpg", alt: "Black and white cat sitting alone before shuttered storefronts" },
+    { src: "Images/Photography%20Images/Japanese%20Cards.jpg", alt: "Wooden wish plaques with handwritten messages, tied with red string" },
+    { src: "Images/Photography%20Images/Horse%20Sign.jpg", alt: "Weathered enamel sign with a horse figure, tangled in overgrown greenery" },
+    { src: "Images/Photography%20Images/Car%20Trailer.jpg", alt: "Vintage travel trailer parked in a grassy field" }
+  ];
+
+  function renderFrames(){
+    var grid = document.getElementById('frames-grid');
+    if (!grid) return;
+    var pool = PHOTOS.slice();
+    for (var i = pool.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = pool[i]; pool[i] = pool[j]; pool[j] = tmp;
+    }
+    var pick = pool.slice(0, 6);
+    grid.innerHTML = '';
+    pick.forEach(function(p){
+      var a = document.createElement('a');
+      a.className = 'frame';
+      a.href = 'photography.html';
+      a.title = 'View on Film & Motion';
+      var img = document.createElement('img');
+      img.src = p.src;
+      img.alt = p.alt;
+      a.appendChild(img);
+      grid.appendChild(a);
     });
-  });
+  }
+  renderFrames();
+
+  var shuffleBtn = document.getElementById('shuffle-btn');
+  if (shuffleBtn) shuffleBtn.addEventListener('click', renderFrames);
 </script>
 
 </body>

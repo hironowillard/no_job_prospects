@@ -4,58 +4,34 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Roll for Inspiration · Nico Orsini</title>
+<meta name="description" content="Roll for Inspiration: a tabletop-RPG based creative writing module designed by Nico Orsini.">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" href="favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=10">
-<style>
-.spec-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; max-width: 640px; margin: 1.5rem 0 2.5rem; }
-  .spec-list li { font-size: 0.86rem; color: var(--ink-soft); display: flex; gap: 0.75rem; align-items: baseline; line-height: 1.75; }
-  .spec-list li::before { content: '·'; color: var(--navy); opacity: 0.4; flex-shrink: 0; font-family: var(--mono); }
-  .mockup-gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; margin: 2rem 0 3rem; }
-  .mockup-gallery img { width: 100%; height: auto; display: block; border: 1px solid var(--rule-strong); }
-  .unit-list { display: flex; flex-direction: column; gap: 1px; background: var(--rule-strong); border: 1px solid var(--rule-strong); margin: 2rem 0; }
-  .unit-item { background: var(--paper-card); padding: 1.25rem 1.75rem; transition: background 0.15s; }
-  .unit-item:hover { background: var(--navy-faint); }
-  .unit-header { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 0.5rem; }
-  .unit-num { font-family: var(--mono); font-size: 0.6rem; color: var(--gold); letter-spacing: 0.1em; text-transform: uppercase; flex-shrink: 0; min-width: 4.5rem; }
-  .unit-name { font-family: var(--serif); font-size: 1.15rem; font-weight: 400; color: var(--ink); }
-  .unit-subs { padding-left: 5.5rem; display: flex; flex-direction: column; gap: 0.25rem; }
-  .unit-sub { font-size: 0.8rem; color: var(--ink-muted); line-height: 1.65; padding-left: 1rem; position: relative; }
-  .unit-sub::before { content: '-'; position: absolute; left: 0; color: var(--ink-muted); opacity: 0.5; }
-  @media (max-width: 900px) { .mockup-gallery { grid-template-columns: 1fr; } }
-  @media (max-width: 600px) { .unit-subs { padding-left: 1rem; } }
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=48">
 </head>
 <body>
-<nav>
-  <div class="nav-margin"></div>
-  <div class="nav-inner">
-    <a href="index.html" class="nav-name">N. Orsini</a>
-    <ul class="nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="crow.html">CROW Methodology</a></li>
-      <li><a href="curriculum.html">Curriculum Architecture</a></li>
-      <li><a href="keys.html">Analytical Keys</a></li>
-      <li><a href="narrative.html">Narrative Analysis</a></li>
-      <li><a href="roll.html" class="active">Module I</a></li>
-      <li><a href="poet.html">Module II</a></li>
-    </ul>
-  </div>
+
+<nav id="siteNav">
+  <a href="index.html#top" class="nav-name">Nico Orsini</a>
+  <ul class="nav-links">
+    <li><a href="index.html#top">Who I Am</a></li>
+    <li><a href="index.html#work">Work</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
 </nav>
 
-
-
 <!-- HERO -->
-<div class="subpage-hero">
-  <div class="subpage-hero-margin"></div>
-  <div class="subpage-hero-body">
-    <div class="subpage-breadcrumb">
-      <a href="index.html">N. Orsini</a> <span>·</span> Projects
-    </div>
-    <div class="subpage-subtitle">Narrative Learning Module</div>
+<div class="subpage-hero" id="roll-hero">
+  <div class="subpage-hero-inner">
+    <div class="subpage-breadcrumb"><a href="index.html#work">Selected Work</a></div>
+    <div class="subpage-eyebrow">Narrative Learning Module</div>
     <h1 class="subpage-title">Roll for <em>Inspiration</em></h1>
-    <div class="subpage-meta">
+    <div class="subpage-meta-row">
       <div class="subpage-meta-item">
         <span class="subpage-meta-label">Role</span>
         <span class="subpage-meta-value">Instructional Designer / Curriculum Author</span>
@@ -68,25 +44,17 @@
         <span class="subpage-meta-label">Audience</span>
         <span class="subpage-meta-value">Multi-level learners (B1-B2)</span>
       </div>
-      <div class="subpage-meta-item">
-        <span class="subpage-meta-label">Publisher</span>
-        <span class="subpage-meta-value">Crow's Call Press</span>
-      </div>
     </div>
   </div>
 </div>
 
-<div class="pixel-sep"></div>
-
-<!-- OVERVIEW -->
-<div class="section-outer">
-  <div class="section-gutter"></div>
-  <div class="section-content">
-    <div class="section-head">
-      <span class="section-ref">§ 01</span>
-      <h2 class="section-title"><em>Overview</em></h2>
+<!-- 01 Overview -->
+<div class="subpage-section">
+  <div class="subpage-section-inner">
+    <div class="subpage-section-head">
+      <h2 class="subpage-section-title">Overview</h2>
     </div>
-    <div class="body-text">
+    <div class="subpage-body">
       <p><em>Roll for Inspiration</em> is a narrative role-playing learning module that adapts tabletop game mechanics for collaborative language development. Students design characters, build shared worlds, and navigate structured encounters that require improvisation, strategic thinking, and applied literacy. Through guided storytelling and reflection, learners develop confidence in narrative expression and collaborative problem-solving.</p>
       <p>Inspired by tabletop role-playing games such as <em>Dungeons &amp; Dragons</em>, this educational resource allows students to practice English literacy, comprehension, and applied storytelling through collaborative play. By combining elements of game design with the mechanics of immersive world-building, students are guided to use their language skills to construct a shared narrative campaign.</p>
       <p>Over the course of several lessons, students transition from individual character development and legacy creation to collaborative low- and high-fantasy world-building through NPC creation, encounter design, and the development of fully realized settings. The instructor acts as a Dungeon Master, facilitating the world the students have imagined while guiding them through opportunities to practice strategic thinking, analytical reasoning, and applied language skills.</p>
@@ -94,173 +62,184 @@
   </div>
 </div>
 
-<div class="pixel-sep"></div>
-
-<!-- INSTRUCTIONAL CHALLENGE -->
-<div class="section-outer warm">
-  <div class="section-gutter warm"></div>
-  <div class="section-content">
-    <div class="section-head">
-      <span class="section-ref">§ 02</span>
-      <h2 class="section-title">Instructional <em>Challenge</em></h2>
+<!-- 02 Instructional Challenge -->
+<div class="subpage-section tint">
+  <div class="subpage-section-inner">
+    <div class="subpage-section-head">
+      <h2 class="subpage-section-title">Instructional <em>Challenge</em></h2>
     </div>
-    <div class="body-text">
+    <div class="subpage-body">
       <p>Traditional language instruction often emphasizes incremental skill development that can feel repetitive or disconnected from real communication. As a result, many learners struggle with spontaneous speaking, adaptive thinking, and varied expression even after years of formal study.</p>
       <p>This project was designed to create a learning environment where students apply creativity and language skills simultaneously through structured narrative play. Rather than relying on lecture-driven instruction, the module positions students as collaborative storytellers responsible for shaping the narrative world together. Through this approach, learners challenge and support one another while developing confidence in both individual expression and collective problem-solving.</p>
     </div>
   </div>
 </div>
 
-<div class="pixel-sep"></div>
-
-<!-- DESIGN APPROACH -->
-<div class="section-outer">
-  <div class="section-gutter"></div>
-  <div class="section-content">
-    <div class="section-head">
-      <span class="section-ref">§ 03</span>
-      <h2 class="section-title">Design <em>Approach</em></h2>
+<!-- 03 Design Approach -->
+<div class="subpage-section">
+  <div class="subpage-section-inner">
+    <div class="subpage-section-head">
+      <h2 class="subpage-section-title">Design <em>Approach</em></h2>
     </div>
-    <ul class="spec-list">
+    <ul class="subpage-spec-list">
       <li>Tabletop role-playing mechanics adapted for classroom use</li>
       <li>Character creation to establish narrative motivation and moral frameworks</li>
       <li>Structured storytelling encounters requiring improvisational language</li>
       <li>Collaborative narrative problem-solving across student-built worlds</li>
+      <li>A branching class-selection guide translating personality traits into character archetypes</li>
+      <li>Skill-check worksheets pairing narrative scenarios with ability scores and difficulty estimation</li>
       <li>Guided reflection and writing connecting story decisions to personal values</li>
     </ul>
 
-    <div class="subsection-label">Example Module Pages</div>
-    <div class="mockup-gallery">
-      <img src="Roll%20Images/DnD%20Mockup%20Open%201.png" alt="What is Dungeons and Dragons - module introduction page">
-      <img src="Roll%20Images/DnD%20Mockup%20Open%202.png" alt="Moral Frameworks and Decision Systems - character alignment page">
-      <img src="Roll%20Images/DnD%20Mockup%20Open%203.png" alt="Role-Based Narrative Collaboration - encounter design page">
-      <img src="Roll%20Images/DnD%20Mockup%20Open%204.png" alt="Character Identity and Narrative Motivation - character sheet page">
+    <div class="subpage-subhead">Example Module Pages</div>
+    <div class="subpage-gallery">
+      <img src="Images/Roll%20Images/DnD%20Mockup%20Open%201.png" alt="What is Dungeons and Dragons, module introduction page">
+      <img src="Images/Roll%20Images/DnD%20Mockup%20Open%202.png" alt="Moral Frameworks and Decision Systems, character alignment page">
+      <img src="Images/Roll%20Images/DnD%20Mockup%20Open%203.png" alt="Role-Based Narrative Collaboration, encounter design page">
+      <img src="Images/Roll%20Images/DnD%20Mockup%20Open%204.png" alt="Character Identity and Narrative Motivation, character sheet page">
     </div>
-    <p class="attribution">Instructional design and curriculum architecture by Nico Orsini.<br>Visual design by Zoe Yera of Crow's Call Press.</p>
-  </div>
-</div>
+    <p class="subpage-attribution">Instructional design and curriculum architecture by Nico Orsini.<br>Visual design by Zoe Yera.</p>
 
-<div class="pixel-sep"></div>
+    <div class="subpage-subhead">Supplemental Mechanics</div>
+    <p style="font-size:0.92rem; color:var(--ink-soft); line-height:1.9; max-width:660px; margin-bottom:1.5rem;">Two additional worksheets extend the core module: a branching class-selection guide that translates a student's stated preferences into a character archetype, and a skill-check drill that pairs a narrative scenario with the ability score and difficulty range it calls for.</p>
 
-<!-- CURRICULUM STRUCTURE -->
-<div class="section-outer warm">
-  <div class="section-gutter warm"></div>
-  <div class="section-content">
-    <div class="section-head">
-      <span class="section-ref">§ 04</span>
-      <h2 class="section-title">Curriculum <em>Structure</em></h2>
-    </div>
-    <p style="font-size:0.92rem; color:var(--ink-soft); line-height:1.95; max-width:660px; margin-bottom:2.5rem;">The module is organized into nine thematic units, each building on the narrative and language skills developed in the previous one. Students move from foundational world-building to live collaborative storytelling, culminating in character-level reflection on growth and values.</p>
+    <ol class="subpage-numbered-list">
+      <li>Ask how the character prefers to act in the world: through force and presence, or through cleverness and misdirection. Each answer opens a follow-up question narrowing toward a specific class and playstyle.</li>
+      <li>Follow the branch to a final archetype, for example force plus a preference for hitting hard and taking hits resolves to a Champion Fighter, while cleverness plus a taste for stories and musical chaos resolves to a Lore Bard.</li>
+    </ol>
 
-    <div class="unit-list">
-      <div class="unit-item">
-        <div class="unit-header">
-          <span class="unit-num">Unit 01</span>
-          <span class="unit-name">Introduction</span>
-        </div>
-        <div class="unit-subs">
-          <div class="unit-sub">Exploration of tabletop role-playing games and their narrative structures</div>
-          <div class="unit-sub">Connecting student experiences with existing creative outlets</div>
-        </div>
-      </div>
-      <div class="unit-item">
-        <div class="unit-header">
-          <span class="unit-num">Unit 02</span>
-          <span class="unit-name">Character Creation</span>
-        </div>
-        <div class="unit-subs">
-          <div class="unit-sub">Alignment systems and the exploration of moral and ethical nuance</div>
-          <div class="unit-sub">The role of names and titles in defining character identity</div>
-          <div class="unit-sub">Character classes and subclasses introducing attributes and abilities</div>
-        </div>
-      </div>
-      <div class="unit-item">
-        <div class="unit-header">
-          <span class="unit-num">Unit 03</span>
-          <span class="unit-name">Backstories / Lore</span>
-        </div>
-        <div class="unit-subs">
-          <div class="unit-sub">Exploring how personal history shapes present and future choices</div>
-          <div class="unit-sub">Narrative terminology and contextual storytelling</div>
-        </div>
-      </div>
-      <div class="unit-item">
-        <div class="unit-header">
-          <span class="unit-num">Unit 04</span>
-          <span class="unit-name">World-Building</span>
-        </div>
-        <div class="unit-subs">
-          <div class="unit-sub">Environments, creatures, and scenarios within low- and high-fantasy settings</div>
-          <div class="unit-sub">Status effects and their influence on character reactions and decision-making</div>
-        </div>
-      </div>
-      <div class="unit-item">
-        <div class="unit-header">
-          <span class="unit-num">Unit 05</span>
-          <span class="unit-name">Literary Elements</span>
-        </div>
-        <div class="unit-subs">
-          <div class="unit-sub">Applying literary analysis and semantic awareness within narrative strategy</div>
-        </div>
-      </div>
-      <div class="unit-item">
-        <div class="unit-header">
-          <span class="unit-num">Unit 06</span>
-          <span class="unit-name">Encounters</span>
-        </div>
-        <div class="unit-subs">
-          <div class="unit-sub">Character archetypes in relation to the Hero's Journey</div>
-          <div class="unit-sub">Structuring narrative challenges, discoveries, and interactions</div>
-        </div>
-      </div>
-      <div class="unit-item">
-        <div class="unit-header">
-          <span class="unit-num">Unit 07</span>
-          <span class="unit-name">Questing Materials Pt. 1</span>
-        </div>
-        <div class="unit-subs">
-          <div class="unit-sub">Character sheets and associated attributes</div>
-          <div class="unit-sub">Class features and maintaining narrative consistency during play</div>
-        </div>
-      </div>
-      <div class="unit-item">
-        <div class="unit-header">
-          <span class="unit-num">Unit 08</span>
-          <span class="unit-name">Questing Materials Pt. 2</span>
-        </div>
-        <div class="unit-subs">
-          <div class="unit-sub">Decision points and narrative consequences</div>
-          <div class="unit-sub">Character growth and inventory tracking</div>
-          <div class="unit-sub">Battle logs documenting scene structure and character actions</div>
-        </div>
-      </div>
-      <div class="unit-item">
-        <div class="unit-header">
-          <span class="unit-num">Unit 09</span>
-          <span class="unit-name">Debrief</span>
-        </div>
-        <div class="unit-subs">
-          <div class="unit-sub">Character reflections on personal growth and thematic values</div>
-          <div class="unit-sub">Fireside journal reflections exploring the internal consequences of story events</div>
-        </div>
-      </div>
+    <div class="subpage-table-wrap">
+      <table class="subpage-table">
+        <thead>
+          <tr>
+            <th>Scenario</th>
+            <th>Skill Used</th>
+            <th>Expected DC Range</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>You try to move a huge boulder blocking the cave entrance.</td><td class="mono-cell">Athletics</td><td class="mono-cell">15 to 20</td></tr>
+          <tr><td>You scan a shelf of identical books for a hidden switch.</td><td class="mono-cell">Investigation</td><td class="mono-cell">12 to 16</td></tr>
+          <tr><td>You compliment a goblin's fashion sense to distract it while others sneak in.</td><td class="mono-cell">Deception</td><td class="mono-cell">10 to 14</td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
 
-<div class="pixel-sep"></div>
-
-<!-- LEARNING OUTCOMES -->
-<div class="section-outer">
-  <div class="section-gutter"></div>
-  <div class="section-content">
-    <div class="section-head">
-      <span class="section-ref">§ 05</span>
-      <h2 class="section-title">Learning <em>Outcomes</em></h2>
+<!-- 04 Curriculum Structure -->
+<div class="subpage-section tint">
+  <div class="subpage-section-inner">
+    <div class="subpage-section-head">
+      <h2 class="subpage-section-title">Curriculum <em>Structure</em></h2>
     </div>
-    <div class="outcome-card">
-      <div class="outcome-card-title">What students develop</div>
-      <ul class="outcome-list">
+    <p style="font-size:0.92rem; color:var(--ink-soft); line-height:1.9; max-width:660px; margin-bottom:2rem;">The module is organized into nine thematic units, each building on the narrative and language skills developed in the previous one. Students move from foundational world-building to live collaborative storytelling, culminating in character-level reflection on growth and values.</p>
+
+    <div class="subpage-list">
+      <div class="subpage-list-item">
+        <div class="subpage-list-header">
+          <span class="subpage-list-num">Unit 01</span>
+          <span class="subpage-list-name">Introduction</span>
+        </div>
+        <div class="subpage-list-subs">
+          <div class="subpage-list-sub">Exploration of tabletop role-playing games and their narrative structures</div>
+          <div class="subpage-list-sub">Connecting student experiences with existing creative outlets</div>
+        </div>
+      </div>
+      <div class="subpage-list-item">
+        <div class="subpage-list-header">
+          <span class="subpage-list-num">Unit 02</span>
+          <span class="subpage-list-name">Character Creation</span>
+        </div>
+        <div class="subpage-list-subs">
+          <div class="subpage-list-sub">Alignment systems and the exploration of moral and ethical nuance</div>
+          <div class="subpage-list-sub">The role of names and titles in defining character identity</div>
+          <div class="subpage-list-sub">Character classes and subclasses introducing attributes and abilities</div>
+        </div>
+      </div>
+      <div class="subpage-list-item">
+        <div class="subpage-list-header">
+          <span class="subpage-list-num">Unit 03</span>
+          <span class="subpage-list-name">Backstories / Lore</span>
+        </div>
+        <div class="subpage-list-subs">
+          <div class="subpage-list-sub">Exploring how personal history shapes present and future choices</div>
+          <div class="subpage-list-sub">Narrative terminology and contextual storytelling</div>
+        </div>
+      </div>
+      <div class="subpage-list-item">
+        <div class="subpage-list-header">
+          <span class="subpage-list-num">Unit 04</span>
+          <span class="subpage-list-name">World-Building</span>
+        </div>
+        <div class="subpage-list-subs">
+          <div class="subpage-list-sub">Environments, creatures, and scenarios within low- and high-fantasy settings</div>
+          <div class="subpage-list-sub">Status effects and their influence on character reactions and decision-making</div>
+        </div>
+      </div>
+      <div class="subpage-list-item">
+        <div class="subpage-list-header">
+          <span class="subpage-list-num">Unit 05</span>
+          <span class="subpage-list-name">Literary Elements</span>
+        </div>
+        <div class="subpage-list-subs">
+          <div class="subpage-list-sub">Applying literary analysis and semantic awareness within narrative strategy</div>
+        </div>
+      </div>
+      <div class="subpage-list-item">
+        <div class="subpage-list-header">
+          <span class="subpage-list-num">Unit 06</span>
+          <span class="subpage-list-name">Encounters</span>
+        </div>
+        <div class="subpage-list-subs">
+          <div class="subpage-list-sub">Character archetypes in relation to the Hero's Journey</div>
+          <div class="subpage-list-sub">Structuring narrative challenges, discoveries, and interactions</div>
+        </div>
+      </div>
+      <div class="subpage-list-item">
+        <div class="subpage-list-header">
+          <span class="subpage-list-num">Unit 07</span>
+          <span class="subpage-list-name">Questing Materials Pt. 1</span>
+        </div>
+        <div class="subpage-list-subs">
+          <div class="subpage-list-sub">Character sheets and associated attributes</div>
+          <div class="subpage-list-sub">Class features and maintaining narrative consistency during play</div>
+        </div>
+      </div>
+      <div class="subpage-list-item">
+        <div class="subpage-list-header">
+          <span class="subpage-list-num">Unit 08</span>
+          <span class="subpage-list-name">Questing Materials Pt. 2</span>
+        </div>
+        <div class="subpage-list-subs">
+          <div class="subpage-list-sub">Decision points and narrative consequences</div>
+          <div class="subpage-list-sub">Character growth and inventory tracking</div>
+          <div class="subpage-list-sub">Battle logs documenting scene structure and character actions</div>
+        </div>
+      </div>
+      <div class="subpage-list-item">
+        <div class="subpage-list-header">
+          <span class="subpage-list-num">Unit 09</span>
+          <span class="subpage-list-name">Debrief</span>
+        </div>
+        <div class="subpage-list-subs">
+          <div class="subpage-list-sub">Character reflections on personal growth and thematic values</div>
+          <div class="subpage-list-sub">Fireside journal reflections exploring the internal consequences of story events</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 05 Learning Outcomes -->
+<div class="subpage-section">
+  <div class="subpage-section-inner">
+    <div class="subpage-section-head">
+      <h2 class="subpage-section-title">Learning <em>Outcomes</em></h2>
+    </div>
+    <div class="subpage-outcome-card">
+      <div class="subpage-outcome-title">What students develop</div>
+      <ul class="subpage-outcome-list">
         <li>Students construct narrative characters with defined motivations and ethical frameworks</li>
         <li>Learners practice collaborative storytelling and improvisational language through structured play</li>
         <li>Narrative encounters encourage strategic thinking and applied literacy in context</li>
@@ -271,12 +250,16 @@
 </div>
 
 <footer>
-  <div class="footer-inner">
-    <span class="footer-name">Nico Orsini · Learning Systems &amp; Instructional Design</span>
-  </div>
-  <p class="footer-copy">© 2026 Nico Orsini.</p>
-  <p class="footer-privacy">This site does not collect or store personal data.</p>
+  <span class="footer-name">Nico Orsini &middot; Learning Experience Design &amp; Creative Direction</span>
+  <span class="footer-copy">&copy; 2026 Nico Orsini.</span>
 </footer>
+
+<script>
+  const nav = document.getElementById('siteNav');
+  const updateNav = () => nav.classList.toggle('scrolled', window.scrollY > 60);
+  window.addEventListener('scroll', updateNav, { passive: true });
+  updateNav();
+</script>
 
 </body>
 </html>

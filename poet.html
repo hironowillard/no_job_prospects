@@ -4,58 +4,34 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Making of a Poet · Nico Orsini</title>
+<meta name="description" content="The Making of a Poet: a poetry-writing curriculum module designed by Nico Orsini.">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" href="favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=10">
-<style>
-.spec-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; max-width: 640px; margin: 1.5rem 0 2.5rem; }
-  .spec-list li { font-size: 0.86rem; color: var(--ink-soft); display: flex; gap: 0.75rem; align-items: baseline; line-height: 1.75; }
-  .spec-list li::before { content: '·'; color: var(--navy); opacity: 0.4; flex-shrink: 0; font-family: var(--mono); }
-  .mockup-gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; margin: 2rem 0 3rem; }
-  .mockup-gallery img { width: 100%; height: auto; display: block; border: 1px solid var(--rule-strong); }
-  .stanza-list { display: flex; flex-direction: column; gap: 1px; background: var(--rule-strong); border: 1px solid var(--rule-strong); margin: 2rem 0; }
-  .stanza-item { background: var(--paper-card); padding: 1.5rem 1.75rem; transition: background 0.15s; }
-  .stanza-item:hover { background: var(--navy-faint); }
-  .stanza-header { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 0.6rem; }
-  .stanza-num { font-family: var(--mono); font-size: 0.6rem; color: var(--gold); letter-spacing: 0.1em; text-transform: uppercase; flex-shrink: 0; min-width: 5rem; }
-  .stanza-name { font-family: var(--serif); font-size: 1.25rem; font-weight: 400; color: var(--ink); }
-  .stanza-subs { padding-left: 6rem; display: flex; flex-direction: column; gap: 0.25rem; }
-  .stanza-sub { font-size: 0.8rem; color: var(--ink-muted); line-height: 1.65; padding-left: 1rem; position: relative; }
-  .stanza-sub::before { content: '-'; position: absolute; left: 0; color: var(--ink-muted); opacity: 0.45; }
-  @media (max-width: 900px) { .mockup-gallery { grid-template-columns: 1fr; } }
-  @media (max-width: 600px) { .stanza-subs { padding-left: 1rem; } }
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=48">
 </head>
 <body>
-<nav>
-  <div class="nav-margin"></div>
-  <div class="nav-inner">
-    <a href="index.html" class="nav-name">N. Orsini</a>
-    <ul class="nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="crow.html">CROW Methodology</a></li>
-      <li><a href="curriculum.html">Curriculum Architecture</a></li>
-      <li><a href="keys.html">Analytical Keys</a></li>
-      <li><a href="narrative.html">Narrative Analysis</a></li>
-      <li><a href="roll.html">Module I</a></li>
-      <li><a href="poet.html" class="active">Module II</a></li>
-    </ul>
-  </div>
+
+<nav id="siteNav">
+  <a href="index.html#top" class="nav-name">Nico Orsini</a>
+  <ul class="nav-links">
+    <li><a href="index.html#top">Who I Am</a></li>
+    <li><a href="index.html#work">Work</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
 </nav>
 
-
-
 <!-- HERO -->
-<div class="subpage-hero">
-  <div class="subpage-hero-margin"></div>
-  <div class="subpage-hero-body">
-    <div class="subpage-breadcrumb">
-      <a href="index.html">N. Orsini</a> <span>·</span> Projects
-    </div>
-    <div class="subpage-subtitle">Poetry Writing Module</div>
+<div class="subpage-hero" id="poet-hero">
+  <div class="subpage-hero-inner">
+    <div class="subpage-breadcrumb"><a href="index.html#work">Selected Work</a></div>
+    <div class="subpage-eyebrow">Poetry Writing Module</div>
     <h1 class="subpage-title">The Making of <em>a Poet</em></h1>
-    <div class="subpage-meta">
+    <div class="subpage-meta-row">
       <div class="subpage-meta-item">
         <span class="subpage-meta-label">Role</span>
         <span class="subpage-meta-value">Instructional Designer / Curriculum Author</span>
@@ -68,25 +44,17 @@
         <span class="subpage-meta-label">Audience</span>
         <span class="subpage-meta-value">Universal / A2-C1</span>
       </div>
-      <div class="subpage-meta-item">
-        <span class="subpage-meta-label">Publisher</span>
-        <span class="subpage-meta-value">Crow's Call Press</span>
-      </div>
     </div>
   </div>
 </div>
 
-<div class="pixel-sep"></div>
-
-<!-- OVERVIEW -->
-<div class="section-outer">
-  <div class="section-gutter"></div>
-  <div class="section-content">
-    <div class="section-head">
-      <span class="section-ref">§ 01</span>
-      <h2 class="section-title"><em>Overview</em></h2>
+<!-- 01 Overview -->
+<div class="subpage-section">
+  <div class="subpage-section-inner">
+    <div class="subpage-section-head">
+      <h2 class="subpage-section-title">Overview</h2>
     </div>
-    <div class="body-text">
+    <div class="subpage-body">
       <p><em>The Making of a Poet</em> is a structured poetry curriculum that guides students through the craft of poetic expression. Using a stanza-based progression, learners move from observation and sensory language to rhythm, sound, and personal voice. Through writing prompts, collaborative reading, and reflective exercises, students build confidence in creative expression while developing deeper literacy and linguistic awareness.</p>
       <p>Inspired by the traditions of poetic craft and spoken language, this module introduces students to poetry as both a creative and analytical form of expression. Through structured writing exercises, guided reflection, and collaborative reading, learners explore how language can capture observation, emotion, rhythm, and identity.</p>
       <p>The curriculum is organized into progressive stanzas, each representing a stage in the development of poetic voice. Beginning with sensory awareness and observational writing, students learn to recognize how imagery and perception shape meaning. From there, the module moves into the study of cadence and sound, encouraging learners to experiment with rhythm, repetition, and pattern within their writing.</p>
@@ -95,17 +63,13 @@
   </div>
 </div>
 
-<div class="pixel-sep"></div>
-
-<!-- INSTRUCTIONAL CHALLENGE -->
-<div class="section-outer warm">
-  <div class="section-gutter warm"></div>
-  <div class="section-content">
-    <div class="section-head">
-      <span class="section-ref">§ 02</span>
-      <h2 class="section-title">Instructional <em>Challenge</em></h2>
+<!-- 02 Instructional Challenge -->
+<div class="subpage-section tint">
+  <div class="subpage-section-inner">
+    <div class="subpage-section-head">
+      <h2 class="subpage-section-title">Instructional <em>Challenge</em></h2>
     </div>
-    <div class="body-text">
+    <div class="subpage-body">
       <p>Many language learning environments emphasize grammar accuracy and structured composition, often leaving little space for creative exploration or personal voice. As a result, students may become proficient in technical writing while still struggling to express emotion, perspective, and individuality through language.</p>
       <p>For advanced ESL learners in particular, poetry can feel inaccessible or overly abstract when presented primarily through literary analysis rather than creative practice. Students may understand poetic terminology yet lack confidence in experimenting with imagery, rhythm, or metaphor in their own writing.</p>
       <p>This project was designed to address that gap by introducing poetry as an experiential process rather than solely a subject of study. Through structured prompts, progressive exercises, and reflective writing, the curriculum encourages students to explore language as a creative medium while gradually building comfort with expressive risk-taking. By shifting the classroom focus from evaluating poetry to actively creating it, the module provides learners with opportunities to experiment with voice, sound, and meaning while strengthening both linguistic confidence and creative literacy.</p>
@@ -113,17 +77,13 @@
   </div>
 </div>
 
-<div class="pixel-sep"></div>
-
-<!-- DESIGN APPROACH + IMAGES -->
-<div class="section-outer">
-  <div class="section-gutter"></div>
-  <div class="section-content">
-    <div class="section-head">
-      <span class="section-ref">§ 03</span>
-      <h2 class="section-title">Design <em>Approach</em></h2>
+<!-- 03 Design Approach -->
+<div class="subpage-section">
+  <div class="subpage-section-inner">
+    <div class="subpage-section-head">
+      <h2 class="subpage-section-title">Design <em>Approach</em></h2>
     </div>
-    <ul class="spec-list">
+    <ul class="subpage-spec-list">
       <li>Stanza-based learning progression guiding students through stages of poetic development</li>
       <li>Sensory observation exercises to build imagery and descriptive language</li>
       <li>Sound and rhythm exploration through repetition, cadence, and pattern recognition</li>
@@ -131,95 +91,87 @@
       <li>Reflective writing and revision to help students examine the evolution of their creative expression</li>
     </ul>
 
-    <div class="subsection-label">Example Module Pages</div>
-    <div class="mockup-gallery">
-      <img src="Poet%20Images/Poetry%20Mockup%20Open%201-2.png" alt="An Introduction to Poetry - module pages spread open">
-      <img src="Poet%20Images/Poetry%20Mockup%20Open%202-2.png" alt="Sensory Imagery in Poetry - module pages spread open">
+    <div class="subpage-subhead">Example Module Pages</div>
+    <div class="subpage-gallery">
+      <img src="Images/Poet%20Images/Poetry%20Mockup%20Open%201-2.png" alt="An Introduction to Poetry, module pages spread open">
+      <img src="Images/Poet%20Images/Poetry%20Mockup%20Open%202-2.png" alt="Sensory Imagery in Poetry, module pages spread open">
     </div>
-    <p class="attribution">Instructional design and curriculum architecture by Nico Orsini.<br>Visual design by Zoe Yera of Crow's Call Press.</p>
+    <p class="subpage-attribution">Instructional design and curriculum architecture by Nico Orsini.<br>Visual design by Zoe Yera.</p>
   </div>
 </div>
 
-<div class="pixel-sep"></div>
-
-<!-- CURRICULUM STRUCTURE -->
-<div class="section-outer warm">
-  <div class="section-gutter warm"></div>
-  <div class="section-content">
-    <div class="section-head">
-      <span class="section-ref">§ 04</span>
-      <h2 class="section-title">Curriculum <em>Structure</em></h2>
+<!-- 04 Curriculum Structure -->
+<div class="subpage-section tint">
+  <div class="subpage-section-inner">
+    <div class="subpage-section-head">
+      <h2 class="subpage-section-title">Curriculum <em>Structure</em></h2>
     </div>
-    <p style="font-size:0.92rem; color:var(--ink-soft); line-height:1.95; max-width:660px; margin-bottom:2.5rem;">The module is organized as five progressive stanzas, each named to reflect a stage in becoming a poet. Students move from initial exploration through sensory awareness, rhythmic craft, personal voice, and reflective closure.</p>
+    <p style="font-size:0.92rem; color:var(--ink-soft); line-height:1.9; max-width:660px; margin-bottom:2rem;">The module is organized as five progressive stanzas, each named to reflect a stage in becoming a poet. Students move from initial exploration through sensory awareness, rhythmic craft, personal voice, and reflective closure.</p>
 
-    <div class="stanza-list">
-      <div class="stanza-item">
-        <div class="stanza-header">
-          <span class="stanza-num">Stanza 1</span>
-          <span class="stanza-name">Introduction</span>
+    <div class="subpage-list">
+      <div class="subpage-list-item">
+        <div class="subpage-list-header">
+          <span class="subpage-list-num">Stanza 1</span>
+          <span class="subpage-list-name">Introduction</span>
         </div>
-        <div class="stanza-subs">
-          <div class="stanza-sub">Exploration of poetry as a form of creative and expressive language</div>
-          <div class="stanza-sub">Student reflection on previous experiences with poetry, music, and storytelling</div>
-        </div>
-      </div>
-      <div class="stanza-item">
-        <div class="stanza-header">
-          <span class="stanza-num">Stanza 2</span>
-          <span class="stanza-name">Senses of a Scribe</span>
-        </div>
-        <div class="stanza-subs">
-          <div class="stanza-sub">Observational writing through sensory awareness and imagery</div>
-          <div class="stanza-sub">Developing descriptive language through perception and memory</div>
+        <div class="subpage-list-subs">
+          <div class="subpage-list-sub">Exploration of poetry as a form of creative and expressive language</div>
+          <div class="subpage-list-sub">Student reflection on previous experiences with poetry, music, and storytelling</div>
         </div>
       </div>
-      <div class="stanza-item">
-        <div class="stanza-header">
-          <span class="stanza-num">Stanza 3</span>
-          <span class="stanza-name">Crafting of Cadence</span>
+      <div class="subpage-list-item">
+        <div class="subpage-list-header">
+          <span class="subpage-list-num">Stanza 2</span>
+          <span class="subpage-list-name">Senses of a Scribe</span>
         </div>
-        <div class="stanza-subs">
-          <div class="stanza-sub">Exploring rhythm, sound, and repetition in poetic language</div>
-          <div class="stanza-sub">Experimentation with structure, pacing, and tonal variation</div>
-        </div>
-      </div>
-      <div class="stanza-item">
-        <div class="stanza-header">
-          <span class="stanza-num">Stanza 4</span>
-          <span class="stanza-name">Blossoming into a Bard</span>
-        </div>
-        <div class="stanza-subs">
-          <div class="stanza-sub">Guided poetic composition focused on voice and personal expression</div>
-          <div class="stanza-sub">Writing exercises that encourage experimentation with perspective and emotion</div>
+        <div class="subpage-list-subs">
+          <div class="subpage-list-sub">Observational writing through sensory awareness and imagery</div>
+          <div class="subpage-list-sub">Developing descriptive language through perception and memory</div>
         </div>
       </div>
-      <div class="stanza-item">
-        <div class="stanza-header">
-          <span class="stanza-num">Stanza 5</span>
-          <span class="stanza-name">Closure</span>
+      <div class="subpage-list-item">
+        <div class="subpage-list-header">
+          <span class="subpage-list-num">Stanza 3</span>
+          <span class="subpage-list-name">Crafting of Cadence</span>
         </div>
-        <div class="stanza-subs">
-          <div class="stanza-sub">Reflecting on the evolution of poetic voice and creative confidence</div>
-          <div class="stanza-sub">Revisiting earlier work to examine growth in expression and language</div>
+        <div class="subpage-list-subs">
+          <div class="subpage-list-sub">Exploring rhythm, sound, and repetition in poetic language</div>
+          <div class="subpage-list-sub">Experimentation with structure, pacing, and tonal variation</div>
+        </div>
+      </div>
+      <div class="subpage-list-item">
+        <div class="subpage-list-header">
+          <span class="subpage-list-num">Stanza 4</span>
+          <span class="subpage-list-name">Blossoming into a Bard</span>
+        </div>
+        <div class="subpage-list-subs">
+          <div class="subpage-list-sub">Guided poetic composition focused on voice and personal expression</div>
+          <div class="subpage-list-sub">Writing exercises that encourage experimentation with perspective and emotion</div>
+        </div>
+      </div>
+      <div class="subpage-list-item">
+        <div class="subpage-list-header">
+          <span class="subpage-list-num">Stanza 5</span>
+          <span class="subpage-list-name">Closure</span>
+        </div>
+        <div class="subpage-list-subs">
+          <div class="subpage-list-sub">Reflecting on the evolution of poetic voice and creative confidence</div>
+          <div class="subpage-list-sub">Revisiting earlier work to examine growth in expression and language</div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<div class="pixel-sep"></div>
-
-<!-- LEARNING OUTCOMES -->
-<div class="section-outer">
-  <div class="section-gutter"></div>
-  <div class="section-content">
-    <div class="section-head">
-      <span class="section-ref">§ 05</span>
-      <h2 class="section-title">Learning <em>Outcomes</em></h2>
+<!-- 05 Learning Outcomes -->
+<div class="subpage-section">
+  <div class="subpage-section-inner">
+    <div class="subpage-section-head">
+      <h2 class="subpage-section-title">Learning <em>Outcomes</em></h2>
     </div>
-    <div class="outcome-card">
-      <div class="outcome-card-title">What students develop</div>
-      <ul class="outcome-list">
+    <div class="subpage-outcome-card">
+      <div class="subpage-outcome-title">What students develop</div>
+      <ul class="subpage-outcome-list">
         <li>Students develop confidence in expressing ideas, emotions, and observations through poetic language</li>
         <li>Learners experiment with imagery, rhythm, and sound to craft more dynamic written expression</li>
         <li>Structured writing exercises strengthen vocabulary, descriptive language, and linguistic creativity</li>
@@ -230,12 +182,16 @@
 </div>
 
 <footer>
-  <div class="footer-inner">
-    <span class="footer-name">Nico Orsini · Learning Systems &amp; Instructional Design</span>
-  </div>
-  <p class="footer-copy">© 2026 Nico Orsini.</p>
-  <p class="footer-privacy">This site does not collect or store personal data.</p>
+  <span class="footer-name">Nico Orsini &middot; Learning Experience Design &amp; Creative Direction</span>
+  <span class="footer-copy">&copy; 2026 Nico Orsini.</span>
 </footer>
+
+<script>
+  const nav = document.getElementById('siteNav');
+  const updateNav = () => nav.classList.toggle('scrolled', window.scrollY > 60);
+  window.addEventListener('scroll', updateNav, { passive: true });
+  updateNav();
+</script>
 
 </body>
 </html>
