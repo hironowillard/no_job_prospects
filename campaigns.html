@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=48">
+<link rel="stylesheet" href="styles.css?v=50">
 </head>
 <body>
 
@@ -26,8 +26,9 @@
 </nav>
 
 <!-- HERO -->
-<div class="subpage-hero" id="campaigns-hero">
-  <div class="subpage-hero-inner">
+<div class="subpage-hero photo-hero" id="campaigns-hero">
+  <div class="hero-photo-layer" id="campaignsHeroPhoto"></div>
+  <div class="subpage-hero-inner shimmer-hero">
     <div class="subpage-breadcrumb"><a href="index.html#work">Selected Work</a></div>
     <div class="subpage-eyebrow">Promotional Design</div>
     <h1 class="subpage-title">Book Campaigns</h1>
@@ -133,6 +134,36 @@
   const updateNav = () => nav.classList.toggle('scrolled', window.scrollY > 60);
   window.addEventListener('scroll', updateNav, { passive: true });
   updateNav();
+</script>
+
+<script>
+  var HERO_PHOTOS = [
+    "Images/Photography%20Images/Lucky%20Day.jpg",
+    "Images/Photography%20Images/Dark%20Buddha.jpg",
+    "Images/Photography%20Images/City%20Tops.jpg",
+    "Images/Photography%20Images/Red%20Wood%20Wall.jpg",
+    "Images/Photography%20Images/Alley%20Temple.jpg",
+    "Images/Photography%20Images/Smal%20Rail%20Car.jpg",
+    "Images/Photography%20Images/Greenery.jpg",
+    "Images/Photography%20Images/Pink%20Flowers.jpg",
+    "Images/Photography%20Images/Statue.jpg",
+    "Images/Photography%20Images/City%20Bridge.jpg",
+    "Images/Photography%20Images/Golden%20Temple.jpg",
+    "Images/Photography%20Images/Lighthouse.jpg",
+    "Images/Photography%20Images/Temple%20Reflection.jog.jpg",
+    "Images/Photography%20Images/Temple%20Tops.jpg",
+    "Images/Photography%20Images/Coffee%20Shop%20Ceiling.jpg",
+    "Images/Photography%20Images/Red%20Wall%20Demon.jpg",
+    "Images/Photography%20Images/Cat.jpg",
+    "Images/Photography%20Images/Japanese%20Cards.jpg",
+    "Images/Photography%20Images/Horse%20Sign.jpg",
+    "Images/Photography%20Images/Car%20Trailer.jpg"
+  ];
+  var heroPhotoEl = document.getElementById('campaignsHeroPhoto');
+  if (heroPhotoEl) {
+    var heroPick = HERO_PHOTOS[Math.floor(Math.random() * HERO_PHOTOS.length)];
+    heroPhotoEl.style.backgroundImage = "url('" + heroPick + "')";
+  }
 </script>
 
 </body>

@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=48">
+<link rel="stylesheet" href="styles.css?v=50">
 </head>
 <body>
 
@@ -26,8 +26,9 @@
 </nav>
 
 <!-- HERO -->
-<div class="subpage-hero" id="poet-hero">
-  <div class="subpage-hero-inner">
+<div class="subpage-hero photo-hero" id="poet-hero">
+  <div class="hero-photo-layer" id="poetHeroPhoto"></div>
+  <div class="subpage-hero-inner shimmer-hero">
     <div class="subpage-breadcrumb"><a href="index.html#work">Selected Work</a></div>
     <div class="subpage-eyebrow">Poetry Writing Module</div>
     <h1 class="subpage-title">The Making of <em>a Poet</em></h1>
@@ -163,8 +164,68 @@
   </div>
 </div>
 
-<!-- 05 Learning Outcomes -->
+<!-- 04.5 Try It -->
 <div class="subpage-section">
+  <div class="subpage-section-inner">
+    <div class="subpage-section-head">
+      <h2 class="subpage-section-title">Try It <em>Yourself</em></h2>
+    </div>
+
+    <div class="subpage-subhead">Stanza 2 &middot; Senses of a Scribe &mdash; Blackout Poetry: The Sensory Hunt</div>
+    <div class="subpage-body">
+      <p>The real activity: take someone else's writing and black out everything except the words that feel alive. What survives becomes yours. Click a word to black it out, click again to bring it back &mdash; or press and drag across several to black them out in one pass.</p>
+    </div>
+    <div class="poet-blackout">
+      <div class="source-legend">
+        <span class="source-legend-item"><span class="source-dot genre-prose"></span>Prose</span>
+        <span class="source-legend-item"><span class="source-dot genre-poem"></span>Poem</span>
+        <span class="source-legend-item"><span class="source-dot genre-play"></span>Play</span>
+      </div>
+      <div class="poet-blackout-source-picker" id="blackoutSourcePicker">
+        <button type="button" class="source-tab is-active" data-source="wallpaper" data-genre="prose">The Yellow Wallpaper</button>
+        <button type="button" class="source-tab" data-source="frankenstein" data-genre="prose">Frankenstein</button>
+        <button type="button" class="source-tab" data-source="raven" data-genre="poem">The Raven</button>
+        <button type="button" class="source-tab" data-source="whitman" data-genre="poem">Song of Myself</button>
+        <button type="button" class="source-tab" data-source="earnest" data-genre="play">The Importance of Being Earnest</button>
+        <button type="button" class="source-tab" data-source="hamlet" data-genre="play">Hamlet</button>
+      </div>
+      <div class="poet-blackout-genre-tag genre-prose" id="blackoutGenreTag">Prose</div>
+      <div class="poet-blackout-passage" id="blackoutPassage"></div>
+      <p class="subpage-attribution" id="blackoutAttribution">Source text: the opening of &ldquo;The Yellow Wallpaper&rdquo; by Charlotte Perkins Gilman, 1892, public domain.</p>
+      <div class="poet-blackout-actions">
+        <button type="button" id="blackoutReset" class="link-arrow">Reset passage</button>
+      </div>
+      <div class="poet-blackout-poem">
+        <div class="poet-blackout-poem-label">Your found poem</div>
+        <p class="poet-blackout-poem-text" id="blackoutPoemText"><span class="poet-blackout-empty">Black out words above &mdash; whatever survives becomes your poem.</span></p>
+      </div>
+    </div>
+
+    <div class="subpage-subhead" style="margin-top:3.5rem;">Stanza 2 &middot; Senses of a Scribe &mdash; Shape a Sensory Moment: Line Break Poem</div>
+    <div class="subpage-body">
+      <p>A line break is a breath. Type a sentence, then click between any two words to insert a break there. Break a slow moment into fragments and it stretches out, holding its breath. Break a quick one the same way and it snaps forward instead. Try both.</p>
+    </div>
+    <div class="poet-lines">
+      <div class="poet-lines-mode" id="lineMode">
+        <button type="button" class="source-tab is-active" data-mode="slow">Slow it down</button>
+        <button type="button" class="source-tab" data-mode="fast">Speed it up</button>
+      </div>
+      <div class="poet-lines-field">
+        <label for="lineInput">Your sentence</label>
+        <input type="text" id="lineInput" value="If a moment is slow we can make it feel slow" maxlength="140">
+        <button type="button" id="lineShape" class="btn-pill">Shape it</button>
+      </div>
+      <div class="poet-lines-tokens" id="lineTokens" hidden></div>
+      <div class="poet-lines-preview" id="linePreview" hidden>
+        <div class="poet-lines-preview-label">Your shaped poem</div>
+        <div class="poet-lines-preview-text" id="linePreviewText"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 05 Learning Outcomes -->
+<div class="subpage-section tint">
   <div class="subpage-section-inner">
     <div class="subpage-section-head">
       <h2 class="subpage-section-title">Learning <em>Outcomes</em></h2>
@@ -191,6 +252,390 @@
   const updateNav = () => nav.classList.toggle('scrolled', window.scrollY > 60);
   window.addEventListener('scroll', updateNav, { passive: true });
   updateNav();
+</script>
+
+<script>
+  var HERO_PHOTOS = [
+    "Images/Photography%20Images/Lucky%20Day.jpg",
+    "Images/Photography%20Images/Dark%20Buddha.jpg",
+    "Images/Photography%20Images/City%20Tops.jpg",
+    "Images/Photography%20Images/Red%20Wood%20Wall.jpg",
+    "Images/Photography%20Images/Alley%20Temple.jpg",
+    "Images/Photography%20Images/Smal%20Rail%20Car.jpg",
+    "Images/Photography%20Images/Greenery.jpg",
+    "Images/Photography%20Images/Pink%20Flowers.jpg",
+    "Images/Photography%20Images/Statue.jpg",
+    "Images/Photography%20Images/City%20Bridge.jpg",
+    "Images/Photography%20Images/Golden%20Temple.jpg",
+    "Images/Photography%20Images/Lighthouse.jpg",
+    "Images/Photography%20Images/Temple%20Reflection.jog.jpg",
+    "Images/Photography%20Images/Temple%20Tops.jpg",
+    "Images/Photography%20Images/Coffee%20Shop%20Ceiling.jpg",
+    "Images/Photography%20Images/Red%20Wall%20Demon.jpg",
+    "Images/Photography%20Images/Cat.jpg",
+    "Images/Photography%20Images/Japanese%20Cards.jpg",
+    "Images/Photography%20Images/Horse%20Sign.jpg",
+    "Images/Photography%20Images/Car%20Trailer.jpg"
+  ];
+  var heroPhotoEl = document.getElementById('poetHeroPhoto');
+  if (heroPhotoEl) {
+    var heroPick = HERO_PHOTOS[Math.floor(Math.random() * HERO_PHOTOS.length)];
+    heroPhotoEl.style.backgroundImage = "url('" + heroPick + "')";
+  }
+</script>
+
+<script>
+  // Blackout Poetry: The Sensory Hunt. Real activity from the Poetry
+  // Intensive workbook (Stanza 2, Senses of a Scribe). Six selectable
+  // source passages across three genres, each rendered in its actual
+  // form rather than one flat paragraph: prose is a single flowing
+  // line (as before); poems keep their real line breaks; plays carry
+  // a speaker label, with verse plays (Hamlet) also keeping their real
+  // line breaks and prose-dialogue plays (Earnest) flowing as prose
+  // under the speaker name, matching how each is actually printed.
+  // Click a word to black it out, click again to bring it back, or
+  // press-and-drag across several to paint them out in one pass. The
+  // words left standing assemble live into a found poem below.
+  (function () {
+    var SOURCES = {
+      wallpaper: {
+        genre: 'prose',
+        speaker: null,
+        lines: [
+          "It is very seldom that mere ordinary people like John and myself secure ancestral halls for the summer. A colonial mansion, a hereditary estate, I would say a haunted house, and reach the height of romantic felicity—but that would be asking too much of fate! Still I will proudly declare that there is something queer about it. Else, why should it be let so cheaply? And why have stood so long untenanted? There were greenhouses, too, but they are all broken now. There was some legal trouble, I believe, something about the heirs and co-heirs; anyhow, the place has been empty for years. That spoils my ghostliness, I am afraid; but I don’t care—there is something strange about the house—I can feel it."
+        ],
+        attribution: "Source text: the opening of &ldquo;The Yellow Wallpaper&rdquo; by Charlotte Perkins Gilman, 1892, public domain."
+      },
+      frankenstein: {
+        genre: 'prose',
+        speaker: null,
+        lines: [
+          "It was on a dreary night of November that I beheld the accomplishment of my toils. With an anxiety that almost amounted to agony, I collected the instruments of life around me, that I might infuse a spark of being into the lifeless thing that lay at my feet. It was already one in the morning; the rain pattered dismally against the panes, and my candle was nearly burnt out, when, by the glimmer of the half-extinguished light, I saw the dull yellow eye of the creature open; it breathed hard, and a convulsive motion agitated its limbs."
+        ],
+        attribution: "Source text: the creation scene, Chapter 5 of &ldquo;Frankenstein; or, The Modern Prometheus&rdquo; by Mary Shelley, 1818, public domain."
+      },
+      raven: {
+        genre: 'poem',
+        speaker: null,
+        lines: [
+          "Once upon a midnight dreary, while I pondered, weak and weary,",
+          "Over many a quaint and curious volume of forgotten lore—",
+          "While I nodded, nearly napping, suddenly there came a tapping,",
+          "As of some one gently rapping, rapping at my chamber door.",
+          "“’Tis some visitor,” I muttered, “tapping at my chamber door—",
+          { text: "Only this, and nothing more.”", indent: true }
+        ],
+        attribution: "Source text: the first stanza of &ldquo;The Raven&rdquo; by Edgar Allan Poe, 1845, public domain."
+      },
+      whitman: {
+        genre: 'poem',
+        speaker: null,
+        lines: [
+          "I celebrate myself, and sing myself,",
+          "And what I assume you shall assume,",
+          "For every atom belonging to me as good belongs to you.",
+          "I loafe and invite my soul,",
+          "I lean and loafe at my ease observing a spear of summer grass.",
+          "My tongue, every atom of my blood, form’d from this soil, this air,",
+          "Born here of parents born here from parents the same, and their parents the same,",
+          "I, now thirty-seven years old in perfect health begin,",
+          "Hoping to cease not till death."
+        ],
+        attribution: "Source text: the opening of &ldquo;Song of Myself,&rdquo; section 1, by Walt Whitman, 1892 edition, public domain."
+      },
+      earnest: {
+        genre: 'play',
+        speaker: 'Lady Bracknell',
+        lines: [
+          "I do not approve of anything that tampers with natural ignorance. Ignorance is like a delicate exotic fruit; touch it and the bloom is gone. The whole theory of modern education is radically unsound. Fortunately in England, at any rate, education produces no effect whatsoever. If it did, it would prove a serious danger to the upper classes, and would probably lead to acts of violence in Grosvenor Square."
+        ],
+        attribution: "Source text: Lady Bracknell, Act 1 of &ldquo;The Importance of Being Earnest&rdquo; by Oscar Wilde, 1895, public domain."
+      },
+      hamlet: {
+        genre: 'play',
+        speaker: 'Hamlet',
+        lines: [
+          "To be, or not to be, that is the question:",
+          "Whether ’tis nobler in the mind to suffer",
+          "The slings and arrows of outrageous fortune,",
+          "Or to take arms against a sea of troubles,",
+          "And by opposing end them. To die, to sleep—",
+          "No more; and by a sleep to say we end",
+          "The heart-ache, and the thousand natural shocks",
+          "That flesh is heir to. ’Tis a consummation",
+          "Devoutly to be wish’d."
+        ],
+        attribution: "Source text: the opening of Hamlet&rsquo;s soliloquy, Act 3 Scene 1 of &ldquo;Hamlet&rdquo; by William Shakespeare, c. 1600, public domain."
+      }
+    };
+
+    var passageEl = document.getElementById('blackoutPassage');
+    var poemTextEl = document.getElementById('blackoutPoemText');
+    var resetBtn = document.getElementById('blackoutReset');
+    var attributionEl = document.getElementById('blackoutAttribution');
+    var pickerEl = document.getElementById('blackoutSourcePicker');
+    var genreTagEl = document.getElementById('blackoutGenreTag');
+    if (!passageEl) return;
+
+    var GENRE_LABELS = { prose: 'Prose', poem: 'Poem', play: 'Play' };
+
+    var words = [];
+    var wordEls = [];
+    var outSet = {};
+    var lineGroups = [];
+    var isPainting = false;
+    var paintValue = false;
+    var pointerHandled = false;
+
+    // Source text often has em dashes fused directly to the words on
+    // either side (e.g. "house—I") with no space to split on, which
+    // would otherwise turn two words into one shared button and black
+    // both out together. Pad the dash so it tokenizes as its own word.
+    function tokenize(text) {
+      return text.replace(/—/g, ' — ').split(/\s+/).filter(Boolean);
+    }
+
+    function buildPassage(key) {
+      var source = SOURCES[key];
+      if (!source) return;
+      passageEl.innerHTML = '';
+      words = [];
+      wordEls = [];
+      outSet = {};
+      lineGroups = [];
+
+      if (source.speaker) {
+        var speakerEl = document.createElement('div');
+        speakerEl.className = 'bo-speaker';
+        speakerEl.textContent = source.speaker;
+        passageEl.appendChild(speakerEl);
+      }
+
+      var globalIdx = 0;
+      source.lines.forEach(function (line) {
+        var isIndent = typeof line === 'object' && line.indent;
+        var lineText = typeof line === 'object' ? line.text : line;
+        var lineEl = document.createElement('div');
+        lineEl.className = 'bo-line' + (isIndent ? ' is-indent' : '');
+        var lineIndices = [];
+        tokenize(lineText).forEach(function (word) {
+          words.push(word);
+          var btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'bo-word';
+          btn.textContent = word;
+          btn.setAttribute('data-idx', globalIdx);
+          lineEl.appendChild(btn);
+          wordEls.push(btn);
+          lineIndices.push(globalIdx);
+          globalIdx++;
+        });
+        passageEl.appendChild(lineEl);
+        lineGroups.push(lineIndices);
+      });
+
+      if (attributionEl) attributionEl.innerHTML = source.attribution;
+      if (genreTagEl) {
+        genreTagEl.textContent = GENRE_LABELS[source.genre] || '';
+        genreTagEl.className = 'poet-blackout-genre-tag genre-' + source.genre;
+      }
+      renderPoem();
+    }
+
+    // The found poem mirrors the passage's own shape: prose (and prose
+    // dialogue, like the Earnest excerpt) stays one flowing block since
+    // that's a single line group; verse (poems, and Hamlet's soliloquy)
+    // keeps its real line breaks, so a survivor from line 3 lands on
+    // its own line below rather than running into everything else. A
+    // line with nothing left standing is simply skipped, not left as
+    // a blank gap.
+    function renderPoem() {
+      var lineTexts = [];
+      lineGroups.forEach(function (indices) {
+        var kept = [];
+        indices.forEach(function (idx) {
+          if (!outSet[idx]) kept.push(words[idx]);
+        });
+        if (kept.length) lineTexts.push(kept.join(' '));
+      });
+
+      if (lineTexts.length === 0) {
+        poemTextEl.innerHTML = '<span class="poet-blackout-empty">Every word is blacked out. Click a few back in.</span>';
+        return;
+      }
+
+      poemTextEl.innerHTML = '';
+      lineTexts.forEach(function (line, i) {
+        poemTextEl.appendChild(document.createTextNode(line));
+        if (i < lineTexts.length - 1) poemTextEl.appendChild(document.createElement('br'));
+      });
+    }
+
+    function applyPaint(btn) {
+      var idx = btn.getAttribute('data-idx');
+      if (!!outSet[idx] === paintValue) return;
+      outSet[idx] = paintValue;
+      btn.classList.toggle('is-out', paintValue);
+      renderPoem();
+    }
+
+    // Pointer-driven paint: press a word to start, drag across others
+    // while held to black them all out (or restore them, if the word
+    // you started on was already out) in one continuous gesture.
+    passageEl.addEventListener('pointerdown', function (e) {
+      var btn = e.target.closest('.bo-word');
+      if (!btn) return;
+      isPainting = true;
+      pointerHandled = true;
+      paintValue = !outSet[btn.getAttribute('data-idx')];
+      applyPaint(btn);
+    });
+
+    document.addEventListener('pointermove', function (e) {
+      if (!isPainting) return;
+      var el = document.elementFromPoint(e.clientX, e.clientY);
+      var btn = el && el.closest ? el.closest('.bo-word') : null;
+      if (btn) applyPaint(btn);
+    });
+
+    document.addEventListener('pointerup', function () { isPainting = false; });
+    document.addEventListener('pointercancel', function () { isPainting = false; });
+
+    // Keyboard activation (Enter/Space on a focused word) fires a click
+    // with no preceding pointerdown, so it falls through here untouched.
+    // Mouse/touch clicks already got handled by pointerdown above; the
+    // pointerHandled flag stops them from double-toggling.
+    passageEl.addEventListener('click', function (e) {
+      var btn = e.target.closest('.bo-word');
+      if (!btn) return;
+      if (pointerHandled) { pointerHandled = false; return; }
+      var idx = btn.getAttribute('data-idx');
+      outSet[idx] = !outSet[idx];
+      btn.classList.toggle('is-out', !!outSet[idx]);
+      renderPoem();
+    });
+
+    if (resetBtn) {
+      resetBtn.addEventListener('click', function () {
+        outSet = {};
+        wordEls.forEach(function (el) { el.classList.remove('is-out'); });
+        renderPoem();
+      });
+    }
+
+    if (pickerEl) {
+      pickerEl.addEventListener('click', function (e) {
+        var tab = e.target.closest('.source-tab');
+        if (!tab) return;
+        var key = tab.getAttribute('data-source');
+        if (tab.classList.contains('is-active')) return;
+        pickerEl.querySelectorAll('.source-tab').forEach(function (t) { t.classList.remove('is-active'); });
+        tab.classList.add('is-active');
+        buildPassage(key);
+      });
+    }
+
+    buildPassage('wallpaper');
+  })();
+
+  // Shape a Sensory Moment: Line Break Poem. Also from Stanza 2. Type a
+  // sentence, click between words to toggle a line break there, watch
+  // the pacing re-flow live in the preview below.
+  (function () {
+    var input = document.getElementById('lineInput');
+    var shapeBtn = document.getElementById('lineShape');
+    var tokensEl = document.getElementById('lineTokens');
+    var previewWrap = document.getElementById('linePreview');
+    var previewText = document.getElementById('linePreviewText');
+    var modeEl = document.getElementById('lineMode');
+    if (!shapeBtn) return;
+
+    // Grounded in the workbook's own Stanza 1 grammar point: short
+    // sentences read fast, long ones read slow. Same break-insertion
+    // mechanic either way; only the starting sentence changes.
+    var MODE_DEFAULTS = {
+      slow: 'If a moment is slow we can make it feel slow',
+      fast: 'If a sound is sharp it can pop'
+    };
+
+    var words = [];
+    var breakSet = {};
+
+    function renderTokens() {
+      tokensEl.innerHTML = '';
+      words.forEach(function (word, i) {
+        var wSpan = document.createElement('span');
+        wSpan.className = 'ln-word';
+        wSpan.textContent = word;
+        tokensEl.appendChild(wSpan);
+
+        if (i < words.length - 1) {
+          var gapBtn = document.createElement('button');
+          gapBtn.type = 'button';
+          gapBtn.className = 'ln-gap';
+          gapBtn.setAttribute('data-gap', i);
+          gapBtn.textContent = breakSet[i] ? '↵' : '|';
+          gapBtn.classList.toggle('is-active', !!breakSet[i]);
+          tokensEl.appendChild(gapBtn);
+        }
+      });
+      tokensEl.hidden = false;
+    }
+
+    function renderPreview() {
+      previewText.innerHTML = '';
+      words.forEach(function (word, i) {
+        previewText.appendChild(document.createTextNode(word));
+        if (i < words.length - 1) {
+          if (breakSet[i]) {
+            previewText.appendChild(document.createElement('br'));
+          } else {
+            previewText.appendChild(document.createTextNode(' '));
+          }
+        }
+      });
+      previewWrap.hidden = false;
+    }
+
+    function shape() {
+      var sentence = input.value.trim();
+      if (!sentence) return;
+      words = sentence.split(/\s+/);
+      breakSet = {};
+      renderTokens();
+      renderPreview();
+    }
+
+    shapeBtn.addEventListener('click', shape);
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') { e.preventDefault(); shape(); }
+    });
+
+    tokensEl.addEventListener('click', function (e) {
+      var btn = e.target.closest('.ln-gap');
+      if (!btn) return;
+      var idx = btn.getAttribute('data-gap');
+      breakSet[idx] = !breakSet[idx];
+      btn.classList.toggle('is-active', !!breakSet[idx]);
+      btn.textContent = breakSet[idx] ? '↵' : '|';
+      renderPreview();
+    });
+
+    if (modeEl) {
+      modeEl.addEventListener('click', function (e) {
+        var tab = e.target.closest('.source-tab');
+        if (!tab) return;
+        var mode = tab.getAttribute('data-mode');
+        if (tab.classList.contains('is-active')) return;
+        modeEl.querySelectorAll('.source-tab').forEach(function (t) { t.classList.remove('is-active'); });
+        tab.classList.add('is-active');
+        input.value = MODE_DEFAULTS[mode];
+        shape();
+      });
+    }
+
+    shape();
+  })();
 </script>
 
 </body>

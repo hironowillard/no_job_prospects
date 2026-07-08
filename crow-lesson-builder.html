@@ -1,7 +1,3 @@
-<!-- TODO(content gate): Twits and Hitchhiker's Guide comprehension questions still need to be
-     checked against the actual workbooks before deploy. Some phrasings were tightened for
-     length and may not match the source exactly. Do not deploy until Nico confirms this
-     content pass is done. -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -20,15 +16,22 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=48">
+<link rel="stylesheet" href="styles.css?v=50">
 <style>
   :root{
-    --collect:#725A5F; --reframe:#4E4433; --oppose:#A86163; --wield:#8C6531;
-    --oppose-tint:#F2E2E0; --shadow:#6B3D52;
+    --collect:#48525B; --reframe:#4E4433; --oppose:#B2603C; --wield:#8C6531;
+    --oppose-tint:#F5E2D5; --shadow:#6B3D52;
   }
   *{box-sizing:border-box}
   html,body{margin:0}
   .wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+
+  /* the tool grid isn't a new titled section like the ones elsewhere on
+     the site (no heading/rule arriving to mark a fresh start), so it
+     reads as a longer gap than the same number of pixels would on a
+     page like crow.html. Trimmed tighter here to compensate. */
+  #lb-overview{padding-bottom:2.5rem}
+  .lb-toolwrap{padding:0.25rem 0 3rem}
 
   .lb-overview-row{display:flex;gap:2.5rem;align-items:flex-start;flex-wrap:wrap}
   .lb-overview-row .subpage-body{flex:1 1 480px;margin:0}
@@ -97,6 +100,8 @@
   .act-dir{font-size:13px;color:#4E4433;line-height:1.55;margin-bottom:6px}
   .act-why{font-size:12px;color:#8A7C64;line-height:1.45}
   .act-why .l{font-family:"Archivo",system-ui,sans-serif;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-right:6px}
+  .act-key{margin-top:8px;padding:9px 11px;background:var(--cream-card);border-left:3px solid var(--gold-deep);border-radius:0 6px 6px 0;font-size:12px;color:var(--ink-soft);line-height:1.5}
+  .act-key .l{font-family:"Archivo",system-ui,sans-serif;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-deep);margin-right:6px;display:block;margin-bottom:3px}
   .check{background:var(--cream-2);padding:10px 16px;font-size:12.5px;color:#4E4433;border-top:1px solid var(--rule)}
   .check .l{font-family:"Archivo",system-ui,sans-serif;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--reframe);margin-right:7px}
 
@@ -176,8 +181,9 @@
 </nav>
 
 <!-- HERO -->
-<div class="subpage-hero" id="lb-hero">
-  <div class="subpage-hero-inner">
+<div class="subpage-hero photo-hero">
+  <div class="hero-photo-layer" id="lb-hero-photo"></div>
+  <div class="subpage-hero-inner shimmer-hero">
     <div class="subpage-breadcrumb"><a href="index.html#work">Selected Work</a></div>
     <div class="subpage-eyebrow">Interactive Demonstration</div>
     <h1 class="subpage-title">CROW Lesson Builder</h1>
@@ -219,6 +225,7 @@
   </div>
 </div>
 
+<div class="lb-toolwrap">
 <main class="wrap">
   <div class="lb-grid">
     <aside class="lb-sidebar">
@@ -249,6 +256,7 @@
     </section>
   </div>
 </main>
+</div>
 
 <footer>
   <span class="footer-name">Nico Orsini &middot; Learning Experience Design &amp; Creative Direction</span>
@@ -263,6 +271,38 @@
 </script>
 
 <script>
+  /* hero photo: one random frame from the Film & Motion gallery, new
+     pick on every load, same pool used on index.html/photography.html */
+  var HERO_PHOTOS = [
+    "Images/Photography%20Images/Lucky%20Day.jpg",
+    "Images/Photography%20Images/Dark%20Buddha.jpg",
+    "Images/Photography%20Images/City%20Tops.jpg",
+    "Images/Photography%20Images/Red%20Wood%20Wall.jpg",
+    "Images/Photography%20Images/Alley%20Temple.jpg",
+    "Images/Photography%20Images/Smal%20Rail%20Car.jpg",
+    "Images/Photography%20Images/Greenery.jpg",
+    "Images/Photography%20Images/Pink%20Flowers.jpg",
+    "Images/Photography%20Images/Statue.jpg",
+    "Images/Photography%20Images/City%20Bridge.jpg",
+    "Images/Photography%20Images/Golden%20Temple.jpg",
+    "Images/Photography%20Images/Lighthouse.jpg",
+    "Images/Photography%20Images/Temple%20Reflection.jog.jpg",
+    "Images/Photography%20Images/Temple%20Tops.jpg",
+    "Images/Photography%20Images/Coffee%20Shop%20Ceiling.jpg",
+    "Images/Photography%20Images/Red%20Wall%20Demon.jpg",
+    "Images/Photography%20Images/Cat.jpg",
+    "Images/Photography%20Images/Japanese%20Cards.jpg",
+    "Images/Photography%20Images/Horse%20Sign.jpg",
+    "Images/Photography%20Images/Car%20Trailer.jpg"
+  ];
+  var lbHeroPhoto = document.getElementById('lb-hero-photo');
+  if (lbHeroPhoto) {
+    var pick = HERO_PHOTOS[Math.floor(Math.random() * HERO_PHOTOS.length)];
+    lbHeroPhoto.style.backgroundImage = "url('" + pick + "')";
+  }
+</script>
+
+<script>
 const PHASES={Collect:{color:"var(--collect)"},Reframe:{color:"var(--reframe)"},Oppose:{color:"var(--oppose)"},Wield:{color:"var(--wield)"}};
 const ORDER=["Collect","Reframe","Oppose","Wield"];
 const WHEEL="Images/assets/archetype-wheel.jpg";
@@ -270,7 +310,7 @@ const WHEEL="Images/assets/archetype-wheel.jpg";
 /* ============ UNIVERSAL METHODOLOGY ============ */
 /* acts: [phase, name, teacher direction, instructional purpose] */
 const METH={
-  genre:{name:"Genre Introduction",week:"Week 1 — Foundations",emphasis:"Collect / Wield",keySection:null,
+  genre:{name:"Genre Introduction",week:"Week 1 — Foundations",emphasis:"Wield / Collect",keySection:"genre",
     ccss:{code:"RL.5.9",desc:"Compare and contrast stories in the same genre."},
     korean:"Recognizes literary genres and compares thematic and structural patterns across texts.",
     mindful:"Students may list specific titles instead of traits. Redirect toward broader conventions.",
@@ -284,7 +324,7 @@ const METH={
       ["Wield","Predictive Genre Lens","Using cover, title, and conventions, students predict settings, conflicts, symbolic objects, and character types likely to appear.","Apply genre knowledge as a tool for informed prediction."],
       ["Wield","Narrative Arc Forecast","Apply the scaffold to forecast how the story might progress, challenges, transformations, outcomes.","Synthesize genre understanding into forward-thinking expectations."]]},
 
-  author:{name:"About the Author",week:"Week 1 — Foundations",emphasis:"Collect",keySection:null,
+  author:{name:"About the Author",week:"Week 1 — Foundations",emphasis:"Collect",keySection:"author",
     ccss:{code:"RL.6.6",desc:"Analyze how an author's point of view or purpose shapes a text."},
     korean:"Relates an author's life, era, or worldview to narrative voice and subject matter.",
     mindful:"Students may retell biography without analysis. Push them to trace biography → style → story.",
@@ -312,19 +352,19 @@ const METH={
       ["Wield","Perspective Rewrite","Rewrite a short passage from a different POV, adjusting language and internal detail.","Apply POV understanding through controlled transformation."],
       ["Wield","Tone Shift Application","Revise a selected line to intentionally alter its tone; explain how the reader's experience changes.","Synthesize tone analysis into purposeful stylistic decisions."]]},
 
-  archetypes:{name:"Archetypes",week:"Week 3 — Characters & Cultural Patterns",emphasis:"Reframe / Oppose",keySection:"archetypes",
-    ccss:{code:"RL.8.9",desc:"Analyze how modern works draw on themes or patterns from myths and traditional stories."},
-    korean:"Identifies shared cultural symbols and character functions within stories.",
-    mindful:"Students may repeat roles too often. Encourage varied archetypes across characters, objects, and forces.",
-    checks:{Collect:"Which role do we already see in this text?",Reframe:"Do archetypes only belong to people, or can objects and places carry them too?",Oppose:"Which archetype feels most contested, and why?",Wield:"Which detail most clearly shows how one archetype appears?"},
-    acts:[["Collect","Archetypal Role Brainstorm","Brainstorm common story roles (hero, shadow, helper, trickster, mentor) and what each does in a narrative.","Activate prior schema for archetypal function."],
-      ["Collect","Story Element Collection","Gather a focused pool of 10-15 key elements, characters, then objects, then places and forces.","Establish a shared pool of elements for mapping."],
-      ["Reframe","Beyond Characters Expansion","Sort elements into Characters / Objects / Places / Forces and discuss how non-human elements carry roles.","Reframe archetypes as functional roles expressible beyond character."],
-      ["Reframe","Archetype Matching & Justification","Using the archetype wheel, assign archetypes to elements; students justify a few aloud with brief evidence.","Shift archetype work from labeling to reasoning."],
-      ["Oppose","Constraint-Based Revision","Give one or two constraints (e.g., only three Shadows; a key villain is not human); students revise assignments accordingly.","Drive precision through purposeful limitation."],
-      ["Oppose","Reveal & Evidence Debate","Compare maps to the consensus key; for disputed cases, students make brief evidence-based arguments.","Reinforce that archetype assignment is interpretive and evidence-driven."],
-      ["Wield","Presentation Language","Describe how each central archetype is presented in one or two observable words.","Synthesize into precise descriptive language for later writing."],
-      ["Wield","Predictive Archetype Lens","Predict how roles might shift near the climax and justify using established patterns.","Apply archetypal thinking to forecasting."]]},
+  allusion:{name:"Allusions & Symbolism",week:"Week 2 — Structure & First Response",emphasis:"Reframe",keySection:"allusion",
+    ccss:{code:"RL.8.4",desc:"Determine the meaning of words, phrases, and allusions as used in a text."},
+    korean:"Interprets meaning through metaphor, imagery, and intertextual references.",
+    mindful:"Students may confuse allusions with symbolism. Allusions point outward; symbols point inward.",
+    checks:{Collect:"Does this detail point outward, inward, or both? Why?",Reframe:"Who reacts more strongly to this object, a character, or us?",Oppose:"Which symbol changes how a character feels, and which changes how we feel most?",Wield:"Would your invention change how characters see the story, or how we do?"},
+    acts:[["Collect","Directional Meaning Sort","Classify modeled examples as allusion (outward reference) or symbol (inward meaning) using directional language.","Establish clear boundaries between allusion and symbolism."],
+      ["Collect","Perspective-Based Clarification","Articulate what a detail reveals to a character vs. what it suggests to the audience.","Ground interpretation in perspective, not vague reaction."],
+      ["Reframe","Symbol Identification","Identify ordinary-seeming recurring details; describe reactions and propose abstract meaning.","Reframe symbolism as a relationship between object, reaction, and idea."],
+      ["Reframe","Allusion Identification","Identify an allusion, classify its type, and explain its effect on understanding.","Move from recognizing references to analyzing their function."],
+      ["Oppose","Symbol Effectiveness Evaluation","Evaluate why a symbol works, contrasting its impact on characters with its effect on the audience.","Emphasize intentional design over description."],
+      ["Oppose","Allusion Purpose Debate","Debate whether an allusion primarily serves character understanding or audience meaning, then refine the claim.","Reinforce audience awareness and precise meaning."],
+      ["Wield","Invented Allusion","Create an original allusion that fits the narrative, reference, type, intended meaning.","Apply understanding of allusion through creation."],
+      ["Wield","Designed Symbol","Design a symbolic object; describe response to it and the abstract idea it represents.","Synthesize symbolic thinking through creative application."]]},
 
   character:{name:"Character Maps",week:"Week 3 — Characters & Cultural Patterns",emphasis:"Reframe / Oppose",keySection:"character",
     ccss:{code:"RL.6.3",desc:"Describe how a character's response or change contributes to the central theme."},
@@ -340,19 +380,19 @@ const METH={
       ["Wield","Development Labels","Apply flat/round and static/dynamic to selected characters with brief evidence.","Synthesize analysis into formal terminology."],
       ["Wield","Relationship Shift Prediction","Predict how key relationships change by the end, in understanding, trust, or values.","Apply analysis toward relational and thematic forecasting."]]},
 
-  allusion:{name:"Allusions & Symbolism",week:"Week 2 — Structure & First Response",emphasis:"Oppose / Wield",keySection:"allusion",
-    ccss:{code:"RL.8.4",desc:"Determine the meaning of words, phrases, and allusions as used in a text."},
-    korean:"Interprets meaning through metaphor, imagery, and intertextual references.",
-    mindful:"Students may confuse allusions with symbolism. Allusions point outward; symbols point inward.",
-    checks:{Collect:"Does this detail point outward, inward, or both? Why?",Reframe:"Who reacts more strongly to this object, a character, or us?",Oppose:"Which symbol changes how a character feels, and which changes how we feel most?",Wield:"Would your invention change how characters see the story, or how we do?"},
-    acts:[["Collect","Directional Meaning Sort","Classify modeled examples as allusion (outward reference) or symbol (inward meaning) using directional language.","Establish clear boundaries between allusion and symbolism."],
-      ["Collect","Perspective-Based Clarification","Articulate what a detail reveals to a character vs. what it suggests to the audience.","Ground interpretation in perspective, not vague reaction."],
-      ["Reframe","Symbol Identification","Identify ordinary-seeming recurring details; describe reactions and propose abstract meaning.","Reframe symbolism as a relationship between object, reaction, and idea."],
-      ["Reframe","Allusion Identification","Identify an allusion, classify its type, and explain its effect on understanding.","Move from recognizing references to analyzing their function."],
-      ["Oppose","Symbol Effectiveness Evaluation","Evaluate why a symbol works, contrasting its impact on characters with its effect on the audience.","Emphasize intentional design over description."],
-      ["Oppose","Allusion Purpose Debate","Debate whether an allusion primarily serves character understanding or audience meaning, then refine the claim.","Reinforce audience awareness and precise meaning."],
-      ["Wield","Invented Allusion","Create an original allusion that fits the narrative, reference, type, intended meaning.","Apply understanding of allusion through creation."],
-      ["Wield","Designed Symbol","Design a symbolic object; describe response to it and the abstract idea it represents.","Synthesize symbolic thinking through creative application."]]},
+  archetypes:{name:"Archetypes",week:"Week 3 — Characters & Cultural Patterns",emphasis:"Oppose",keySection:"archetypes",
+    ccss:{code:"RL.8.9",desc:"Analyze how modern works draw on themes or patterns from myths and traditional stories."},
+    korean:"Identifies shared cultural symbols and character functions within stories.",
+    mindful:"Students may repeat roles too often. Encourage varied archetypes across characters, objects, and forces.",
+    checks:{Collect:"Which role do we already see in this text?",Reframe:"Do archetypes only belong to people, or can objects and places carry them too?",Oppose:"Which archetype feels most contested, and why?",Wield:"Which detail most clearly shows how one archetype appears?"},
+    acts:[["Collect","Archetypal Role Brainstorm","Brainstorm common story roles (hero, shadow, helper, trickster, mentor) and what each does in a narrative.","Activate prior schema for archetypal function."],
+      ["Collect","Story Element Collection","Gather a focused pool of 10-15 key elements, characters, then objects, then places and forces.","Establish a shared pool of elements for mapping."],
+      ["Reframe","Beyond Characters Expansion","Sort elements into Characters / Objects / Places / Forces and discuss how non-human elements carry roles.","Reframe archetypes as functional roles expressible beyond character."],
+      ["Reframe","Archetype Matching & Justification","Using the archetype wheel, assign archetypes to elements; students justify a few aloud with brief evidence.","Shift archetype work from labeling to reasoning."],
+      ["Oppose","Constraint-Based Revision","Give one or two constraints (e.g., only three Shadows; a key villain is not human); students revise assignments accordingly.","Drive precision through purposeful limitation."],
+      ["Oppose","Reveal & Evidence Debate","Compare maps to the consensus key; for disputed cases, students make brief evidence-based arguments.","Reinforce that archetype assignment is interpretive and evidence-driven."],
+      ["Wield","Presentation Language","Describe how each central archetype is presented in one or two observable words.","Synthesize into precise descriptive language for later writing."],
+      ["Wield","Predictive Archetype Lens","Predict how roles might shift near the climax and justify using established patterns.","Apply archetypal thinking to forecasting."]]},
 
   conflict:{name:"Conflict Analysis",week:"Week 4 — Conflict, Theme & Final Response",emphasis:"Oppose / Wield",keySection:"conflict",
     ccss:{code:"RL.7.2",desc:"Analyze how conflict develops and resolves across a text."},
@@ -382,7 +422,7 @@ const METH={
       ["Wield","Real-World Application","Connect a developed theme to a real situation, ethical question, or experience.","Apply literary meaning to lived experience."],
       ["Wield","Cross-Text Comparison","Compare the theme to one in another story, film, or cultural narrative.","Synthesize thematic understanding across contexts."]]},
 
-  comprehension:{name:"Comprehension Questions",week:"Ongoing · across the cycle",emphasis:"Assessment",keySection:"comprehension",isComp:true,
+  comprehension:{name:"Comprehension Questions",week:"Ongoing · across the cycle",emphasis:"CROW Review",keySection:"comprehension",isComp:true,
     ccss:{code:"RL — recall & inference",desc:"Cite textual evidence to support analysis of what the text says explicitly and inferentially."},
     korean:"Confirms accurate, detailed reading and supports inferential discussion.",
     note:"Comprehension runs as ongoing checks rather than a single CROW lesson. Questions are organized into three sets aligned to the narrative's structural movements; some intentionally bridge across sections. Each carries a model response and a scene anchor for teacher orientation, not a strict location marker."}
@@ -399,6 +439,8 @@ const BOOKS={
 /* ============ KEYS ============ */
 const KEYS={
   twits:{
+    genreConnection:"The Twits sits at the soft end of fantasy world-building. A monkey directs an uprising, a bird crosses the language barrier between species, an invented illness (the Shrinks) turns out to be real, and none of it comes with rules, systems, or explanation. The magic barely announces itself as magic, it simply does whatever the story's cruelty-and-comeuppance logic needs done. That's immersion through mood and consequence rather than through built-out geography, culture, or history, the fantastical elements exist to serve the plot's moral mechanics (birds warn each other, monkeys plan revenge, bodies shrink away to nothing) rather than to build a coherent alternate world the way hard fantasy would.",
+    authorConnection:"Roald Dahl spent years writing for adults first, an RAF fighter pilot in WWII, later a diplomat in Washington, before turning to children's books in 1960, initially to entertain his own kids. The Twits has an unusually petty origin for a published novel: Dahl said outright he wrote it to \"do something against beards,\" his own real distaste for facial hair, which became Mr Twit's defining, disgusting trait. Worth raising with students: a writer's personal irritation can become an entire book's premise.",
     trueShadow:{name:"Cruelty for Its Own Sake",desc:"The habit of hurting others for amusement, which creates vulnerability across the household, the cage, and the tree. The Twits embrace it daily, until they become the weaker creatures, and the targets, themselves."},
     elements:{fields:[
       ["Setting — physical","Mr and Mrs Twit's windowless house and its thistle-and-nettle garden in England. The sealed walls keep the world out and the cruelty in."],
@@ -469,6 +511,7 @@ const KEYS={
   },
 
   campfire:{
+    genreConnection:"The Curse of the Campfire Weenies is a literal anthology, thirty-five short stories gathered around a shared theme (what happens when you ignore a warning) rather than one continuous plot. Each story stands alone with its own beginning, middle, and end, but the editor arranges them to build an invisible larger story across the book: the title story sits eighth, early enough to set the tone rather than close the collection, while 'Forgotten Monsters' closes it by turning outward and addressing the reader directly, a deliberate escalation from accessible horror-comedy into something that implicates the person holding the book.",
     trueShadow:{name:"Willful Dismissal",desc:"The refusal to look at, listen to, or remember what is already there. Across the collection this dismissal is what exposes characters to harm, and in the final story it pulls the reader into the same logic."},
     elements:{fields:[
       ["Setting — physical","The title story unfolds at a present-day campground in the woods; the final story takes place across the page itself, between the writer who set the words down and the reader holding the book now."],
@@ -540,6 +583,7 @@ const KEYS={
   },
 
   hitchhiker:{
+    genreConnection:"The Hitchhiker's Guide to the Galaxy raises the traditional-versus-modern classics question directly: is it still read and quoted decades later, 42, Don't Panic, the Babel fish, because it has some special built-in literary quality, or because repetition, fandom, and cultural momentum trained generations of readers to treat it as essential? The novel's own relationship to authority and meaning, the Guide's confident, outdated entries, Deep Thought's answer delivered without a properly formed question, makes it a strange, self-aware case: a comic novel that became canon partly by mocking the very idea of a settled, authoritative answer.",
     trueShadow:{name:"Cosmic Meaninglessness",desc:"The universe's fundamental indifference to significance, the realization that scale, answers, and survival may all be structurally unrelated to purpose. It grants characters exactly what they seek (answers, planets, escape) only to reveal meaning was never attached to any of it."},
     elements:{fields:[
       ["Setting — physical","Suburban England and outer space, Arthur's house, the Heart of Gold, and Magrathea. The setting moves rapidly from the ordinary to the cosmic, collapsing the familiar scale of human experience."],
@@ -617,6 +661,7 @@ const KEYS={
   },
 
   cat:{
+    genreConnection:"She and Her Cat began as a Japanese novel and reaches English-language readers only through translation, and the choices behind that translation matter more than usual here: the book's central problem, the Sea of Words, is specifically about language drifting past meaning, what most needs to be said staying unsaid. A translator isn't just swapping English words for Japanese ones, they're deciding how much of that same reticence to preserve, since a version that over-explains would undercut the exact quality the novel is about. Its Eastern-philosophical throughline, impermanence, the seasonal cycle framing loss as continuing rather than ending, harmony between solitary selves and their small community, asks a different question than most Western coming-of-age fiction: not how to fix loneliness, but how to be truly witnessed within it.",
     trueShadow:{name:"The Sea of Words",desc:"The corrupted form of human connection: language drifts past meaning, and what most needs to be said stays unsaid. It belongs to no single character, it is the condition of the human world the cats observe."},
     elements:{fields:[
       ["Setting — physical","A modern Tokyo suburb organized around a single elevated train line, apartments, art studios, and an older house along its slope. Shared cat territories are the connective tissue the humans cannot see."],
@@ -692,7 +737,16 @@ const KEYS={
   }
 };
 
-let state={book:"campfire",area:null,len:"short"};
+/* INLINE: tried threading Key content into individual activities for a
+   pilot book (Twits). Retired, no version of a one-sentence-per-activity
+   snippet reliably surfaced the full cast/roster every time, so every
+   book's analytical content now lives in one place, the Answer Key
+   panel at the end of each lesson, which always shows the complete
+   picture. Left as an empty hook rather than removed outright in case
+   a future format (not per-activity fragments) is worth revisiting. */
+const INLINE={};
+
+let state={book:"twits",area:"genre",len:"short"};
 
 function renderBooks(){
   const box=document.getElementById("books");box.innerHTML="";
@@ -735,11 +789,22 @@ function renderComprehension(book){
     }</div></details>`).join("");
 }
 
+function hasKeyData(area,book){
+  const sec=METH[area].keySection, K=KEYS[book];
+  if(!sec||!K) return false;
+  if(sec==="comprehension") return !!K.comprehension;
+  if(sec==="genre") return !!K.genreConnection;
+  if(sec==="author") return !!K.authorConnection;
+  if(sec==="allusion") return !!K.allusions;
+  return !!K[sec];
+}
 function renderKey(area,book){
   const sec=METH[area].keySection, K=KEYS[book];
   if(sec==="comprehension") return renderComprehension(book);
   const lvl=`${esc(BOOKS[book].title)} · ${esc(BOOKS[book].level)} Key`;
   let body="";
+  if(sec==="genre"){body=`<div class="kgroup"><div class="kglabel">Genre Connection</div><div class="kfield">${esc(K.genreConnection)}</div></div>`;}
+  if(sec==="author"){body=`<div class="kgroup"><div class="kglabel">Author Connection</div><div class="kfield">${esc(K.authorConnection)}</div></div>`;}
   const ts=(sec==="archetypes")?`<div class="shadowbar"><div class="h">True Shadow, the story's central distortion</div><div class="name">${esc(K.trueShadow.name)}</div><p>${esc(K.trueShadow.desc)}</p></div>`:"";
   if(sec==="elements"){const E=K.elements;
     body=E.fields.map(f=>`<div class="kfield"><b>${esc(f[0])}.</b> ${esc(f[1])}</div>`).join("")
@@ -758,7 +823,7 @@ function renderKey(area,book){
   return ts+wheel+`<div class="keypanel"><div class="keyhead"><span class="t">Answer Key · <b>${esc(METH[area].name)}</b></span><span class="lvl">${lvl}</span></div><div class="keybody">${body}</div></div>`;
 }
 
-function build(){
+function build(skipScroll){
   if(!state.area){document.getElementById("areas").animate([{transform:"translateX(0)"},{transform:"translateX(-4px)"},{transform:"translateX(4px)"},{transform:"translateX(0)"}],{duration:220});return;}
   const A=METH[state.area],B=BOOKS[state.book];
 
@@ -778,7 +843,7 @@ function build(){
         <div class="sectlabel">${esc(B.title)} Key · <b>model responses &amp; scene anchors</b></div>
         ${renderComprehension(state.book)}
       </div>`;
-    document.getElementById("stage").scrollIntoView({behavior:"smooth",block:"nearest"});return;
+    if(!skipScroll)document.getElementById("stage").scrollIntoView({behavior:"smooth",block:"nearest"});return;
   }
 
   const per=state.len==="long"?2:1;
@@ -787,15 +852,17 @@ function build(){
   ORDER.forEach(ph=>{
     const chosen=(byPhase[ph]||[]).slice(0,per);if(!chosen.length)return;
     const c=PHASES[ph].color;
-    const acts=chosen.map(a=>`<div class="act"><div class="act-name">${esc(a.n)}<span class="act-tag" style="background:${c}">${ph}</span></div><div class="act-dir">${esc(a.d)}</div><div class="act-why"><span class="l">Why</span>${esc(a.p)}</div></div>`).join("");
+    const inl=(INLINE[state.book]&&INLINE[state.book][state.area])||{};
+    const acts=chosen.map(a=>`<div class="act"><div class="act-name">${esc(a.n)}<span class="act-tag" style="background:${c}">${ph}</span></div><div class="act-dir">${esc(a.d)}</div><div class="act-why"><span class="l">Why</span>${esc(a.p)}</div>${inl[a.n]?`<div class="act-key"><span class="l">${esc(B.title)}</span>${esc(inl[a.n])}</div>`:""}</div>`).join("");
     flow+=`<div class="phase"><div class="node" style="background:${c}">${ph[0]}</div>
       <div class="phase-card"><div class="phase-top" style="background:${c}"><span class="phase-name">${ph}</span></div>
       <div class="acts">${acts}</div>
       <div class="check"><span class="l">Learning check</span>${esc(A.checks[ph])}</div></div></div>`;
   });
 
-  const keyLabel=A.keySection?`Layer 2 · <b>${esc(B.title)} Key</b>, text-specific analytical content`:`Layer 2 · <b>No key</b>, generative lesson`;
-  const keyBlock=A.keySection?renderKey(state.area,state.book):`<div class="pending"><div class="h">Generative lesson, no fixed key</div><p>Genre Introduction and About the Author are discussion-led. The methodology drives them and the book Key carries no set answers; the analytical lessons all draw on the ${esc(B.title)} Key.</p></div>`;
+  const keyed=hasKeyData(state.area,state.book);
+  const keyLabel=keyed?`Layer 2 · <b>${esc(B.title)} Key</b>, text-specific analytical content`:`Layer 2 · <b>No key</b>, generative lesson`;
+  const keyBlock=keyed?renderKey(state.area,state.book):`<div class="pending"><div class="h">Generative lesson, no fixed key</div><p>Genre Introduction and About the Author are discussion-led. The methodology drives them and the book Key carries no set answers; the analytical lessons all draw on the ${esc(B.title)} Key.</p></div>`;
 
   document.getElementById("stage").innerHTML=`
     <div class="lesson">
@@ -815,10 +882,10 @@ function build(){
       <div class="sectlabel">${keyLabel}</div>
       ${keyBlock}
     </div>`;
-  document.getElementById("stage").scrollIntoView({behavior:"smooth",block:"nearest"});
+  if(!skipScroll)document.getElementById("stage").scrollIntoView({behavior:"smooth",block:"nearest"});
 }
 
-renderBooks();renderAreas();
+renderBooks();renderAreas();syncLen();build(true);
 </script>
 </body>
 </html>

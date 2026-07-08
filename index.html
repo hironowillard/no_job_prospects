@@ -22,6 +22,8 @@
     --ink-faint: #8A7C64;
     --forest: #48525B;
     --forest-soft: #566169;
+    --moss: #725A5F;
+    --moss-deep: #4A3A3E;
     --gold: #B9884D;
     --gold-deep: #8C6531;
     --rule: rgba(43,35,24,0.14);
@@ -77,6 +79,33 @@
     white-space: nowrap;
     display: flex; align-items: center; gap: 0.65rem;
     flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  /* one-time shine sweep across the name pill, the first thing on the
+     page, same "introduction" treatment as the subpage hero shimmer,
+     clipped to the pill's own rounded shape instead of a full panel */
+  .mono-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background: linear-gradient(100deg,
+      transparent 30%,
+      rgba(255,255,255,0.55) 47%,
+      rgba(255,255,255,0.75) 50%,
+      rgba(255,255,255,0.55) 53%,
+      transparent 70%);
+    transform: translateX(-150%);
+    animation: pillShimmerSweep 2.5s 0.3s ease-in-out 1 both;
+  }
+  @keyframes pillShimmerSweep {
+    from { transform: translateX(-150%); }
+    to   { transform: translateX(150%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mono-btn::before { animation: none; display: none; }
   }
   .brand-name {
     font-family: var(--display);
@@ -236,12 +265,25 @@
     font-size: 0.72rem;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: var(--gold-deep);
-    border: 1px solid var(--rule);
     border-radius: 999px;
     padding: 0.45rem 0.9rem;
     white-space: nowrap;
+    border: 1px solid transparent;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
   }
+  /* each tag carries its own accent, drawn deliberately from the tokens the
+     CROW phase system (Collect/Reframe/Oppose/Wield) does NOT already use
+     (those claim forest, rust, gold-deep, ink-soft), so a discipline tag
+     here never silently reuses a color that means something else on the
+     CROW page. */
+  .tag-photo      { color: var(--gold);      background: rgba(185,136,77,0.12); border-color: rgba(185,136,77,0.35); }
+  .tag-curriculum { color: var(--moss);      background: rgba(114,90,95,0.08);  border-color: rgba(114,90,95,0.3); }
+  .tag-brand      { color: var(--forest-soft); background: rgba(86,97,105,0.09); border-color: rgba(86,97,105,0.32); }
+  .tag-editorial  { color: var(--moss-deep); background: rgba(74,58,62,0.09);   border-color: rgba(74,58,62,0.32); }
+  .tag-photo:hover      { background: var(--gold);        color: var(--cream); border-color: var(--gold); }
+  .tag-curriculum:hover { background: var(--moss);        color: var(--cream); border-color: var(--moss); }
+  .tag-brand:hover      { background: var(--forest-soft); color: var(--cream); border-color: var(--forest-soft); }
+  .tag-editorial:hover  { background: var(--moss-deep);   color: var(--cream); border-color: var(--moss-deep); }
 
   /* group 4: Selected Work, three columns going down */
   .group-work {
@@ -281,6 +323,31 @@
     transition: background 0.2s;
   }
   .card:hover { background: var(--cream-2); }
+  /* nudge: hovering a discipline tag shakes the matching work card(s),
+     a quick pointer toward "here's the proof" rather than a hover
+     effect on the card itself */
+  .card.is-nudging { animation: cardNudge 0.45s ease-in-out; }
+  @keyframes cardNudge {
+    0%   { transform: translateX(0) rotate(0deg); }
+    20%  { transform: translateX(-4px) rotate(-1.5deg); }
+    45%  { transform: translateX(3px) rotate(1.1deg); }
+    70%  { transform: translateX(-2px) rotate(-0.6deg); }
+    100% { transform: translateX(0) rotate(0deg); }
+  }
+  /* all four tags: a smaller second pulse every ~2s while the hover holds,
+     so a lingering hover still feels acknowledged without turning into a
+     continuous iOS-style tremble (see the staggered timing in the script
+     below for tags with more than one target card) */
+  .card.is-nudging-soft { animation: cardNudgeSoft 0.35s ease-in-out; }
+  @keyframes cardNudgeSoft {
+    0%   { transform: translateX(0) rotate(0deg); }
+    25%  { transform: translateX(-2px) rotate(-0.7deg); }
+    55%  { transform: translateX(1.5px) rotate(0.5deg); }
+    100% { transform: translateX(0) rotate(0deg); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .card.is-nudging, .card.is-nudging-soft { animation: none; background: var(--cream-2); }
+  }
   .card-thumb {
     width: 60px; height: 60px;
     border-radius: 6px;
@@ -364,6 +431,9 @@
   }
   .frame img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; }
   .frame:hover img { transform: scale(1.03); }
+  @media (prefers-reduced-motion: reduce) {
+    .frame img { transition: none !important; }
+  }
 
   @media (max-width: 1100px) {
     .mainrow { flex-wrap: wrap; overflow-y: auto; }
@@ -379,6 +449,7 @@
     .frame { flex: 0 0 auto; max-height: none; height: 140px; }
     .frames-panel { flex-basis: auto; }
   }
+
 </style>
 </head>
 <body>
@@ -428,7 +499,7 @@
 
           <!-- group 2: bio -->
           <div class="group-bio">
-            <p class="bio">I'm a photographer and designer working internationally throughout Southeast Asia. For several years, I taught literature internationally, where I built <em>CROW</em>, a four-stage framework for readers of every age, from first observation to a reading they could defend. I designed the curricula it lived inside, along with the campaigns that promoted it.</p>
+            <p class="bio">Photographer and designer, based in Southeast Asia. For years I taught literature abroad, where I built <em>CROW</em>, a four-stage framework that takes a reader from first observation to a reading they can defend. I designed the curricula it lived inside and the campaigns that carried it. Photography, a syllabus, a sentence. It's one instinct in different rooms: decide what to leave out, then build something that moves the person on the other end.</p>
             <div class="bio-contact" id="contact">
               <a href="mailto:orsini.ocin@gmail.com">orsini.ocin@gmail.com</a>
               <span class="bio-contact-divider"></span>
@@ -438,10 +509,10 @@
 
           <!-- group 3: tags -->
           <div class="group-tags">
-            <span>Photography</span>
-            <span>Curriculum Design</span>
-            <span>Brand Strategy</span>
-            <span>Editorial Direction</span>
+            <span class="tag-photo" data-points-to="photography">Photography</span>
+            <span class="tag-curriculum" data-points-to="lesson-builder poet roll">Curriculum Design</span>
+            <span class="tag-brand" data-points-to="campaigns">Brand Strategy</span>
+            <span class="tag-editorial" data-points-to="crow campaigns rise">Editorial Direction</span>
           </div>
 
         </div>
@@ -453,14 +524,14 @@
         <div class="workcols">
 
           <div class="workcol">
-            <a class="card" href="photography.html">
+            <a class="card" href="photography.html" data-card="photography">
               <div class="card-thumb"><img src="Images/Photography%20Images/Temple%20Reflection.jog.jpg" alt=""></div>
               <div class="card-body">
                 <h3 class="card-title">Film &amp; Motion</h3>
                 <p class="card-desc">Fujifilm X100VI</p>
               </div>
             </a>
-            <a class="card" href="campaigns.html">
+            <a class="card" href="campaigns.html" data-card="campaigns">
               <div class="card-thumb"><img src="Images/Crow's%20Call%20Promotional%20Materials/Oedipus%20Rex%20Promo.png" alt=""></div>
               <div class="card-body">
                 <h3 class="card-title">Book Campaigns</h3>
@@ -470,14 +541,14 @@
           </div>
 
           <div class="workcol">
-            <a class="card" href="crow.html">
+            <a class="card" href="crow.html" data-card="crow">
               <div class="card-thumb card-thumb--wheel"><img src="Images/Narrative%20Images/New%20Archetype%20Wheel.png" alt=""></div>
               <div class="card-body">
                 <h3 class="card-title">CROW Methodology</h3>
                 <p class="card-desc">4-Stage Framework</p>
               </div>
             </a>
-            <a class="card" href="crow-lesson-builder.html">
+            <a class="card" href="crow-lesson-builder.html" data-card="lesson-builder">
               <div class="card-thumb"><img src="Images/assets/lesson-builder-icon.jpg" alt=""></div>
               <div class="card-body">
                 <h3 class="card-title">Lesson Builder</h3>
@@ -487,21 +558,21 @@
           </div>
 
           <div class="workcol">
-            <a class="card" href="poet.html">
+            <a class="card" href="poet.html" data-card="poet">
               <div class="card-thumb"><img src="Images/Intensive%20Covers/The%20Making%20of%20a%20Poet.png" alt=""></div>
               <div class="card-body">
                 <h3 class="card-title">The Making of a Poet</h3>
                 <p class="card-desc">Poetry curriculum</p>
               </div>
             </a>
-            <a class="card" href="roll.html">
+            <a class="card" href="roll.html" data-card="roll">
               <div class="card-thumb"><img src="Images/Intensive%20Covers/Roll%20for%20Inspiration.png" alt=""></div>
               <div class="card-body">
                 <h3 class="card-title">Roll for Inspiration</h3>
                 <p class="card-desc">RPG curriculum</p>
               </div>
             </a>
-            <a class="card" href="#">
+            <a class="card" href="#" data-card="rise">
               <div class="card-thumb"><img src="Images/Site/Rise%20Mockup.jpg" alt=""></div>
               <div class="card-body">
                 <h3 class="card-title">Articulate Rise</h3>
@@ -567,6 +638,77 @@
     { src: "Images/Photography%20Images/Car%20Trailer.jpg", alt: "Vintage travel trailer parked in a grassy field" }
   ];
 
+  (function(){
+    // all four discipline tags: an immediate shake on every target card at
+    // once, then, while the hover holds, a smaller follow-up pulse every
+    // ~2s. When a tag points at more than one card, the follow-up pulses
+    // are staggered (each card gets its own ~350ms offset within the 2s
+    // cycle) so it reads as a little chase rather than everything
+    // twitching in unison.
+    var SUSTAIN_DELAY = 2000;
+    var STAGGER_GAP = 350;
+
+    var tags = document.querySelectorAll('.group-tags span[data-points-to]');
+    tags.forEach(function(tag){
+      var targets = tag.getAttribute('data-points-to').split(' ').map(function(id){
+        return document.querySelector('.card[data-card="' + id + '"]');
+      }).filter(Boolean);
+      if (!targets.length) return;
+
+      var timers = [];
+      var isHovering = false;
+
+      function pulseOne(card, cls){
+        card.classList.remove(cls);
+        void card.offsetWidth; // restart animation if already mid-shake
+        card.classList.add(cls);
+      }
+      function pulseAll(cls){
+        targets.forEach(function(card){ pulseOne(card, cls); });
+      }
+      function clearTimers(){
+        timers.forEach(function(t){ window.clearTimeout(t); });
+        timers = [];
+      }
+      function scheduleSustain(){
+        clearTimers();
+        // the quiet gap between the end of one wave (the last card's
+        // pulse) and the start of the next wave's first pulse must always
+        // equal SUSTAIN_DELAY, whether there's 1, 2, or 3 cards. So the
+        // repeat cadence has to grow with the stagger the wave already
+        // used, otherwise a bigger wave "catches up" on the next lap and
+        // the rest between waves ends up shorter than a single card's.
+        var cycle = SUSTAIN_DELAY + (targets.length - 1) * STAGGER_GAP;
+        targets.forEach(function(card, i){
+          (function loop(delay){
+            timers[i] = window.setTimeout(function(){
+              if (!isHovering) return;
+              pulseOne(card, 'is-nudging-soft');
+              loop(cycle);
+            }, delay);
+          })(SUSTAIN_DELAY + i * STAGGER_GAP);
+        });
+      }
+
+      tag.addEventListener('mouseenter', function(){
+        isHovering = true;
+        pulseAll('is-nudging');
+        scheduleSustain();
+      });
+      tag.addEventListener('mouseleave', function(){
+        isHovering = false;
+        clearTimers();
+      });
+
+      targets.forEach(function(card){
+        card.addEventListener('animationend', function(){
+          card.classList.remove('is-nudging');
+          card.classList.remove('is-nudging-soft');
+        });
+      });
+    });
+  })();
+
   function renderFrames(){
     var grid = document.getElementById('frames-grid');
     if (!grid) return;
@@ -581,7 +723,7 @@
       var a = document.createElement('a');
       a.className = 'frame';
       a.href = 'photography.html';
-      a.title = 'View on Film & Motion';
+      a.setAttribute('aria-label', 'View on Film & Motion');
       var img = document.createElement('img');
       img.src = p.src;
       img.alt = p.alt;

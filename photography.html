@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=48">
+<link rel="stylesheet" href="styles.css?v=50">
 </head>
 <body>
 
@@ -26,8 +26,9 @@
 </nav>
 
 <!-- HERO -->
-<div class="subpage-hero" id="photo-hero">
-  <div class="subpage-hero-inner">
+<div class="subpage-hero photo-hero" id="photo-hero">
+  <div class="hero-photo-layer" id="photoPageHeroPhoto"></div>
+  <div class="subpage-hero-inner shimmer-hero">
     <div class="subpage-breadcrumb"><a href="index.html#work">Selected Work</a></div>
     <div class="subpage-eyebrow">Photography</div>
     <h1 class="subpage-title">Film &amp; Motion</h1>
@@ -51,28 +52,37 @@
 <section class="section" id="photo-top" style="padding-top: 2rem;">
   <div class="section-inner section-inner--wide">
     <p class="photo-intro">A Fujifilm X100VI, mostly, and whatever the light happened to be doing.</p>
+    <p class="mono-wipe-hint">Drag the line to see the set in black and white.</p>
 
-    <div class="photo-masonry">
-      <figure class="photo-item"><img src="Images/Photography%20Images/Lucky%20Day.jpg" alt="Neon-lit night market alley"></figure>
-      <figure class="photo-item"><img src="Images/Photography%20Images/Dark%20Buddha.jpg" alt="Buddha statue viewed from behind, flanked by two standing monk statues, at dusk"></figure>
-      <figure class="photo-item"><img src="Images/Photography%20Images/City%20Tops.jpg" alt="Black and white aerial view of a dense city block"></figure>
-      <figure class="photo-item"><img src="Images/Photography%20Images/Red%20Wood%20Wall.jpg" alt="Row of orange shrine gate posts inscribed with Japanese characters"></figure>
-      <figure class="photo-item"><img src="Images/Photography%20Images/Alley%20Temple.jpg" alt="Temple facade lit at dusk"></figure>
-      <figure class="photo-item"><img src="Images/Photography%20Images/Smal%20Rail%20Car.jpg" alt="Empty train car interior, doors open to a platform"></figure>
-      <figure class="photo-item"><img src="Images/Photography%20Images/Greenery.jpg" alt="Dense field of lotus leaves"></figure>
-      <figure class="photo-item"><img src="Images/Photography%20Images/Pink%20Flowers.jpg" alt="Close-up of pink and white bougainvillea flowers"></figure>
-      <figure class="photo-item"><img src="Images/Photography%20Images/Statue.jpg" alt="Carved stone guardian figure detail at a Thai temple"></figure>
-      <figure class="photo-item"><img src="Images/Photography%20Images/City%20Bridge.jpg" alt="Suspension bridge leading to a hillside temple above a lake"></figure>
-      <figure class="photo-item"><img src="Images/Photography%20Images/Golden%20Temple.jpg" alt="Kinkaku-ji, the Golden Pavilion, framed by pine branches"></figure>
-      <figure class="photo-item"><img src="Images/Photography%20Images/Lighthouse.jpg" alt="Red-domed lighthouse against open sea"></figure>
-      <figure class="photo-item"><img src="Images/Photography%20Images/Temple%20Reflection.jog.jpg" alt="Floating pavilion reflected in a still lake, Bangkok"></figure>
-      <figure class="photo-item"><img src="Images/Photography%20Images/Temple%20Tops.jpg" alt="Ornate gilded temple spires against a clear sky, Bangkok"></figure>
-      <figure class="photo-item"><img src="Images/Photography%20Images/Coffee%20Shop%20Ceiling.jpg" alt="Sculptural wing-like installation of wood and dried branches beneath a glass skylight"></figure>
-      <figure class="photo-item"><img src="Images/Photography%20Images/Red%20Wall%20Demon.jpg" alt="Black and white striped sculptural creature against a brick wall"></figure>
-      <figure class="photo-item"><img src="Images/Photography%20Images/Cat.jpg" alt="Black and white cat sitting alone before shuttered storefronts"></figure>
-      <figure class="photo-item"><img src="Images/Photography%20Images/Japanese%20Cards.jpg" alt="Wooden wish plaques with handwritten messages, tied with red string"></figure>
-      <figure class="photo-item"><img src="Images/Photography%20Images/Horse%20Sign.jpg" alt="Weathered enamel sign with a horse figure, tangled in overgrown greenery"></figure>
-      <figure class="photo-item"><img src="Images/Photography%20Images/Car%20Trailer.jpg" alt="Vintage travel trailer parked in a grassy field"></figure>
+    <div class="mono-wipe" id="monoWipe">
+      <div class="photo-masonry" id="photoGrid">
+        <figure class="photo-item"><img src="Images/Photography%20Images/Lucky%20Day.jpg" alt="Neon-lit night market alley"></figure>
+        <figure class="photo-item"><img src="Images/Photography%20Images/Dark%20Buddha.jpg" alt="Buddha statue viewed from behind, flanked by two standing monk statues, at dusk"></figure>
+        <figure class="photo-item"><img src="Images/Photography%20Images/City%20Tops.jpg" alt="Black and white aerial view of a dense city block"></figure>
+        <figure class="photo-item"><img src="Images/Photography%20Images/Red%20Wood%20Wall.jpg" alt="Row of orange shrine gate posts inscribed with Japanese characters"></figure>
+        <figure class="photo-item"><img src="Images/Photography%20Images/Alley%20Temple.jpg" alt="Temple facade lit at dusk"></figure>
+        <figure class="photo-item"><img src="Images/Photography%20Images/Smal%20Rail%20Car.jpg" alt="Empty train car interior, doors open to a platform"></figure>
+        <figure class="photo-item"><img src="Images/Photography%20Images/Greenery.jpg" alt="Dense field of lotus leaves"></figure>
+        <figure class="photo-item"><img src="Images/Photography%20Images/Pink%20Flowers.jpg" alt="Close-up of pink and white bougainvillea flowers"></figure>
+        <figure class="photo-item"><img src="Images/Photography%20Images/Statue.jpg" alt="Carved stone guardian figure detail at a Thai temple"></figure>
+        <figure class="photo-item"><img src="Images/Photography%20Images/City%20Bridge.jpg" alt="Suspension bridge leading to a hillside temple above a lake"></figure>
+        <figure class="photo-item"><img src="Images/Photography%20Images/Golden%20Temple.jpg" alt="Kinkaku-ji, the Golden Pavilion, framed by pine branches"></figure>
+        <figure class="photo-item"><img src="Images/Photography%20Images/Lighthouse.jpg" alt="Red-domed lighthouse against open sea"></figure>
+        <figure class="photo-item"><img src="Images/Photography%20Images/Temple%20Reflection.jog.jpg" alt="Floating pavilion reflected in a still lake, Bangkok"></figure>
+        <figure class="photo-item"><img src="Images/Photography%20Images/Temple%20Tops.jpg" alt="Ornate gilded temple spires against a clear sky, Bangkok"></figure>
+        <figure class="photo-item"><img src="Images/Photography%20Images/Coffee%20Shop%20Ceiling.jpg" alt="Sculptural wing-like installation of wood and dried branches beneath a glass skylight"></figure>
+        <figure class="photo-item"><img src="Images/Photography%20Images/Red%20Wall%20Demon.jpg" alt="Black and white striped sculptural creature against a brick wall"></figure>
+        <figure class="photo-item"><img src="Images/Photography%20Images/Cat.jpg" alt="Black and white cat sitting alone before shuttered storefronts"></figure>
+        <figure class="photo-item"><img src="Images/Photography%20Images/Japanese%20Cards.jpg" alt="Wooden wish plaques with handwritten messages, tied with red string"></figure>
+        <figure class="photo-item"><img src="Images/Photography%20Images/Horse%20Sign.jpg" alt="Weathered enamel sign with a horse figure, tangled in overgrown greenery"></figure>
+        <figure class="photo-item"><img src="Images/Photography%20Images/Car%20Trailer.jpg" alt="Vintage travel trailer parked in a grassy field"></figure>
+      </div>
+      <div class="mono-wipe-overlay" id="monoWipeOverlay"></div>
+      <div class="mono-wipe-line" id="monoWipeLine" tabindex="0" role="slider" aria-label="Color to black and white comparison" aria-valuemin="0" aria-valuemax="100" aria-valuenow="25">
+        <div class="mono-wipe-grip">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 5v14M16 5v14"/></svg>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -87,6 +97,142 @@
   const updateNav = () => nav.classList.toggle('scrolled', window.scrollY > 60);
   window.addEventListener('scroll', updateNav, { passive: true });
   updateNav();
+</script>
+
+<script>
+  // color/mono wipe: the overlay is a live clone of the grid so it can
+  // never drift out of sync with it (same images, same order, same
+  // column CSS). Grayscale is applied per-image on the clone rather
+  // than on the whole container, and updates are batched to one per
+  // animation frame, both to avoid a filter+clip-path repaint glitch
+  // that showed up as flashes of blue/white on the tiles while dragging.
+  // Gray sits on the left, up to the line; color is everything right
+  // of it, so the page reads as color first and grays in as you drag.
+  (function () {
+    var wipe = document.getElementById('monoWipe');
+    var grid = document.getElementById('photoGrid');
+    var overlay = document.getElementById('monoWipeOverlay');
+    var line = document.getElementById('monoWipeLine');
+    if (!wipe || !grid || !overlay || !line) return;
+
+    var clone = grid.cloneNode(true);
+    clone.removeAttribute('id');
+    var cloneImgs = clone.querySelectorAll('img');
+    for (var gi = 0; gi < cloneImgs.length; gi++) {
+      cloneImgs[gi].style.filter = 'grayscale(100%)';
+    }
+    overlay.appendChild(clone);
+
+    var userMoved = false;
+
+    function trackWidths() {
+      // computed gridTemplateColumns returns actual pixel widths per
+      // track (e.g. "280.5px 280.5px..."), already net of the grid's
+      // gap, so this is exact regardless of column count or gap size
+      return getComputedStyle(grid).gridTemplateColumns.trim().split(/\s+/).map(parseFloat);
+    }
+    function columnCount() {
+      return trackWidths().length || 4;
+    }
+    function defaultPercent() {
+      // rest at the true middle of the first column (in pixels, not a
+      // naive 1/8th of the total width, since gaps eat into that), so
+      // that column starts half gray, half color
+      var tracks = trackWidths();
+      var firstCol = tracks[0];
+      var totalWidth = wipe.getBoundingClientRect().width;
+      if (!firstCol || !totalWidth) return 100 / (tracks.length || 4) / 2;
+      return (firstCol / 2 / totalWidth) * 100;
+    }
+    function setPercent(pct) {
+      pct = Math.max(0, Math.min(100, Math.round(pct * 10) / 10));
+      // gray (the overlay) is visible from the left edge up to pct%;
+      // color (the base layer underneath) shows through the rest
+      overlay.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
+      line.style.left = pct + '%';
+      line.setAttribute('aria-valuenow', String(Math.round(pct)));
+    }
+    function percentFromEvent(e) {
+      var rect = wipe.getBoundingClientRect();
+      return ((e.clientX - rect.left) / rect.width) * 100;
+    }
+
+    setPercent(defaultPercent());
+
+    var dragging = false;
+    var rafPending = false;
+    var pendingPct = null;
+    function flushPending() {
+      rafPending = false;
+      if (pendingPct !== null) { setPercent(pendingPct); pendingPct = null; }
+    }
+    line.addEventListener('pointerdown', function (e) {
+      e.preventDefault(); // stops the browser starting a native text/image
+      // selection drag, which was painting its own blue highlight over
+      // every tile the pointer crossed
+      dragging = true;
+      userMoved = true;
+      wipe.classList.add('is-dragging');
+      line.setPointerCapture(e.pointerId);
+    });
+    line.addEventListener('pointermove', function (e) {
+      if (!dragging) return;
+      pendingPct = percentFromEvent(e);
+      if (!rafPending) {
+        rafPending = true;
+        requestAnimationFrame(flushPending);
+      }
+    });
+    function endDrag() {
+      dragging = false;
+      wipe.classList.remove('is-dragging');
+    }
+    line.addEventListener('pointerup', endDrag);
+    line.addEventListener('pointercancel', endDrag);
+
+    line.addEventListener('keydown', function (e) {
+      var current = parseFloat(line.style.left) || defaultPercent();
+      var step = 4;
+      if (e.key === 'ArrowLeft') { userMoved = true; setPercent(current - step); e.preventDefault(); }
+      else if (e.key === 'ArrowRight') { userMoved = true; setPercent(current + step); e.preventDefault(); }
+      else if (e.key === 'Home') { userMoved = true; setPercent(0); e.preventDefault(); }
+      else if (e.key === 'End') { userMoved = true; setPercent(100); e.preventDefault(); }
+    });
+
+    window.addEventListener('resize', function () {
+      if (!userMoved) setPercent(defaultPercent());
+    });
+  })();
+</script>
+
+<script>
+  var HERO_PHOTOS = [
+    "Images/Photography%20Images/Lucky%20Day.jpg",
+    "Images/Photography%20Images/Dark%20Buddha.jpg",
+    "Images/Photography%20Images/City%20Tops.jpg",
+    "Images/Photography%20Images/Red%20Wood%20Wall.jpg",
+    "Images/Photography%20Images/Alley%20Temple.jpg",
+    "Images/Photography%20Images/Smal%20Rail%20Car.jpg",
+    "Images/Photography%20Images/Greenery.jpg",
+    "Images/Photography%20Images/Pink%20Flowers.jpg",
+    "Images/Photography%20Images/Statue.jpg",
+    "Images/Photography%20Images/City%20Bridge.jpg",
+    "Images/Photography%20Images/Golden%20Temple.jpg",
+    "Images/Photography%20Images/Lighthouse.jpg",
+    "Images/Photography%20Images/Temple%20Reflection.jog.jpg",
+    "Images/Photography%20Images/Temple%20Tops.jpg",
+    "Images/Photography%20Images/Coffee%20Shop%20Ceiling.jpg",
+    "Images/Photography%20Images/Red%20Wall%20Demon.jpg",
+    "Images/Photography%20Images/Cat.jpg",
+    "Images/Photography%20Images/Japanese%20Cards.jpg",
+    "Images/Photography%20Images/Horse%20Sign.jpg",
+    "Images/Photography%20Images/Car%20Trailer.jpg"
+  ];
+  var heroPhotoEl = document.getElementById('photoPageHeroPhoto');
+  if (heroPhotoEl) {
+    var heroPick = HERO_PHOTOS[Math.floor(Math.random() * HERO_PHOTOS.length)];
+    heroPhotoEl.style.backgroundImage = "url('" + heroPick + "')";
+  }
 </script>
 
 </body>

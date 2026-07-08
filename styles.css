@@ -27,7 +27,7 @@ em, i { font-style: normal; }
   --forest-soft:  #566169;
   --gold:         #B9884D;
   --gold-deep:    #8C6531;
-  --rust:         #A86163;
+  --rust:         #B2603C;
 
   /* rules & halation */
   --rule:         rgba(43, 35, 24, 0.14);
@@ -46,6 +46,14 @@ em, i { font-style: normal; }
 
 /* ── BASE ── */
 html { scroll-behavior: smooth; }
+
+/* Any element using the hidden attribute for JS show/hide toggling must
+   actually disappear, even if its own class also sets an explicit
+   display value (e.g. display:flex for a card that's flex-wrap when
+   visible) — those two rules land at equal specificity, so without
+   this, whichever is later in the stylesheet wins and hidden silently
+   does nothing. */
+[hidden] { display: none !important; }
 
 body {
   font-family: var(--sans);
@@ -68,7 +76,7 @@ body::before {
   inset: 0;
   z-index: 300;
   pointer-events: none;
-  opacity: 0.05;
+  opacity: 0.09;
   mix-blend-mode: multiply;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 180px 180px;
@@ -438,8 +446,12 @@ nav.scrolled {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--ink);
+  background: none;
+  border: none;
   border-bottom: 1px solid var(--rule-strong);
-  padding-bottom: 3px;
+  border-radius: 0;
+  padding: 0 0 3px 0;
+  cursor: pointer;
   transition: color 0.2s, border-color 0.2s;
 }
 .link-arrow:hover { color: var(--gold-deep); border-color: var(--gold-deep); }
@@ -460,6 +472,8 @@ nav.scrolled {
   transition: background 0.2s, color 0.2s;
 }
 .btn-pill:hover { background: var(--gold-deep); color: var(--cream); }
+.btn-pill:disabled { opacity: 0.55; cursor: default; }
+.btn-pill:disabled:hover { background: transparent; color: var(--forest); }
 
 /* ── SELECTED WORK ── */
 .work-grid {
@@ -646,10 +660,7 @@ nav.scrolled {
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.5s ease;
 }
-
-.photo-item:hover img { transform: scale(1.03); }
 
 @media (max-width: 900px) {
   .photo-masonry { grid-template-columns: repeat(3, 1fr); }
@@ -657,6 +668,65 @@ nav.scrolled {
 @media (max-width: 600px) {
   .photo-masonry { grid-template-columns: repeat(2, 1fr); gap: 16px; }
 }
+
+/* whole-grid color/mono wipe (photography.html only): a second, identical
+   copy of the grid sits on top in grayscale, clipped by a draggable
+   vertical line so every photo flips together as the line sweeps across
+   the page, rather than one slider per photo. */
+.mono-wipe {
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.mono-wipe img {
+  -webkit-user-drag: none;
+  user-drag: none;
+}
+.mono-wipe-hint {
+  font-size: 0.82rem;
+  color: var(--ink-faint);
+  margin: -2rem 0 1.5rem;
+}
+/* while dragging, the base grid can't receive hover, otherwise the
+   cursor sweeping across tiles triggers each one's hover-zoom in turn
+   and the whole grid flickers as it passes underneath the line */
+.mono-wipe.is-dragging #photoGrid { pointer-events: none; }
+.mono-wipe-overlay {
+  position: absolute;
+  inset: 0;
+  transform: translateZ(0);
+  pointer-events: none;
+}
+.mono-wipe-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--cream);
+  box-shadow: 0 0 0 1px rgba(30, 20, 10, 0.18);
+  cursor: ew-resize;
+  touch-action: none;
+  z-index: 5;
+  transform: translateX(-50%);
+}
+.mono-wipe-grip {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--cream);
+  border: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(30, 20, 10, 0.18);
+  color: var(--ink-soft);
+}
+.mono-wipe-grip svg { width: 16px; height: 16px; }
+.mono-wipe-line:focus-visible .mono-wipe-grip { outline: 2px solid var(--gold-deep); outline-offset: 2px; }
 
 /* ── BOOK CAMPAIGNS GALLERY (campaigns.html) ── */
 .promo-grid {
@@ -780,6 +850,92 @@ footer {
 }
 .subpage-title em { color: var(--gold-deep); }
 
+/* ── PHOTO HERO: rotating photo (randomized on load from the Film &
+   Motion gallery) behind the same frosted-glass card treatment as the
+   homepage hero. The whole photo is heavily blurred, so it reads as
+   soft, present atmosphere rather than a literal image, then the glass
+   card sits on top holding the actual title/meta content. Add class
+   "photo-hero" to .subpage-hero, plus a .hero-photo-layer div as the
+   first child, and set its background-image via a tiny per-page script
+   picking randomly from the shared photo pool. ── */
+.photo-hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 28vh;
+  display: flex;
+  align-items: center;
+  background-color: var(--cream-2);
+  padding: 6rem 3rem 2rem;
+}
+.photo-hero .hero-photo-layer {
+  position: absolute;
+  inset: -20px;
+  z-index: 0;
+  pointer-events: none;
+  background-size: cover;
+  background-position: 50% 50%;
+  filter: blur(28px) saturate(0.8) brightness(1.08);
+}
+.photo-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(160deg, rgba(247,231,216,0.34) 0%, rgba(232,203,168,0.44) 100%);
+}
+.photo-hero .subpage-hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  background: rgba(251,240,228,0.72);
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  border: 1px solid rgba(255,255,255,0.5);
+  border-radius: 16px;
+  box-shadow: 0 24px 60px rgba(43,35,24,0.16);
+  padding: 1.75rem 2rem;
+}
+.photo-hero .subpage-meta-row {
+  flex-wrap: nowrap;
+  background: rgba(251,240,228,0.55);
+  border-color: rgba(43,35,24,0.1);
+}
+.photo-hero .subpage-meta-item { flex: 1 1 220px; padding: 1.1rem 1.4rem; white-space: nowrap; }
+
+/* SHIMMER (trial: Film & Motion hero card only). Not the Motion.dev
+   loading-skeleton pattern itself, there's nothing on this site that
+   ever "loads", just the sweep visual repurposed as a decorative gleam
+   crossing the glass card, like light catching a physical surface.
+   Scoped to .shimmer-hero so it can be tried on one page before it
+   goes anywhere else. */
+.shimmer-hero { overflow: hidden; }
+.shimmer-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(100deg,
+    transparent 30%,
+    rgba(255,255,255,0.5) 47%,
+    rgba(255,255,255,0.7) 50%,
+    rgba(255,255,255,0.5) 53%,
+    transparent 70%);
+  transform: translateX(-150%);
+  /* plays once on arrival, a single "curtain rises" pass rather than a
+     recurring loop, then stays parked off-screen for the rest of the visit */
+  animation: heroShimmerSweep 2.5s 0.3s ease-in-out 1 both;
+}
+@keyframes heroShimmerSweep {
+  from { transform: translateX(-150%); }
+  to   { transform: translateX(150%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .shimmer-hero::before { animation: none; display: none; }
+}
+
 .subpage-meta-row {
   display: flex;
   flex-wrap: wrap;
@@ -824,6 +980,171 @@ footer {
 
 .subpage-attribution { font-family: var(--mono); font-size: 0.6rem; color: var(--ink-faint); letter-spacing: 0.05em; margin-top: 2rem; line-height: 1.8; }
 
+/* TRY IT (poet.html): two real activities from the workbook, both under
+   Stanza 2 · Senses of a Scribe. Neither one just reformats what a
+   visitor types back at them, each does something: the blackout tool
+   turns selection into composition, the line-break tool re-flows pacing
+   live as breaks are toggled. */
+
+/* Blackout Poetry: The Sensory Hunt. Six selectable source passages
+   across three genres (prose, poem, play), color-coded rather than
+   text-labeled per tab: the legend teaches the mapping once, then the
+   tab border/fill and the genre tag above the passage carry it. Poem
+   and play sources render with their real line structure (.bo-line)
+   instead of flowing as one paragraph; prose sources are a single
+   .bo-line, which reproduces the old flat flex-wrap paragraph exactly. */
+.source-legend { display: flex; gap: 1.15rem; flex-wrap: wrap; margin-top: 1.5rem; }
+.source-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.source-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+.source-dot.genre-prose, .poet-blackout-genre-tag.genre-prose { background: var(--forest); color: var(--forest); }
+.source-dot.genre-poem, .poet-blackout-genre-tag.genre-poem { background: var(--gold-deep); color: var(--gold-deep); }
+.source-dot.genre-play, .poet-blackout-genre-tag.genre-play { background: var(--rust); color: var(--rust); }
+.poet-blackout-genre-tag {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 1.25rem;
+  background: transparent;
+}
+
+.poet-blackout-source-picker { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 0.85rem; }
+.source-tab {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  background: transparent;
+  border: 1px solid var(--rule-strong);
+  padding: 0.55rem 1.1rem;
+  border-radius: 999px;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.source-tab:hover { border-color: var(--gold-deep); color: var(--gold-deep); }
+.source-tab.is-active { background: var(--gold-deep); border-color: var(--gold-deep); color: var(--cream); }
+.source-tab[data-genre="prose"] { border-color: var(--forest); color: var(--forest); }
+.source-tab[data-genre="prose"]:hover { background: var(--forest); color: var(--cream); }
+.source-tab[data-genre="prose"].is-active { background: var(--forest); border-color: var(--forest); color: var(--cream); }
+.source-tab[data-genre="poem"] { border-color: var(--gold-deep); color: var(--gold-deep); }
+.source-tab[data-genre="poem"]:hover { background: var(--gold-deep); color: var(--cream); }
+.source-tab[data-genre="poem"].is-active { background: var(--gold-deep); border-color: var(--gold-deep); color: var(--cream); }
+.source-tab[data-genre="play"] { border-color: var(--rust); color: var(--rust); }
+.source-tab[data-genre="play"]:hover { background: var(--rust); color: var(--cream); }
+.source-tab[data-genre="play"].is-active { background: var(--rust); border-color: var(--rust); color: var(--cream); }
+
+.poet-blackout-passage {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  background: var(--cream-card);
+  border: 1px solid var(--rule-strong);
+  border-radius: 12px;
+  padding: 1.75rem 2rem;
+  margin-top: 0.75rem;
+}
+.bo-speaker { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 0.4rem; }
+.bo-line { display: flex; flex-wrap: wrap; gap: 0.4rem 0.35rem; }
+.bo-line.is-indent { margin-left: 2.25rem; }
+.bo-word {
+  font-family: var(--display);
+  font-size: 1rem;
+  color: var(--ink);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.1rem 0.3rem;
+  border-radius: 4px;
+  transition: background 0.15s, color 0.15s;
+  touch-action: none;
+}
+.bo-word:hover { background: rgba(140,101,49,0.12); }
+.bo-word.is-out {
+  background: var(--ink);
+  color: transparent;
+  user-select: none;
+}
+.bo-word.is-out:hover { background: var(--moss-deep); }
+
+.poet-blackout-actions { margin-top: 1rem; }
+
+.poet-blackout-poem {
+  margin-top: 1.5rem;
+  background: var(--cream-2);
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  padding: 1.75rem 2rem;
+}
+.poet-blackout-poem-label { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-deep); margin-bottom: 0.75rem; }
+.poet-blackout-poem-text { font-family: var(--display); font-size: 1.2rem; color: var(--ink); line-height: 1.85; margin: 0; min-height: 1.85em; }
+.poet-blackout-empty { font-family: var(--sans); font-size: 0.82rem; color: var(--ink-faint); font-style: italic; }
+
+/* Shape a Sensory Moment: Line Break Poem. Two example directions
+   (slow it down / speed it up), grounded in the workbook's own Stanza
+   1 grammar point that short sentences read fast and long ones read
+   slow — same break-insertion mechanic, opposite starting sentence. */
+.poet-lines-mode { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 1.5rem; }
+.poet-lines-field { display: flex; gap: 0.85rem; flex-wrap: wrap; align-items: center; margin-top: 0.85rem; }
+.poet-lines-field label { display: block; width: 100%; font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 0.4rem; }
+.poet-lines-field input {
+  flex: 1 1 320px;
+  font-family: var(--display);
+  font-size: 1rem;
+  color: var(--ink);
+  background: var(--cream-card);
+  border: 1px solid var(--rule-strong);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.poet-lines-field input:focus { outline: none; border-color: var(--gold-deep); box-shadow: 0 0 0 3px rgba(140,101,49,0.14); }
+
+.poet-lines-tokens {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.1rem;
+  background: var(--cream-card);
+  border: 1px solid var(--rule-strong);
+  border-radius: 12px;
+  padding: 1.5rem 1.75rem;
+  margin-top: 1.5rem;
+}
+.ln-word { font-family: var(--display); font-size: 1rem; color: var(--ink); padding: 0.2rem 0.15rem; }
+.ln-gap {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--ink-faint);
+  background: transparent;
+  border: none;
+  border-left: 1px dashed var(--rule-strong);
+  cursor: pointer;
+  padding: 0.3rem 0.4rem;
+  margin: 0 0.05rem;
+  transition: color 0.15s, border-color 0.15s;
+}
+.ln-gap:hover { color: var(--gold-deep); border-color: var(--gold-deep); }
+.ln-gap.is-active { color: var(--gold-deep); border-color: var(--gold-deep); font-weight: 600; }
+
+.poet-lines-preview {
+  margin-top: 1.5rem;
+  background: var(--cream-2);
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  padding: 1.75rem 2rem;
+}
+.poet-lines-preview-label { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-deep); margin-bottom: 0.75rem; }
+.poet-lines-preview-text { font-family: var(--display); font-size: 1.2rem; color: var(--ink); line-height: 1.8; }
+
 /* mockup / sample page galleries */
 .subpage-gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; margin: 2rem 0 1rem; }
 .subpage-gallery img { width: 100%; display: block; border: 1px solid var(--rule-strong); border-radius: 6px; }
@@ -859,7 +1180,16 @@ footer {
 .subpage-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; min-width: 620px; }
 .subpage-table th { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink); background: var(--cream-2); padding: 0.85rem 1rem; text-align: left; border: 1px solid var(--rule-strong); }
 .subpage-table td { padding: 0.85rem 1rem; text-align: left; vertical-align: top; border: 1px solid var(--rule); color: var(--ink-soft); line-height: 1.65; }
-.subpage-table tr:hover td { background: var(--cream-deep); }
+/* CORNER HIGHLIGHT: hovering a cell lights up its row only from the label
+   cell up to that column, and its column only from the header down to
+   that row, an "L" bracket anchored at the table's top-left corner rather
+   than a full crosshair through the whole table. Bounding both directions
+   at once needs to know a cell's row AND column index together, which is
+   past what CSS selectors can express without one hard-coded rule per
+   (row, column) pair, so the highlighting itself is handled in JS (see
+   the script near the bottom of crow.html / roll.html); this class is
+   just the paint. */
+.subpage-table .xy-hit { background: var(--cream-deep); }
 .subpage-table td.mono-cell { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.05em; color: var(--ink-faint); white-space: nowrap; }
 .subpage-table td.label-cell { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-faint); background: var(--cream-2); white-space: nowrap; }
 .subpage-table td strong { color: var(--ink); font-weight: 600; }
@@ -883,6 +1213,11 @@ footer {
   .subpage-grid.cols-4, .subpage-grid.cols-3 { grid-template-columns: repeat(2, 1fr); }
   .subpage-table-wrap, .subpage-gallery { max-width: 100%; }
   .subpage-gallery, .subpage-gallery.cols-3, .subpage-gallery.cols-4 { grid-template-columns: 1fr; }
+  /* .photo-hero's own padding/min-height beats the plain .subpage-hero
+     rule above on specificity alone, at every width, so it needs its
+     own explicit tightening here rather than inheriting the one above */
+  .photo-hero { padding: 7.5rem 1.5rem 1rem; min-height: 24vh; }
+  .photo-hero .subpage-meta-item { flex: 1 1 45%; white-space: normal; }
 }
 @media (max-width: 600px) {
   .subpage-hero { padding: 7rem 1.25rem 0.75rem; }
@@ -892,6 +1227,10 @@ footer {
   .subpage-list-subs { padding-left: 1rem; }
   .subpage-meta-row, .subpage-meta-inline { flex-direction: column; }
   .subpage-meta-item, .subpage-meta-inline-item { border-right: none; border-bottom: 1px solid var(--rule); }
+  .photo-hero { padding: 7rem 1.25rem 0.75rem; min-height: 22vh; }
+  .photo-hero .subpage-hero-inner { padding: 1.5rem 1.25rem; }
+  .photo-hero .subpage-meta-row { flex-wrap: wrap; flex-direction: column; }
+  .photo-hero .subpage-meta-item { flex: 1 1 auto; white-space: normal; border-right: none; border-bottom: 1px solid var(--rule); }
 }
 
 /* ── ANIMATIONS ── */
@@ -971,11 +1310,12 @@ footer {
 .crow-recursive-item p { font-size: 0.92rem; line-height: 1.85; color: var(--ink-soft); }
 
 .crow-thesis {
-  font-family: var(--sans);
-  font-size: clamp(1rem, 1.6vw, 1.2rem);
-  font-weight: 500;
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(0.95rem, 1.3vw, 1.05rem);
   color: var(--ink);
-  line-height: 1.7;
+  line-height: 1.6;
   max-width: 760px;
   margin-top: 2.75rem;
   padding-top: 2rem;
@@ -985,4 +1325,56 @@ footer {
 @media (max-width: 700px) {
   .crow-recursive { grid-template-columns: 1fr; gap: 2rem; }
 }
+
+/* TRY IT (roll.html): Match the Check. Pulled from the classroom skill
+   check worksheet: read a real situation, pick which ability it calls
+   for from four options, then roll against the difficulty class for
+   whichever skill actually applies, not just whichever you picked. */
+.roll-check {
+  margin-top: 1.5rem;
+  max-width: 620px;
+  background: var(--cream-card);
+  border: 1px solid var(--rule-strong);
+  border-radius: 12px;
+  padding: 1.75rem 2rem;
+}
+.roll-check-situation { font-family: var(--display); font-size: 1.05rem; color: var(--ink); line-height: 1.6; margin-bottom: 1.25rem; }
+
+.roll-check-choices { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+.roll-choice-btn {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  background: transparent;
+  border: 1px solid var(--rule-strong);
+  padding: 0.55rem 1.1rem;
+  border-radius: 999px;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.roll-choice-btn:hover:not(:disabled) { border-color: var(--gold-deep); color: var(--gold-deep); }
+.roll-choice-btn:disabled { cursor: default; }
+.roll-choice-btn.is-correct { background: var(--forest); border-color: var(--forest); color: var(--cream); }
+.roll-choice-btn.is-incorrect { background: var(--rust); border-color: var(--rust); color: var(--cream); opacity: 0.85; }
+
+.roll-check-reveal { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.03em; color: var(--ink-faint); margin-bottom: 1.25rem; }
+
+.roll-check-stage { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+.roll-check-die {
+  font-family: var(--display);
+  font-size: 2.5rem;
+  color: var(--ink);
+  background: var(--cream-2);
+  border-radius: 12px;
+  padding: 0.6rem 1.4rem;
+  min-width: 70px;
+  text-align: center;
+}
+.roll-check-controls { display: flex; flex-direction: column; gap: 0.6rem; align-items: flex-start; }
+.roll-check-dc { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.05em; color: var(--ink-faint); }
+
+.roll-check-outcome { font-family: var(--display); font-size: 1.05rem; color: var(--ink); line-height: 1.7; margin-top: 1.5rem; min-height: 2.4em; }
+
+.roll-check-next { margin-top: 1.5rem; }
 

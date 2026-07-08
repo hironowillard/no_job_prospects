@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=48">
+<link rel="stylesheet" href="styles.css?v=50">
 </head>
 <body>
 
@@ -26,8 +26,9 @@
 </nav>
 
 <!-- HERO -->
-<div class="subpage-hero" id="roll-hero">
-  <div class="subpage-hero-inner">
+<div class="subpage-hero photo-hero" id="roll-hero">
+  <div class="hero-photo-layer" id="rollHeroPhoto"></div>
+  <div class="subpage-hero-inner shimmer-hero">
     <div class="subpage-breadcrumb"><a href="index.html#work">Selected Work</a></div>
     <div class="subpage-eyebrow">Narrative Learning Module</div>
     <h1 class="subpage-title">Roll for <em>Inspiration</em></h1>
@@ -101,29 +102,12 @@
     <p class="subpage-attribution">Instructional design and curriculum architecture by Nico Orsini.<br>Visual design by Zoe Yera.</p>
 
     <div class="subpage-subhead">Supplemental Mechanics</div>
-    <p style="font-size:0.92rem; color:var(--ink-soft); line-height:1.9; max-width:660px; margin-bottom:1.5rem;">Two additional worksheets extend the core module: a branching class-selection guide that translates a student's stated preferences into a character archetype, and a skill-check drill that pairs a narrative scenario with the ability score and difficulty range it calls for.</p>
+    <p style="font-size:0.92rem; color:var(--ink-soft); line-height:1.9; max-width:660px; margin-bottom:1.5rem;">Two additional worksheets extend the core module: a branching class-selection guide that translates a student's stated preferences into a character archetype, and a skill-check drill that pairs a narrative scenario with the ability score and difficulty range it calls for, playable further down this page.</p>
 
     <ol class="subpage-numbered-list">
       <li>Ask how the character prefers to act in the world: through force and presence, or through cleverness and misdirection. Each answer opens a follow-up question narrowing toward a specific class and playstyle.</li>
       <li>Follow the branch to a final archetype, for example force plus a preference for hitting hard and taking hits resolves to a Champion Fighter, while cleverness plus a taste for stories and musical chaos resolves to a Lore Bard.</li>
     </ol>
-
-    <div class="subpage-table-wrap">
-      <table class="subpage-table">
-        <thead>
-          <tr>
-            <th>Scenario</th>
-            <th>Skill Used</th>
-            <th>Expected DC Range</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>You try to move a huge boulder blocking the cave entrance.</td><td class="mono-cell">Athletics</td><td class="mono-cell">15 to 20</td></tr>
-          <tr><td>You scan a shelf of identical books for a hidden switch.</td><td class="mono-cell">Investigation</td><td class="mono-cell">12 to 16</td></tr>
-          <tr><td>You compliment a goblin's fashion sense to distract it while others sneak in.</td><td class="mono-cell">Deception</td><td class="mono-cell">10 to 14</td></tr>
-        </tbody>
-      </table>
-    </div>
   </div>
 </div>
 
@@ -231,8 +215,36 @@
   </div>
 </div>
 
-<!-- 05 Learning Outcomes -->
+<!-- 04.5 Try It -->
 <div class="subpage-section">
+  <div class="subpage-section-inner">
+    <div class="subpage-section-head">
+      <h2 class="subpage-section-title">Try It <em>Yourself</em></h2>
+    </div>
+
+    <div class="subpage-subhead">Supplemental Mechanics &mdash; Match the Check</div>
+    <div class="subpage-body">
+      <p>The real drill from the skill-check worksheet: read the situation, decide which ability it calls for, then roll to see whether you clear the difficulty class. Eighteen situations, pulled straight from the classroom sheet.</p>
+    </div>
+    <div class="roll-check">
+      <div class="roll-check-situation" id="rollSituation"></div>
+      <div class="roll-check-choices" id="rollChoices"></div>
+      <div class="roll-check-reveal" id="rollReveal" hidden></div>
+      <div class="roll-check-stage" id="rollStage" hidden>
+        <div class="roll-check-die" id="rollDie">20</div>
+        <div class="roll-check-controls">
+          <div class="roll-check-dc" id="rollDc"></div>
+          <button type="button" class="btn-pill" id="rollButton">Roll d20</button>
+        </div>
+      </div>
+      <div class="roll-check-outcome" id="rollOutcome"></div>
+      <button type="button" class="link-arrow roll-check-next" id="rollNext">Next situation</button>
+    </div>
+  </div>
+</div>
+
+<!-- 05 Learning Outcomes -->
+<div class="subpage-section tint">
   <div class="subpage-section-inner">
     <div class="subpage-section-head">
       <h2 class="subpage-section-title">Learning <em>Outcomes</em></h2>
@@ -259,6 +271,200 @@
   const updateNav = () => nav.classList.toggle('scrolled', window.scrollY > 60);
   window.addEventListener('scroll', updateNav, { passive: true });
   updateNav();
+</script>
+
+<script>
+  var HERO_PHOTOS = [
+    "Images/Photography%20Images/Lucky%20Day.jpg",
+    "Images/Photography%20Images/Dark%20Buddha.jpg",
+    "Images/Photography%20Images/City%20Tops.jpg",
+    "Images/Photography%20Images/Red%20Wood%20Wall.jpg",
+    "Images/Photography%20Images/Alley%20Temple.jpg",
+    "Images/Photography%20Images/Smal%20Rail%20Car.jpg",
+    "Images/Photography%20Images/Greenery.jpg",
+    "Images/Photography%20Images/Pink%20Flowers.jpg",
+    "Images/Photography%20Images/Statue.jpg",
+    "Images/Photography%20Images/City%20Bridge.jpg",
+    "Images/Photography%20Images/Golden%20Temple.jpg",
+    "Images/Photography%20Images/Lighthouse.jpg",
+    "Images/Photography%20Images/Temple%20Reflection.jog.jpg",
+    "Images/Photography%20Images/Temple%20Tops.jpg",
+    "Images/Photography%20Images/Coffee%20Shop%20Ceiling.jpg",
+    "Images/Photography%20Images/Red%20Wall%20Demon.jpg",
+    "Images/Photography%20Images/Cat.jpg",
+    "Images/Photography%20Images/Japanese%20Cards.jpg",
+    "Images/Photography%20Images/Horse%20Sign.jpg",
+    "Images/Photography%20Images/Car%20Trailer.jpg"
+  ];
+  var heroPhotoEl = document.getElementById('rollHeroPhoto');
+  if (heroPhotoEl) {
+    var heroPick = HERO_PHOTOS[Math.floor(Math.random() * HERO_PHOTOS.length)];
+    heroPhotoEl.style.backgroundImage = "url('" + heroPick + "')";
+  }
+</script>
+
+<script>
+  // Corner highlight for .subpage-table: hovering a cell lights up its row
+  // only from the label column up to that cell, and its column only from
+  // the header down to that cell, an "L" toward the table's top-left
+  // corner rather than a full crosshair. Works for any .subpage-table on
+  // the page regardless of row/column count.
+  document.querySelectorAll('.subpage-table').forEach(function (table) {
+    var headerCells = Array.prototype.slice.call(table.querySelectorAll('thead tr th'));
+    var bodyRows = Array.prototype.slice.call(table.querySelectorAll('tbody tr'));
+    var grid = [headerCells].concat(bodyRows.map(function (tr) {
+      return Array.prototype.slice.call(tr.querySelectorAll('td'));
+    }));
+
+    function clearHighlights() {
+      grid.forEach(function (row) {
+        row.forEach(function (cell) { cell.classList.remove('xy-hit'); });
+      });
+    }
+
+    bodyRows.forEach(function (tr, rIdx) {
+      var cells = Array.prototype.slice.call(tr.querySelectorAll('td'));
+      cells.forEach(function (cell, cIdx) {
+        cell.addEventListener('mouseenter', function () {
+          clearHighlights();
+          var targetRow = rIdx + 1; // grid[0] is the header row
+          for (var c = 0; c <= cIdx; c++) {
+            if (grid[targetRow][c]) grid[targetRow][c].classList.add('xy-hit');
+          }
+          for (var r = 0; r <= targetRow; r++) {
+            if (grid[r][cIdx]) grid[r][cIdx].classList.add('xy-hit');
+          }
+        });
+      });
+    });
+
+    table.addEventListener('mouseleave', clearHighlights);
+  });
+</script>
+
+<script>
+  // Match the Check. All 18 situations from the classroom skill-check
+  // worksheet ("Roll for Glory" / "Roll for Regret"), each tied to the
+  // one skill it's actually testing. Read the situation, pick which
+  // skill you think applies from four options, see the real answer and
+  // its DC, then roll against that DC regardless of what you picked,
+  // the point is learning to spot the right skill, not being punished
+  // for missing it.
+  (function () {
+    var SCENARIOS = [
+      { text: "You try to move a huge boulder that's blocking the cave entrance.", skill: "Athletics", choices: ["Athletics", "Acrobatics", "Survival", "Intimidation"], dcLow: 15, dcHigh: 20, success: "The boulder grinds aside, scraping a path just wide enough to pass.", fail: "It doesn't budge. You've only announced yourself to whatever's on the other side." },
+      { text: "You growl: “If you don't let us pass, you'll regret it.” The guard swallows hard.", skill: "Intimidation", choices: ["Intimidation", "Deception", "Persuasion", "Performance"], dcLow: 12, dcHigh: 16, success: "The guard steps aside, unwilling to find out if you mean it.", fail: "The guard calls your bluff and levels a spear at your chest." },
+      { text: "You attempt a mid-air flip over a collapsing bridge.", skill: "Acrobatics", choices: ["Acrobatics", "Athletics", "Sleight of Hand", "Stealth"], dcLow: 15, dcHigh: 20, success: "You clear the gap and land rolling, boards crashing into the ravine behind you.", fail: "You catch a beam wrong and go down hard, just short of solid ground." },
+      { text: "You scan a shelf of identical books for a hidden switch.", skill: "Investigation", choices: ["Investigation", "Perception", "Insight", "Arcana"], dcLow: 12, dcHigh: 16, success: "Your fingers catch a seam in the spine of a false book. Something clicks.", fail: "Every book looks the same as the last. Nothing gives." },
+      { text: "You stand on a crate and tell the tale of your group's bravery to a cheering crowd.", skill: "Performance", choices: ["Performance", "Persuasion", "Deception", "Intimidation"], dcLow: 10, dcHigh: 14, success: "The crowd roars. Someone starts a chant using your name.", fail: "You lose the thread halfway through, and the cheering fades to polite silence." },
+      { text: "You compliment a goblin's fashion sense to distract it while others sneak in.", skill: "Persuasion", choices: ["Persuasion", "Deception", "Performance", "Intimidation"], dcLow: 10, dcHigh: 14, success: "The goblin preens, momentarily forgetting to watch the door.", fail: "The goblin isn't charmed. It keeps one eye on you and one on the door." },
+      { text: "You recall the proper greeting for a noble family you're about to meet.", skill: "History", choices: ["History", "Religion", "Arcana", "Insight"], dcLow: 8, dcHigh: 12, success: "It comes back to you exactly as it was taught. The greeting lands perfectly.", fail: "You mix up the phrasing. The noble's eyebrow rises a fraction." },
+      { text: "You glide unnoticed through a ballroom packed with nobles.", skill: "Stealth", choices: ["Stealth", "Acrobatics", "Sleight of Hand", "Deception"], dcLow: 15, dcHigh: 20, success: "You slip between conversations like smoke, unnoticed and unremarkable.", fail: "You bump a servant's tray. Every head turns." },
+      { text: "You check over a poisoned soldier to figure out what caused it.", skill: "Medicine", choices: ["Medicine", "Nature", "Insight", "Survival"], dcLow: 12, dcHigh: 16, success: "The symptoms match a plant you've seen before. You know what to do.", fail: "The cause eludes you, and the soldier's condition worsens." },
+      { text: "You time a whispered distraction while your teammate picks a lock.", skill: "Sleight of Hand", choices: ["Sleight of Hand", "Stealth", "Deception", "Acrobatics"], dcLow: 10, dcHigh: 14, success: "Your timing is perfect. The lock clicks open just as the guard turns away.", fail: "You speak a beat too early. The guard turns back before the lock gives." },
+      { text: "You calm a jittery baby griffon trying to chew your boot.", skill: "Animal Handling", choices: ["Animal Handling", "Nature", "Insight", "Survival"], dcLow: 8, dcHigh: 12, success: "It settles, chewing your bootlace instead of your ankle.", fail: "It shrieks and bolts, alerting everything within earshot." },
+      { text: "You follow muddy footprints through the woods after heavy rain.", skill: "Survival", choices: ["Survival", "Perception", "Nature", "Investigation"], dcLow: 12, dcHigh: 16, success: "The trail holds, faint but readable, leading deeper into the trees.", fail: "The rain has washed the tracks into nothing. You're guessing now." },
+      { text: "You bluff your way past a guard by pretending to be a baron.", skill: "Deception", choices: ["Deception", "Persuasion", "Intimidation", "Performance"], dcLow: 12, dcHigh: 16, success: "The guard bows and waves you through without a second glance.", fail: "The guard asks for your seal. You don't have one." },
+      { text: "You get the uneasy feeling this smiling merchant isn't being honest.", skill: "Insight", choices: ["Insight", "Perception", "Investigation", "Deception"], dcLow: 10, dcHigh: 14, success: "Something in the smile doesn't reach the eyes. You're certain now, he's lying.", fail: "He seems sincere enough. You decide you're imagining things." },
+      { text: "You remember which spell can block a creature made of shadow.", skill: "Arcana", choices: ["Arcana", "Religion", "History", "Nature"], dcLow: 15, dcHigh: 20, success: "It comes to you: an old ward against umbral creatures, exactly what's needed.", fail: "Nothing comes. Whatever you once knew about shadow-creatures, it's not surfacing now." },
+      { text: "You identify a glowing plant that only grows near magical ruins.", skill: "Nature", choices: ["Nature", "Arcana", "Survival", "Animal Handling"], dcLow: 12, dcHigh: 16, success: "You recognize it. Where it grows, ruins aren't far.", fail: "It's unfamiliar. Just another strange glow in a strange place." },
+      { text: "You perform a sacred chant to help lift a minor curse.", skill: "Religion", choices: ["Religion", "Arcana", "History", "Insight"], dcLow: 12, dcHigh: 16, success: "The words hold their old weight. The curse loosens, then lifts.", fail: "The chant falls flat. Whatever power it once had, it isn't answering tonight." },
+      { text: "You scan the horizon and notice something other people missed.", skill: "Perception", choices: ["Perception", "Investigation", "Insight", "Survival"], dcLow: 10, dcHigh: 14, success: "There, just past the tree line: smoke, where there shouldn't be any.", fail: "The horizon looks still and empty. Whatever's out there stays hidden." }
+    ];
+
+    var situationEl = document.getElementById('rollSituation');
+    var choicesEl = document.getElementById('rollChoices');
+    var revealEl = document.getElementById('rollReveal');
+    var stageEl = document.getElementById('rollStage');
+    var dcEl = document.getElementById('rollDc');
+    var dieEl = document.getElementById('rollDie');
+    var outcomeEl = document.getElementById('rollOutcome');
+    var rollBtn = document.getElementById('rollButton');
+    var nextBtn = document.getElementById('rollNext');
+    if (!situationEl) return;
+
+    var order = [];
+    var pointer = 0;
+
+    function shuffle(arr) {
+      var a = arr.slice();
+      for (var i = a.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var t = a[i]; a[i] = a[j]; a[j] = t;
+      }
+      return a;
+    }
+
+    function nextScenarioIndex() {
+      if (pointer >= order.length) {
+        order = shuffle(SCENARIOS.map(function (_, i) { return i; }));
+        pointer = 0;
+      }
+      return order[pointer++];
+    }
+
+    var current = null;
+
+    function renderScenario() {
+      current = SCENARIOS[nextScenarioIndex()];
+      situationEl.textContent = current.text;
+      revealEl.hidden = true;
+      stageEl.hidden = true;
+      outcomeEl.textContent = '';
+      dieEl.textContent = '20';
+
+      var options = shuffle(current.choices);
+      choicesEl.innerHTML = '';
+      options.forEach(function (choice) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'roll-choice-btn';
+        btn.textContent = choice;
+        btn.addEventListener('click', function () {
+          var allBtns = choicesEl.querySelectorAll('.roll-choice-btn');
+          allBtns.forEach(function (b) { b.disabled = true; });
+          if (choice === current.skill) {
+            btn.classList.add('is-correct');
+          } else {
+            btn.classList.add('is-incorrect');
+            allBtns.forEach(function (b) {
+              if (b.textContent === current.skill) b.classList.add('is-correct');
+            });
+          }
+          revealEl.textContent = (choice === current.skill ? 'Correct. ' : 'Not quite. ') + 'This calls for ' + current.skill + ', DC ' + current.dcLow + ' to ' + current.dcHigh + '.';
+          revealEl.hidden = false;
+          dcEl.textContent = 'DC range ' + current.dcLow + ' to ' + current.dcHigh;
+          stageEl.hidden = false;
+        });
+        choicesEl.appendChild(btn);
+      });
+    }
+
+    rollBtn.addEventListener('click', function () {
+      rollBtn.disabled = true;
+      var ticks = 0;
+      var spin = setInterval(function () {
+        dieEl.textContent = String(1 + Math.floor(Math.random() * 20));
+        ticks++;
+        if (ticks > 8) {
+          clearInterval(spin);
+          var result = 1 + Math.floor(Math.random() * 20);
+          dieEl.textContent = String(result);
+          var text;
+          if (result === 20) text = 'Natural 20. About as well as this could possibly go. ' + current.success;
+          else if (result === 1) text = 'Natural 1. This could not have gone worse. ' + current.fail;
+          else if (result >= current.dcLow) text = 'Rolled ' + result + ', clears the DC ' + current.dcLow + '. ' + current.success;
+          else text = 'Rolled ' + result + ', short of the DC ' + current.dcLow + '. ' + current.fail;
+          outcomeEl.textContent = text;
+          rollBtn.disabled = false;
+        }
+      }, 45);
+    });
+
+    nextBtn.addEventListener('click', renderScenario);
+
+    renderScenario();
+  })();
 </script>
 
 </body>
