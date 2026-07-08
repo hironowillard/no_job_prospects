@@ -443,7 +443,13 @@
     body { height: auto; }
     .app { height: auto; }
     .topbar { flex: none; }
-    .mainrow { overflow: visible; }
+    .mainrow { overflow: visible; flex-direction: column; }
+    .group-about { flex: 0 0 auto; width: 100%; min-width: 0; }
+    .about-row { flex-direction: column; }
+    .group-avatar { flex: 0 0 auto; width: 140px; }
+    .group-bio { flex: 0 0 auto; width: 100%; }
+    .group-tags { flex: 0 0 auto; width: 100%; }
+    .group-work { flex: 0 0 auto; width: 100%; }
     .workcols { flex-direction: column; }
     .frames-grid { flex-wrap: wrap; height: auto; }
     .frame { flex: 0 0 auto; max-height: none; height: 140px; }
