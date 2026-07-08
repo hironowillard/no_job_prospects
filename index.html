@@ -224,7 +224,7 @@
     text-align: justify;
     margin: 0;
   }
-  .bio em { color: var(--ink); font-style: normal; }
+  .bio em { color: inherit; font-style: normal; }
   /* grid instead of a plain centered flex row: email and WhatsApp read
      as different lengths, so centering the row as a block still left
      the divider between them off to one side. equal side columns force
@@ -454,6 +454,9 @@
     .frames-grid { flex-wrap: wrap; height: auto; }
     .frame { flex: 0 0 auto; max-height: none; height: 140px; }
     .frames-panel { flex-basis: auto; }
+    .brand-divider, .brand-role { display: none; }
+    .bio-contact { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+    .bio-contact-divider { display: none; }
   }
 
 </style>
