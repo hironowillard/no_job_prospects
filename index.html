@@ -40,12 +40,15 @@
     color: var(--ink);
   }
 
+  /* min-height, not height: on a tall display this fills the viewport exactly
+     as before, but on a short one the page is allowed to grow and scroll
+     instead of amputating whatever doesn't fit. */
   .app {
     display: flex;
     flex-direction: column;
     gap: 14px;
     padding: 14px;
-    height: calc(100vh - 34px);
+    min-height: calc(100vh - 34px);
   }
 
   .panel {
@@ -435,8 +438,15 @@
     .frame img { transition: none !important; }
   }
 
-  @media (max-width: 1100px) {
-    .mainrow { flex-wrap: wrap; overflow-y: auto; }
+  /* Selected Work needs ~700px of its own. Beside a 460px bio column that
+     stops fitting well before the old 1100px threshold, which is why the
+     third card column was being clipped on a 1440px laptop. Drop Work onto
+     its own full-width row while there's still room for it. */
+  @media (max-width: 1700px) {
+    .mainrow { flex-wrap: wrap; overflow: visible; }
+    /* full-width too, otherwise mainrow's justify-content:center leaves the
+       bio floating mid-row while Work sits hard left underneath it */
+    .group-about { flex-basis: 100%; }
     .group-work { border-left: none; padding-left: 0; flex-basis: 100%; }
   }
   @media (max-width: 900px) {
@@ -531,7 +541,7 @@
           <!-- group 3: tags -->
           <div class="group-tags">
             <span class="tag-photo" data-points-to="photography">Photography</span>
-            <span class="tag-curriculum" data-points-to="lesson-builder poet roll">Curriculum Design</span>
+            <span class="tag-curriculum" data-points-to="lesson-builder poet roll rise">Curriculum Design</span>
             <span class="tag-brand" data-points-to="campaigns">Brand Strategy</span>
             <span class="tag-editorial" data-points-to="crow campaigns rise">Editorial Direction</span>
           </div>
