@@ -1404,3 +1404,35 @@ footer {
 @media (max-width: 720px) {
   .subpage-embed { aspect-ratio: 3 / 4; margin: 1.5rem 0 1rem; }
 }
+
+/* DIAGNOSTIC SPECIMEN (rise.html): one assessment question reproduced in full.
+   The module gates the Diagnostic behind five lessons and a completion lock,
+   so anyone skimming the page will never reach the strongest evidence in the
+   build. This puts the scenario, its distractors, and the feedback on a wrong
+   answer in front of them, set in the site's own type rather than screenshots
+   of someone else's UI. The wrong-answer feedback is the point: the spec list
+   above claims distractors that teach, and this is the claim being cashed. */
+.dx-card { border: 1px solid var(--rule-strong); background: var(--cream-card); padding: 2.25rem; max-width: 720px; margin: 1.5rem 0 0; border-radius: 12px; }
+.dx-time { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--rust); margin-bottom: 1.2rem; }
+.dx-stem p { font-size: 0.88rem; color: var(--ink-soft); line-height: 1.9; margin-bottom: 0.9rem; }
+.dx-stem p:last-child { margin-bottom: 0; }
+.dx-stem em { color: var(--ink); font-style: italic; }
+.dx-ask { font-family: var(--display); font-size: 1.15rem; font-weight: 400; color: var(--ink); line-height: 1.5; margin: 1.6rem 0 1.3rem; }
+.dx-options { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; margin-bottom: 1.9rem; }
+.dx-option { font-size: 0.82rem; color: var(--ink-soft); line-height: 1.7; display: flex; gap: 0.8rem; align-items: baseline; padding: 0.75rem 0.9rem; border: 1px solid var(--rule); border-radius: 8px; }
+.dx-option-key { font-family: var(--mono); font-size: 0.62rem; font-weight: 600; letter-spacing: 0.08em; color: var(--ink-faint); flex-shrink: 0; }
+.dx-option.is-correct { border-color: var(--moss); background: var(--halation-soft); }
+.dx-option.is-correct .dx-option-key { color: var(--moss); }
+.dx-fb { border-left: 2px solid var(--rule-strong); padding-left: 1.15rem; margin-bottom: 1.4rem; }
+.dx-fb:last-of-type { margin-bottom: 0; }
+.dx-fb-label { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.11em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 0.6rem; }
+.dx-fb p { font-size: 0.8rem; color: var(--ink-soft); line-height: 1.85; }
+.dx-fb em { color: var(--ink); font-style: italic; }
+.dx-fb.is-correct { border-left-color: var(--moss); }
+.dx-fb.is-correct .dx-fb-label { color: var(--moss); }
+.dx-route { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.04em; color: var(--ink-faint); line-height: 1.7; margin-top: 1.6rem; padding-top: 1.3rem; border-top: 1px solid var(--rule); }
+
+@media (max-width: 720px) {
+  .dx-card { padding: 1.5rem; }
+  .dx-option { padding: 0.7rem 0.75rem; }
+}
