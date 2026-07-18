@@ -1,3 +1,5 @@
+@import url("tokens.css?v=51");
+
 /* ============================================================
    Nico Orsini, nicoorsini.com
    Design system v2: warm cream / botanical / halation
@@ -8,41 +10,6 @@
 em, i { font-style: normal; }
 
 /* ── CUSTOM PROPERTIES ── */
-:root {
-  /* cream / paper family, never pure white — warmed toward apricot */
-  --cream:        #F7E7D8;
-  --cream-2:      #F0DAC4;
-  --cream-deep:   #E8CBA8;
-  --cream-card:   #FBF0E4;
-
-  /* ink family, warm near-black, never pure black */
-  --ink:          #2B2318;
-  --ink-soft:     #4E4433;
-  --ink-faint:    #8A7C64;
-
-  /* accent — Terracotta Clay / Taupe Grey / Iron Grey */
-  --moss:         #725A5F;
-  --moss-deep:    #4A3A3E;
-  --forest:       #48525B;
-  --forest-soft:  #566169;
-  --gold:         #B9884D;
-  --gold-deep:    #8C6531;
-  --rust:         #B2603C;
-
-  /* rules & halation */
-  --rule:         rgba(43, 35, 24, 0.14);
-  --rule-strong:  rgba(43, 35, 24, 0.26);
-  --halation:     rgba(201, 148, 78, 0.4);
-  --halation-soft:rgba(201, 148, 78, 0.18);
-
-  /* type */
-  --display: 'Fraunces', 'Iowan Old Style', Georgia, serif;
-  --sans:    'Archivo', system-ui, sans-serif;
-  /* labels/eyebrows use the same sans, letter-spaced + uppercase in their
-     own rules, rather than a monospace/typewriter face. Avoids the
-     "mono caps label" look that's become an AI-template cliché */
-  --mono:    'Archivo', system-ui, sans-serif;
-}
 
 /* ── BASE ── */
 html { scroll-behavior: smooth; }
