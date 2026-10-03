@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nico Orsini &middot; Learning Experience Design &amp; Creative Direction</title>
-<meta name="description" content="Nico Orsini: Learning Experience Designer and creative director. Originator of the CROW Methodology. Photography, writing, and brand strategy across Southeast Asia.">
+<title>Nico Orsini &middot; Creative Project Management &amp; Direction</title>
+<meta name="description" content="Nico Orsini: project manager and creative director. Originator of the CROW Methodology. Photography, writing, and brand strategy.">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
@@ -141,7 +141,7 @@
     overflow: hidden;
   }
 
-  /* group 1: avatar + clock, exactly as paired in the side-rail concept */
+  /* group 1: avatar + centered social icons */
   .group-avatar {
     flex: 0 0 210px;
     display: flex;
@@ -157,31 +157,16 @@
     background: var(--cream-card);
   }
   .avatar img { width: 100%; height: 100%; object-fit: cover; object-position: 40% 30%; display: block; }
-  .clock-label {
-    font-family: var(--sans);
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-  }
-  .clock-time {
-    font-family: var(--display);
-    font-size: 1.6rem;
-    color: var(--ink);
-    font-variant-numeric: tabular-nums;
-  }
-  /* icons live in their own fixed-width column, opposite the clock, so
-     they never shift as the ticking seconds change the number's width */
+  /* social icons sit centered under the photo */
   .avatar-footer {
     display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
     gap: 0.5rem;
   }
-  .avatar-clock { text-align: left; }
-  .avatar-icons { display: flex; gap: 0.35rem; flex-shrink: 0; }
-  .avatar-icons .icon-btn { width: 30px; height: 30px; }
-  .avatar-icons .icon-btn svg { width: 15px; height: 15px; }
+  .avatar-icons { display: flex; gap: 0.7rem; flex-shrink: 0; }
+  .avatar-icons .icon-btn { width: 44px; height: 44px; }
+  .avatar-icons .icon-btn svg { width: 22px; height: 22px; }
 
   /* wrapper: avatar + bio + tags, with an "About Me" label matching
      Selected Work's, so both groups start at the same top edge and
@@ -266,10 +251,12 @@
   .tag-curriculum { color: var(--moss);      background: rgba(114,90,95,0.08);  border-color: rgba(114,90,95,0.3); }
   .tag-brand      { color: var(--forest-soft); background: rgba(86,97,105,0.09); border-color: rgba(86,97,105,0.32); }
   .tag-editorial  { color: var(--moss-deep); background: rgba(74,58,62,0.09);   border-color: rgba(74,58,62,0.32); }
+  .tag-production { color: var(--ink-soft);  background: rgba(138,124,100,0.12); border-color: rgba(138,124,100,0.4); }
   .tag-photo:hover      { background: var(--gold);        color: var(--cream); border-color: var(--gold); }
   .tag-curriculum:hover { background: var(--moss);        color: var(--cream); border-color: var(--moss); }
   .tag-brand:hover      { background: var(--forest-soft); color: var(--cream); border-color: var(--forest-soft); }
   .tag-editorial:hover  { background: var(--moss-deep);   color: var(--cream); border-color: var(--moss-deep); }
+  .tag-production:hover { background: var(--ink-soft);    color: var(--cream); border-color: var(--ink-soft); }
 
   /* group 4: Selected Work, three columns going down */
   .group-work {
@@ -457,13 +444,13 @@
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Nico Orsini">
     <meta property="og:url" content="https://nicoorsini.com/">
-    <meta property="og:title" content="Nico Orsini &middot; Learning Experience Design &amp; Creative Direction">
-    <meta property="og:description" content="Learning experience designer and creative director. Photography, writing, and brand strategy across Southeast Asia.">
+    <meta property="og:title" content="Nico Orsini &middot; Creative Project Management &amp; Direction">
+    <meta property="og:description" content="Project manager and creative director. Photography, writing, and brand strategy.">
     <meta property="og:image" content="https://nicoorsini.com/Images/Site/hero-bg.jpg">
     <meta property="og:image:alt" content="Nico Orsini portfolio">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Nico Orsini &middot; Learning Experience Design &amp; Creative Direction">
-    <meta name="twitter:description" content="Learning experience designer and creative director. Photography, writing, and brand strategy across Southeast Asia.">
+    <meta name="twitter:title" content="Nico Orsini &middot; Creative Project Management &amp; Direction">
+    <meta name="twitter:description" content="Project manager and creative director. Photography, writing, and brand strategy.">
     <meta name="twitter:image" content="https://nicoorsini.com/Images/Site/hero-bg.jpg">
 </head>
 <body>
@@ -476,7 +463,7 @@
       <div class="mono-btn">
         <span class="brand-name">Nico Orsini</span>
         <span class="brand-divider"></span>
-        <span class="brand-role">Learning Experience Design &middot; Creative Direction</span>
+        <span class="brand-role">Creative Project Management &amp; Direction</span>
       </div>
       <div class="tabs">
         <button class="tab tab--active" style="cursor:default;">Info</button>
@@ -491,15 +478,10 @@
         <div class="cards-label">About Me</div>
         <div class="about-row">
 
-          <!-- group 1: avatar + clock; icons pinned to a fixed column on
-               the right so they never shift as the seconds tick over -->
+          <!-- group 1: avatar + centered social icons -->
           <div class="group-avatar">
             <div class="avatar"><img src="Images/Site/hero-bg.jpg" alt="Nico Orsini"></div>
             <div class="avatar-footer">
-              <div class="avatar-clock">
-                <span class="clock-label">Busan</span><br>
-                <span class="clock-time" id="clock">00:00:00</span>
-              </div>
               <div class="avatar-icons">
                 <a class="icon-btn" href="https://www.linkedin.com/in/nico-o-863528396/" target="_blank" rel="noopener" title="LinkedIn">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><line x1="8" y1="10" x2="8" y2="16"/><circle cx="8" cy="7" r="0.6" fill="currentColor"/><path d="M12 16v-4a2 2 0 0 1 4 0v4"/></svg>
@@ -513,7 +495,7 @@
 
           <!-- group 2: bio -->
           <div class="group-bio">
-            <p class="bio">Photographer and designer, based in Southeast Asia. For years I taught literature abroad, where I built <em>CROW</em>, a four-stage framework that takes a reader from first observation to a reading they can defend. I designed the curricula it lived inside and the campaigns that carried it. Photography, a syllabus, a sentence. It's one instinct in different rooms: decide what to leave out, then build something that moves the person on the other end.</p>
+            <p class="bio">Photographer and designer, based in Southeast Asia. For years I taught literature abroad, where I built <em>CROW</em>, a four-stage framework that takes a reader from first observation to a reading they can defend. I designed the curricula it lived inside and the campaigns that carried it. I also ran the production behind that work, from timelines and budgets to partner contracts. Photography, a syllabus, a sentence. It's one instinct in different rooms: decide what to leave out, then build something that moves the person on the other end.</p>
             <div class="bio-contact" id="contact">
               <a href="mailto:orsini.ocin@gmail.com">orsini.ocin@gmail.com</a>
               <span class="bio-contact-divider"></span>
@@ -527,6 +509,7 @@
             <span class="tag-curriculum" data-points-to="lesson-builder poet roll rise">Curriculum Design</span>
             <span class="tag-brand" data-points-to="campaigns">Brand Strategy</span>
             <span class="tag-editorial" data-points-to="crow campaigns rise">Editorial Direction</span>
+            <span class="tag-production" data-points-to="campaigns crow poet roll">Creative Production</span>
           </div>
 
         </div>
@@ -538,18 +521,18 @@
         <div class="workcols">
 
           <div class="workcol">
-            <a class="card" href="photography.html" data-card="photography">
-              <div class="card-thumb"><img src="Images/thumbs/Temple%20Reflection.jog%401x.jpg" srcset="Images/thumbs/Temple%20Reflection.jog%401x.jpg 1x, Images/thumbs/Temple%20Reflection.jog%402x.jpg 2x" alt=""></div>
-              <div class="card-body">
-                <h3 class="card-title">Film &amp; Motion</h3>
-                <p class="card-desc">Fujifilm X100VI</p>
-              </div>
-            </a>
             <a class="card" href="campaigns.html" data-card="campaigns">
               <div class="card-thumb"><img src="Images/thumbs/Oedipus%20Rex%20Promo%401x.jpg" srcset="Images/thumbs/Oedipus%20Rex%20Promo%401x.jpg 1x, Images/thumbs/Oedipus%20Rex%20Promo%402x.jpg 2x" alt=""></div>
               <div class="card-body">
                 <h3 class="card-title">Book Campaigns</h3>
                 <p class="card-desc">Crow's Call Press</p>
+              </div>
+            </a>
+            <a class="card" href="photography.html" data-card="photography">
+              <div class="card-thumb"><img src="Images/thumbs/Temple%20Reflection.jog%401x.jpg" srcset="Images/thumbs/Temple%20Reflection.jog%401x.jpg 1x, Images/thumbs/Temple%20Reflection.jog%402x.jpg 2x" alt=""></div>
+              <div class="card-body">
+                <h3 class="card-title">Film &amp; Motion</h3>
+                <p class="card-desc">Fujifilm X100VI</p>
               </div>
             </a>
           </div>
@@ -562,16 +545,6 @@
                 <p class="card-desc">4-Stage Framework</p>
               </div>
             </a>
-            <a class="card" href="crow-lesson-builder.html" data-card="lesson-builder">
-              <div class="card-thumb"><img src="Images/thumbs/lesson-builder-icon%401x.jpg" srcset="Images/thumbs/lesson-builder-icon%401x.jpg 1x, Images/thumbs/lesson-builder-icon%402x.jpg 2x" alt=""></div>
-              <div class="card-body">
-                <h3 class="card-title">Lesson Builder</h3>
-                <p class="card-desc">Interactive tool</p>
-              </div>
-            </a>
-          </div>
-
-          <div class="workcol">
             <a class="card" href="poet.html" data-card="poet">
               <div class="card-thumb"><img src="Images/thumbs/The%20Making%20of%20a%20Poet%401x.jpg" srcset="Images/thumbs/The%20Making%20of%20a%20Poet%401x.jpg 1x, Images/thumbs/The%20Making%20of%20a%20Poet%402x.jpg 2x" alt=""></div>
               <div class="card-body">
@@ -579,11 +552,21 @@
                 <p class="card-desc">Poetry curriculum</p>
               </div>
             </a>
+          </div>
+
+          <div class="workcol">
             <a class="card" href="roll.html" data-card="roll">
               <div class="card-thumb"><img src="Images/thumbs/Roll%20for%20Inspiration%401x.jpg" srcset="Images/thumbs/Roll%20for%20Inspiration%401x.jpg 1x, Images/thumbs/Roll%20for%20Inspiration%402x.jpg 2x" alt=""></div>
               <div class="card-body">
                 <h3 class="card-title">Roll for Inspiration</h3>
                 <p class="card-desc">RPG curriculum</p>
+              </div>
+            </a>
+            <a class="card" href="crow-lesson-builder.html" data-card="lesson-builder">
+              <div class="card-thumb"><img src="Images/thumbs/lesson-builder-icon%401x.jpg" srcset="Images/thumbs/lesson-builder-icon%401x.jpg 1x, Images/thumbs/lesson-builder-icon%402x.jpg 2x" alt=""></div>
+              <div class="card-body">
+                <h3 class="card-title">Lesson Builder</h3>
+                <p class="card-desc">Interactive tool</p>
               </div>
             </a>
             <a class="card" href="rise.html" data-card="rise">
@@ -617,16 +600,6 @@
 </div>
 
 <script>
-  // live clock, Busan time
-  function updateClock(){
-    var now = new Date();
-    var fmt = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Seoul', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
-    var el = document.getElementById('clock');
-    if (el) el.textContent = fmt.format(now);
-  }
-  updateClock();
-  setInterval(updateClock, 1000);
-
   // frames pool: kept identical to photography.html's actual gallery list.
   // if you add or remove photos there, mirror the change here too.
   var PHOTOS = [
